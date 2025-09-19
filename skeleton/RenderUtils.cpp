@@ -166,6 +166,11 @@ void DeregisterRenderItem(const RenderItem* _item)
 	gRenderItems.erase(it);
 }
 
+void DeregisterAllRenderItems()
+{
+	gRenderItems.clear();
+}
+
 double GetLastTime()
 {
 	double t = double(CounterLast - CounterStart) / PCFreq;

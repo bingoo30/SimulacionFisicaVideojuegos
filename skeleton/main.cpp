@@ -10,7 +10,7 @@
 
 #include <iostream>
 
-std::string display_text = "This is a test";
+std::string display_text = "Practica 0";
 
 
 using namespace physx;
@@ -29,6 +29,7 @@ PxPvd*                  gPvd        = NULL;
 PxDefaultCpuDispatcher*	gDispatcher = NULL;
 PxScene*				gScene      = NULL;
 ContactReportCallback gContactReportCallback;
+
 
 
 // Initialize physics engine
@@ -54,7 +55,18 @@ void initPhysics(bool interactive)
 	sceneDesc.filterShader = contactReportFilterShader;
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
-	}
+
+	//parte 2 practica 0
+	RenderItem* centro = new RenderItem(CreateShape(PxSphereGeometry(2)), new PxTransform(0.0f, 0.0f, 0.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+	RegisterRenderItem(centro);
+
+	RenderItem* bolaX = new RenderItem(CreateShape(PxSphereGeometry(1)), new PxTransform(20.0f, 0.0f, 0.0f), Vector4(1.0f, 0.0f, 0.0f, 1.0f));
+	RegisterRenderItem(bolaX);
+	RenderItem* bolaY = new RenderItem(CreateShape(PxSphereGeometry(1)), new PxTransform(0.0f, 20.0f, 0.0f), Vector4(0.0f, 1.0f, 0.0f, 1.0f));
+	RegisterRenderItem(bolaY);
+	RenderItem* bolaZ = new RenderItem(CreateShape(PxSphereGeometry(1)), new PxTransform(0.0f, 0.0f, 20.0f), Vector4(0.0f, 0.0f, 1.0f, 1.0f));
+	RegisterRenderItem(bolaZ);
+}
 
 
 // Function to configure what happens in each step of physics
@@ -74,17 +86,20 @@ void cleanupPhysics(bool interactive)
 {
 	PX_UNUSED(interactive);
 
+	//unregister all render items
+	DeregisterAllRenderItems();
 	// Rigid Body ++++++++++++++++++++++++++++++++++++++++++
 	gScene->release();
 	gDispatcher->release();
 	// -----------------------------------------------------
+
 	gPhysics->release();	
 	PxPvdTransport* transport = gPvd->getTransport();
 	gPvd->release();
 	transport->release();
 	
 	gFoundation->release();
-	}
+}
 
 // Function called when a key is pressed
 void keyPress(unsigned char key, const PxTransform& camera)
