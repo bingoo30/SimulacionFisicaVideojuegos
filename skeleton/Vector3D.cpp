@@ -50,7 +50,10 @@ float Vector3D::dot(const Vector3D& other) const
 
 Vector3D Vector3D::cross(const Vector3D& other) const
 {
-    Vector3D v = 
+    return {
+        (_y*other._z - _z * other._y),
+        (_z * other._x - _x * other._z)
+        , (_x * other._y - _y * other._x) };
 }
 
 float Vector3D::norma2() const
