@@ -10,8 +10,6 @@ public:
 	//sumas y restas
 	Vector3D operator +(const Vector3D& other) const;
 	Vector3D operator -(const Vector3D& other) const;
-	void operator +=(const Vector3D& other) noexcept;
-	void operator -=(const Vector3D& other) noexcept;
 	
 	//multiplicacion por un factor
 	Vector3D operator *(float factor) const;

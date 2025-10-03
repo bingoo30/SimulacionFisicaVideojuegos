@@ -19,20 +19,6 @@ Vector3D Vector3D::operator-(const Vector3D& other) const
     return Vector3D(_x - other._x, _y - other._y, _z - other._z);
 }
 
-void Vector3D::operator+=(const Vector3D& other) 
-{ 
-    _x += other._x;
-    _y += other._y;
-    _z += other._z;
-}
-
-void Vector3D::operator-=(const Vector3D& other) 
-{
-    _x -= other._x;
-    _y -= other._y;
-    _z -= other._z;
-}
-
 Vector3D Vector3D::operator*(float factor) const
 {
     return Vector3D(_x*factor, _y * factor, _z * factor);
