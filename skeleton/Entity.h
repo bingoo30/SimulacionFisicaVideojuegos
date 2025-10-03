@@ -9,6 +9,8 @@ public:
 	//s =forma de la geometria
 	Entity(const physx::PxVec3& p = physx::PxVec3(0), const physx::PxVec4& c = physx::PxVec4(1), physx::PxShape* s=nullptr);
 	virtual ~Entity();
+
+	RenderItem* getRenderItem() { return renderItem; };
 protected:
 	RenderItem* renderItem;
 	physx::PxTransform* transform;	// posición

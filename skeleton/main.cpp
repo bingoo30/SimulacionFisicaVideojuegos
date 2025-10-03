@@ -34,7 +34,6 @@ ContactReportCallback gContactReportCallback;
 
 std::vector<Particle*> particles;
 
-
 // Initialize physics engine
 void initPhysics(bool interactive)
 {
