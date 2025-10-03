@@ -1,0 +1,1 @@
+#include "StructForEntities.h"

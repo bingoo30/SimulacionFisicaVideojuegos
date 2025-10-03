@@ -5,8 +5,8 @@ using namespace physx;
 #include "Particle.h"
 using namespace physx;
 
-Particle::Particle(const PxVec3& p, const PxVec4& color, const PxVec3& v, const PxVec3& a, double d, IntegrateMode t, float m) :
-	Entity(p, color, CreateShape(PxSphereGeometry(m))),
+Particle::Particle(const PxVec3& p, const PxVec4& color, const PxVec3& v, const PxVec3& a, double d, IntegrateMode t, float m, double lt) :
+	Entity(p, color, CreateShape(PxSphereGeometry(m)), lt),
 	posAnt(p),           // posición anterior = posición inicial
 	vel(v),
 	acc(a),
@@ -17,7 +17,7 @@ Particle::Particle(const PxVec3& p, const PxVec4& color, const PxVec3& v, const 
 
 void Particle::integrate(double t)
 {
-	if (t <= 0.0) return; // evita dt <= 0
+	if (t <= 0.0) return; // evitar dt negativo
 
 	switch (integrMode) {
 	case IntegrateMode::EULER:
@@ -60,7 +60,7 @@ void Particle::int_Verlet(double t)
 		// guardamos posición actual
 		PxVec3 posAct = transform->p;
 
-		transform->p = 2.0f * transform->p - posAnt + acc * pow(t,t);
+		transform->p = 2.0f * transform->p - posAnt + acc * (t*t);
 		vel = (transform->p - posAnt) / (2.0f * float(t));
 
 		calculate_damping(t);
@@ -74,4 +74,5 @@ void Particle::calculate_damping(double t)
 {
 	vel *= pow(damping, t);
 }
+
 

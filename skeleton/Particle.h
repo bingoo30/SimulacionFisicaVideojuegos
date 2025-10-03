@@ -4,23 +4,18 @@
 class Particle : public Entity
 {
 public:
-    enum IntegrateMode {
-        EULER,
-        EULER_SEMIIMPLICIT,
-        VERLET
-    };
-
     Particle(
-        const physx::PxVec3& p = physx::PxVec3(0), // posición
-        const physx::PxVec4& color = physx::PxVec4(1), // color
-        const physx::PxVec3& v = physx::PxVec3(0), // velocidad
-        const physx::PxVec3& a = physx::PxVec3(0), // aceleración
-        double d = 0.999,  // damping
-        IntegrateMode t = IntegrateMode::EULER,     // tipo de integración
-        float m = 1.0f     // masa
+        const physx::PxVec3& p, // posición
+        const physx::PxVec4& c, // color
+        const physx::PxVec3& v, // velocidad
+        const physx::PxVec3& a, // aceleración
+        double d,  // damping
+        IntegrateMode t,     // tipo de integración
+        float m,     // masa
+        double lt //tiempo de vida
     );
 
-    void integrate(double t);
+    void integrate(double t) override;
 
 protected:
     void int_Euler(double t);

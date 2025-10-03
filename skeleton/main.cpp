@@ -9,8 +9,11 @@
 #include "callbacks.hpp"
 
 #include <iostream>
-#include <cstdlib>
+#include <random>
 #include "Particle.h"
+#include "StructForEntities.h"
+#include "Scene.h"
+#include "Scene1.h"
 
 std::string display_text = "Practica 1";
 
@@ -32,7 +35,8 @@ PxDefaultCpuDispatcher*	gDispatcher = NULL;
 PxScene*				gScene      = NULL;
 ContactReportCallback gContactReportCallback;
 
-std::vector<Particle*> particles;
+std::vector<Scene*> myScenes;
+int sceneAct = 0;
 
 // Initialize physics engine
 void initPhysics(bool interactive)
@@ -59,7 +63,7 @@ void initPhysics(bool interactive)
 	gScene = gPhysics->createScene(sceneDesc);
 
 	//parte 2 practica 0
-	/*RenderItem* centro = new RenderItem(CreateShape(PxSphereGeometry(2)), new PxTransform(0.0f, 0.0f, 0.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+	RenderItem* centro = new RenderItem(CreateShape(PxSphereGeometry(2)), new PxTransform(0.0f, 0.0f, 0.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f));
 	RegisterRenderItem(centro);
 
 	RenderItem* bolaX = new RenderItem(CreateShape(PxSphereGeometry(1)), new PxTransform(20.0f, 0.0f, 0.0f), Vector4(1.0f, 0.0f, 0.0f, 1.0f));
@@ -67,7 +71,11 @@ void initPhysics(bool interactive)
 	RenderItem* bolaY = new RenderItem(CreateShape(PxSphereGeometry(1)), new PxTransform(0.0f, 20.0f, 0.0f), Vector4(0.0f, 1.0f, 0.0f, 1.0f));
 	RegisterRenderItem(bolaY);
 	RenderItem* bolaZ = new RenderItem(CreateShape(PxSphereGeometry(1)), new PxTransform(0.0f, 0.0f, 20.0f), Vector4(0.0f, 0.0f, 1.0f, 1.0f));
-	RegisterRenderItem(bolaZ);*/
+	RegisterRenderItem(bolaZ);
+
+	myScenes.push_back(new Scene1());
+	myScenes.push_back(new Scene1());
+	sceneAct = 0;
 }
 
 
@@ -81,7 +89,7 @@ void stepPhysics(bool interactive, double t)
 	gScene->simulate(t);
 	gScene->fetchResults(true);
 
-	for (auto p : particles) p->integrate(t);
+	myScenes[sceneAct]->update(t);
 }
 
 // Function to clean data
@@ -92,7 +100,7 @@ void cleanupPhysics(bool interactive)
 
 	//unregister all render items
 	DeregisterAllRenderItems();
-	particles.clear();
+	myScenes.clear();
 
 	// Rigid Body ++++++++++++++++++++++++++++++++++++++++++
 	gScene->release();
@@ -106,44 +114,44 @@ void cleanupPhysics(bool interactive)
 	
 	gFoundation->release();
 }
-
+void changeScene(int newS) {
+	if (newS >= myScenes.size() || newS == sceneAct) return;
+	
+	myScenes[sceneAct]->exit();
+	sceneAct = newS;
+	myScenes[sceneAct]->enter();
+}
 // Function called when a key is pressed
 void keyPress(unsigned char key, const PxTransform& camera)
 {
 	PX_UNUSED(camera);
-
+	Particle_Data pd;
+	pd.vel = {10, 20, 0};
 	switch(toupper(key))
 	{
-	case '1': //euler
-		particles.push_back(new Particle(
-			PxVec3(0), 
-			PxVec4(0,1,0,1), 
-			PxVec3(10, 15, 0), 
-			PxVec3(0, -9.8, 0), 
-			0.999, Particle::EULER));
-		break;
-	case '2': //semi
-		particles.push_back(new Particle(
-			PxVec3(0), 
-			PxVec4(1,0,0,1), 
-			PxVec3(10, 15, 0), 
-			PxVec3(0, -9.8, 0), 
-			0.999, 
-			Particle::EULER_SEMIIMPLICIT));
-		break;
-	case '3': //verlet
-		particles.push_back(new Particle(
-			PxVec3(0), 
-			PxVec4(0,0,1,1), 
-			PxVec3(5, 10, 0), 
-			PxVec3(0, -9.8, 0), 
-			0.999, 
-			Particle::VERLET));
-		break;
 	case ' ':
-	{
 		break;
-	}
+	case 'J':
+		pd.color = { 1,0,0,1 }; 
+		pd.tipo = Entity::EULER;
+		myScenes[sceneAct]->create_particle(pd);
+		break;
+	case 'K':
+		pd.color = { 0,1,0,1 };
+		pd.tipo = Entity::EULER_SEMIIMPLICIT;
+		myScenes[sceneAct]->create_particle(pd);
+		break;
+	case 'L':
+		pd.color = { 0,0,1,1 };
+		pd.tipo = Entity::VERLET;
+		myScenes[sceneAct]->create_particle(pd);
+		break;
+	case '0':
+		changeScene(0);
+		break;
+	case '1':
+		changeScene(1);
+		break;
 	default:
 		break;
 	}

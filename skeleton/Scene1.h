@@ -6,6 +6,5 @@ class Scene1 :
 public:
     Scene1();
     void init() override;
-    void update() override;
-}
-
+    void update(double t) override;
+};

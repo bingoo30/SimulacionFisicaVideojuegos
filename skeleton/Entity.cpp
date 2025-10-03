@@ -2,7 +2,7 @@
 
 using namespace physx;
 
-Entity::Entity(const PxVec3& p, const PxVec4& c, PxShape* s): transform(new PxTransform(p)), color(c)
+Entity::Entity(const PxVec3& p, const PxVec4& c, PxShape* s, double lt): transform(new PxTransform(p)), color(c), lifetime(lt), age(0.0)
 {
 	// Inicializar RenderItem
 	renderItem = new RenderItem(s, transform, color);
@@ -14,4 +14,13 @@ Entity::~Entity()
 	DeregisterRenderItem(renderItem);
 	delete renderItem;
 	delete transform;
+}
+void Entity::update(double t) {
+	integrate(t);
+	update_lifetime(t);
+}
+
+void Entity::update_lifetime(double t)
+{
+	age += t;
 }
