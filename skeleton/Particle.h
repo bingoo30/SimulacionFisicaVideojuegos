@@ -23,10 +23,10 @@ protected:
     void int_Verlet(double t);
     void calcular_damping(double t);
 
-    physx::PxVec3 posAnt;  // posición anterior
+    physx::PxVec3 pos_ant;  // posición anterior
     physx::PxVec3 vel;     // velocidad
     physx::PxVec3 acc;     // aceleración
 
     double damping;
-    uint8_t integrMode;
+    uint8_t integr_mode;
 };

@@ -7,11 +7,11 @@ using namespace physx;
 
 Particle::Particle(const PxVec3& p, const PxVec4& color, const PxVec3& v, const PxVec3& a, double d, IntegrateMode t, float m, double lt) :
 	Entity(p, color, CreateShape(PxSphereGeometry(m)), lt),
-	posAnt(p),           // posición anterior = posición inicial
+	pos_ant(p),           // posición anterior = posición inicial
 	vel(v),
 	acc(a),
 	damping(d),
-	integrMode(t)
+	integr_mode(t)
 {
 }
 
@@ -19,7 +19,7 @@ void Particle::integrate(double t)
 {
 	if (t <= 0.0) return; // evitar dt negativo
 
-	switch (integrMode) {
+	switch (integr_mode) {
 	case IntegrateMode::EULER:
 		int_Euler(t);
 		break;
@@ -53,20 +53,20 @@ void Particle::int_Euler_Semiimplicit(double t)
 void Particle::int_Verlet(double t)
 {
 	// si es la primera integración, usamos Euler
-	if (posAnt == transform->p) {
+	if (pos_ant == transform->p) {
 		int_Euler(t);
 	}
 	else {
 		// guardamos posición actual
 		PxVec3 posAct = transform->p;
 
-		transform->p = 2.0f * transform->p - posAnt + acc * (t*t);
-		vel = (transform->p - posAnt) / (2.0f * float(t));
+		transform->p = 2.0f * transform->p - pos_ant + acc * (t*t);
+		vel = (transform->p - pos_ant) / (2.0f * float(t));
 
 		calcular_damping(t);
 
 		// actualizamos posición anterior
-		posAnt = posAct;
+		pos_ant = posAct;
 	}
 }
 

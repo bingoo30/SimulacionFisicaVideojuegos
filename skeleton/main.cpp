@@ -127,6 +127,8 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	PX_UNUSED(camera);
 	Particle_Data pd;
 	pd.vel = {10, 10, 0};
+	Pistol_Bullet_Data pbd;
+	Cannon_Data cd;
 	switch(toupper(key))
 	{
 	case ' ':
@@ -145,6 +147,12 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		pd.color = { 0,0,1,1 };
 		pd.tipo = Entity::VERLET;
 		myScenes[sceneAct]->create_particle(pd);
+		break;
+	case 'P':
+		myScenes[sceneAct]->create_projectile(pbd, GetCamera());
+		break;
+	case 'C':
+		myScenes[sceneAct]->create_projectile(cd, GetCamera());
 		break;
 	case '0':
 		changeScene(0);

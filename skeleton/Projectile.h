@@ -12,9 +12,5 @@ public:
         float m,
         double lt);
     virtual ~Projectile();
-protected:
-    void integrate(double t) override;
-    float calcular_masa_simulada(float mr, float vr, float vs);
-    float calcular_gravedad_simulada(float gr, float vr, float vs);
 };
 
