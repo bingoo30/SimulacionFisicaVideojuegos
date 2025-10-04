@@ -14,4 +14,14 @@ struct Particle_Data
 	float masa = 1.0f;
 	double vida = 5.0;
 };
-
+struct Projectile_Data {
+	physx::PxVec3 pos = physx::PxVec3(0);
+	physx::PxVec4 color = physx::PxVec4(1, 1, 1, 1);
+	double offset = 0.0;
+	double vel;
+	physx::PxVec3 acc = physx::PxVec3(0, -9.8, 0);
+	double damping = 0.99;
+	Entity::IntegrateMode tipo = Entity::EULER;
+	float masa = 10.0f;
+	double vida = 5.0;
+};

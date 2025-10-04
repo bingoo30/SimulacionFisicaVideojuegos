@@ -9,10 +9,11 @@ public:
 	virtual ~Scene();
 	virtual void init() = 0;
 	virtual void enter();
-	virtual void update(double t) = 0;
+	virtual void update(double t);
 	virtual void exit();
 
-	void create_particle(Particle_Data& pd);
+	void create_particle(const Particle_Data& pd);
+	void create_projectile(const Projectile_Data& pd, Camera* c);
 
 protected:
 	std::vector<Entity*> gObjs;
