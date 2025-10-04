@@ -21,7 +21,7 @@ protected:
     void int_Euler(double t);
     void int_Euler_Semiimplicit(double t);
     void int_Verlet(double t);
-    void calculate_damping(double t);
+    void calcular_damping(double t);
 
     physx::PxVec3 posAnt;  // posición anterior
     physx::PxVec3 vel;     // velocidad

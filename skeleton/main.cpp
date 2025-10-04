@@ -126,7 +126,7 @@ void keyPress(unsigned char key, const PxTransform& camera)
 {
 	PX_UNUSED(camera);
 	Particle_Data pd;
-	pd.vel = {10, 20, 0};
+	pd.vel = {10, 10, 0};
 	switch(toupper(key))
 	{
 	case ' ':

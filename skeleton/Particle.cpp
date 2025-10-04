@@ -38,15 +38,15 @@ void Particle::int_Euler(double t)
 {
 	transform->p += t * vel;
 	vel += t * acc;
-
-	calculate_damping(t);
+	 
+	calcular_damping(t);
 }
 
 void Particle::int_Euler_Semiimplicit(double t)
 {
 	vel += acc * t;
 	//damping
-	calculate_damping(t);
+	calcular_damping(t);
 	transform->p += t * vel;
 }
 
@@ -63,14 +63,14 @@ void Particle::int_Verlet(double t)
 		transform->p = 2.0f * transform->p - posAnt + acc * (t*t);
 		vel = (transform->p - posAnt) / (2.0f * float(t));
 
-		calculate_damping(t);
+		calcular_damping(t);
 
 		// actualizamos posición anterior
 		posAnt = posAct;
 	}
 }
 
-void Particle::calculate_damping(double t)
+void Particle::calcular_damping(double t)
 {
 	vel *= pow(damping, t);
 }

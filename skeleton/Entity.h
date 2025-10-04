@@ -18,7 +18,7 @@ public:
 	RenderItem* getRenderItem() { return renderItem; };
 	bool isDead() const { return (lifetime > 0.0 && age >= lifetime); };
 protected:
-	virtual void integrate(double t) {};
+	virtual void integrate(double t) = 0;
 	void update_lifetime(double t);
 	RenderItem* renderItem;
 	physx::PxTransform* transform;	// posición

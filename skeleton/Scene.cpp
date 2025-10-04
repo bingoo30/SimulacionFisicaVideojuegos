@@ -49,7 +49,7 @@ void Scene::create_projectile(const Projectile_Data& pd, Camera* c)
 
 	gObjs.push_back(proj);
 }
-}
+
 void Scene::enter()
 {
 	for (auto o : gObjs) RegisterRenderItem(o->getRenderItem());
