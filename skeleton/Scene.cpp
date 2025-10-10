@@ -24,7 +24,8 @@ void Scene::create_particle(const Particle_Data& pd)
 		pd.damping, 
 		pd.tipo,
 		pd.masa,
-		pd.vida);
+		pd.vida, 
+		pd.volumen);
 	gObjs.push_back(part);
 
 }
@@ -59,7 +60,8 @@ void Scene::create_projectile(const Projectile_Data& pd, Camera* c)
 		acc_sim,                        
 		pd.damping,
 		masa_sim,                      
-		pd.vida
+		pd.vida,
+		pd.volumen
 	);
 
 	// Añadirlo a la lista de objetos de la escena

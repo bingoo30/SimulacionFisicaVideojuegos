@@ -10,6 +10,9 @@
 
 #include <iostream>
 #include <random>
+#include <chrono>
+#include <thread>
+
 #include "Particle.h"
 #include "StructForEntities.h"
 #include "Scene.h"
@@ -90,6 +93,7 @@ void stepPhysics(bool interactive, double t)
 	gScene->fetchResults(true);
 
 	myScenes[sceneAct]->update(t);
+	std::this_thread::sleep_for(std::chrono::microseconds(10));
 }
 
 // Function to clean data

@@ -13,6 +13,7 @@ struct Particle_Data
 	Entity::IntegrateMode tipo = Entity::EULER;
 	float masa = 1.0f;
 	double vida = 5.0;
+	double volumen = 0.1;
 };
 struct Projectile_Data {
 	physx::PxVec3 pos = physx::PxVec3(0);
@@ -25,6 +26,7 @@ struct Projectile_Data {
 	double damping = 0.99;
 	float masa = 10.0f;
 	double vida = 5.0;
+	double volumen = 0.1;
 };
 //bala de una pistola
 struct Pistol_Bullet_Data : public Projectile_Data {
@@ -35,6 +37,7 @@ struct Pistol_Bullet_Data : public Projectile_Data {
 		vel_real = 350.0;
 		vel_sim = 100.0;
 		offset = 1.0;
+		volumen = 0.2;
 	}
 };
 //canon
@@ -46,5 +49,6 @@ struct Cannon_Data : public Projectile_Data {
 		vel_real = 1000.0;
 		vel_sim = 500.0;
 		offset = 5.0;
+		volumen = 3.5;
 	}
 };

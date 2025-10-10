@@ -12,7 +12,8 @@ public:
         double d,  // damping
         IntegrateMode t,     // tipo de integración
         float m,     // masa
-        double lt //tiempo de vida
+        double lt, //tiempo de vida
+        double vol
     );
 
     void integrate(double t) override;

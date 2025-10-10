@@ -16,7 +16,7 @@
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Scene1.cpp" />
-    <ClCompile Include="StructForEntities.cpp" />
+    <ClCompile Include="UniformGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -35,6 +35,8 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Scene1.h" />
     <ClInclude Include="StructForEntities.h" />
+    <ClInclude Include="Generator.h" />
+    <ClInclude Include="UniformGenerator.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">
