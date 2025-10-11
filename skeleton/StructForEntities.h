@@ -52,3 +52,5 @@ struct Cannon_Data : public Projectile_Data {
 		volumen = 3.5;
 	}
 };
+
+physx::PxVec3 CONST_GRAVITY = physx::PxVec3(0.0f, -9.8f, 0.0f);

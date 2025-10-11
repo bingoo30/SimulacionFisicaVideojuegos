@@ -4,7 +4,7 @@
 #include "Particle.h"
 class Generator {
 public:
-#pragma region constructoras y destructora
+#pragma region constructoras y destructoracxd
 	Generator(const physx::PxVec3& o, const physx::PxVec3& v, double d, int n) :
 		ori(o), vel(v), duration(d), n_particles(n), prob(0.0), color(physx::PxVec4(1.0f)) {};
 	//si uso esta constructora, hay que usar setters de los atributos

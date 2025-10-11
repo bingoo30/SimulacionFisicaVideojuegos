@@ -40,7 +40,6 @@ ContactReportCallback gContactReportCallback;
 
 std::vector<Scene*> myScenes;
 int sceneAct = 0;
-
 // Initialize physics engine
 void initPhysics(bool interactive)
 {
