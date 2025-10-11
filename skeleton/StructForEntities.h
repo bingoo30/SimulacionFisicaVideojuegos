@@ -54,3 +54,15 @@ struct Cannon_Data : public Projectile_Data {
 };
 
 physx::PxVec3 CONST_GRAVITY = physx::PxVec3(0.0f, -9.8f, 0.0f);
+
+//array de colores
+physx::PxVec4 colors[8] = {
+physx::PxVec4(1, 0, 0, 1), // rojo
+physx::PxVec4(0, 1, 0, 1), // verde
+physx::PxVec4(0, 0, 1, 1), // azul
+physx::PxVec4(1, 1, 0, 1), // amarillo
+physx::PxVec4(1, 0, 1, 1), // magenta
+physx::PxVec4(0, 1, 1, 1),  // cian
+physx::PxVec4(1, 1, 1, 1), // blanco
+physx::PxVec4(0, 0, 0, 1), // negro
+};

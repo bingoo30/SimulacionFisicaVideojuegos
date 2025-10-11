@@ -38,18 +38,6 @@ public:
 #pragma endregion
 protected:
 #pragma region atributos 
-	//array de colores
-	physx::PxVec4 colors[8] = {
-physx::PxVec4(1, 0, 0, 1), // rojo
-physx::PxVec4(0, 1, 0, 1), // verde
-physx::PxVec4(0, 0, 1, 1), // azul
-physx::PxVec4(1, 1, 0, 1), // amarillo
-physx::PxVec4(1, 0, 1, 1), // magenta
-physx::PxVec4(0, 1, 1, 1),  // cian
-physx::PxVec4(1, 1, 1, 1), // blanco
-physx::PxVec4(0, 0, 0, 1), // negro
-	}; 
-
 	physx::PxVec3 ori; //punto de origen de la particula generada
 	physx::PxVec3 vel; //velocidad media de la particula generada
 	double duration; //duracion de la particula generada
