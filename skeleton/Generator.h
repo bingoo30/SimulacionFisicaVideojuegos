@@ -5,14 +5,19 @@
 class Generator {
 public:
 #pragma region constructoras y destructoracxd
-	Generator(const physx::PxVec3& o, const physx::PxVec3& v, double d, int n) :
-		ori(o), vel(v), duration(d), n_particles(n), prob(0.0), color(physx::PxVec4(1.0f)) {};
+	Generator(const physx::PxVec3& o, const physx::PxVec3& v, double d, int n) {};
 	//si uso esta constructora, hay que usar setters de los atributos
-	Generator() : ori(physx::PxVec3()), vel(physx::PxVec3()), duration(0.0), n_particles(0), prob(0.0), color(physx::PxVec4(1.0f)) {};
+	Generator() {};
 	virtual ~Generator() {};
 #pragma endregion
 #pragma region metodos
-	virtual std::list<Particle*> generate_particles() const = 0;
+	virtual std::list<Particle*> generate_particles
+	(const physx::PxVec3& pos_dev,
+		const physx::PxVec3& vel_dev,
+		double mas_dev,
+		double dur_dev,
+		bool rand_color, 
+		bool rand_cant) = 0;
 #pragma endregion
 #pragma region getters y setters
 	//origen
@@ -32,17 +37,26 @@ public:
 	void setNParticles(int np) { n_particles = np; };
 #pragma endregion
 protected:
-#pragma region atributos
+#pragma region atributos 
+	//array de colores
+	physx::PxVec4 colors[8] = {
+physx::PxVec4(1, 0, 0, 1), // rojo
+physx::PxVec4(0, 1, 0, 1), // verde
+physx::PxVec4(0, 0, 1, 1), // azul
+physx::PxVec4(1, 1, 0, 1), // amarillo
+physx::PxVec4(1, 0, 1, 1), // magenta
+physx::PxVec4(0, 1, 1, 1),  // cian
+physx::PxVec4(1, 1, 1, 1), // blanco
+physx::PxVec4(0, 0, 0, 1), // negro
+	}; 
+
 	physx::PxVec3 ori; //punto de origen de la particula generada
 	physx::PxVec3 vel; //velocidad media de la particula generada
 	double duration; //duracion de la particula generada
 	int n_particles; //numero de particulas que voy a generar
-	double prob; //probabilidad de la generacion de particulas
-
+	double mas; //masa
 	physx::PxVec4 color; //color de la particula generada
 
 	std::mt19937 _mt;
-	/*std::uniform_real_distribution<double> _u;
-	std::normal_distribution<double> _n;*/
 #pragma endregion
 };

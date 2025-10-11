@@ -9,11 +9,11 @@ public:
         const physx::PxVec4& c, // color
         const physx::PxVec3& v, // velocidad
         const physx::PxVec3& a, // aceleración
-        double d,  // damping
         IntegrateMode t,     // tipo de integración
         float m,     // masa
         double lt, //tiempo de vida
-        double vol
+        double vol = 0.025,
+        double d = 0.995  // damping
     );
 
     void integrate(double t) override;

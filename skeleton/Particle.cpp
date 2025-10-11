@@ -5,7 +5,7 @@ using namespace physx;
 #include "Particle.h"
 using namespace physx;
 
-Particle::Particle(const PxVec3& p, const PxVec4& color, const PxVec3& v, const PxVec3& a, double d, IntegrateMode t, float m, double lt, double vol) :
+Particle::Particle(const PxVec3& p, const PxVec4& color, const PxVec3& v, const PxVec3& a, IntegrateMode t, float m, double lt, double vol, double d) :
 	Entity(p, color, CreateShape(PxSphereGeometry(vol)), lt, m),
 	pos_ant(p),           // posición anterior = posición inicial
 	vel(v),

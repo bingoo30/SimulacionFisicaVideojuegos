@@ -8,6 +8,10 @@ public:
 	virtual ~UniformGenerator() {};
 #pragma endregion 
 #pragma region metodos
-	std::list<Particle*> generate_particles() const override;
+	std::list<Particle*> generate_particles(const physx::PxVec3& pos_dev,
+		const physx::PxVec3& vel_dev,
+		double mas_dev,
+		double dur_dev,
+		bool rand_color, bool rand_cant) override;
 #pragma endregion
 };
