@@ -18,6 +18,7 @@
     <ClCompile Include="Scene1.cpp" />
     <ClCompile Include="UniformGenerator.cpp" />
     <ClCompile Include="NormalGenerator.cpp" />
+    <ClCompile Include="ParticleSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -39,6 +40,7 @@
     <ClInclude Include="Generator.h" />
     <ClInclude Include="UniformGenerator.h" />
     <ClInclude Include="NormalGenerator.h" />
+    <ClInclude Include="ParticleSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">
