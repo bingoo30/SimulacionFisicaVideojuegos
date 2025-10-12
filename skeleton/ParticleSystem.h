@@ -5,19 +5,25 @@
 class ParticleSystem
 {
 public:
+#pragma region constructoras y destructora
 	ParticleSystem();
 	ParticleSystem(int n, Generator* g);
 	virtual ~ParticleSystem();
+#pragma endregion
 
+#pragma region getters y setters
 	Generator* getGenerator() { return gen; };
 	void setGenerator(Generator* g) { gen = g; init(); };
 
 	int getN() { return num; };
 	void setN(int nn) { num = nn; };
+#pragma endregion
 
-
+#pragma region metodos publicos
 	void spawn();
 	void update(double dt);
+#pragma endregion
+
 protected:
 #pragma region atributos
 	Generator* gen;
