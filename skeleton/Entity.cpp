@@ -6,7 +6,6 @@ Entity::Entity(const PxVec3& p, const PxVec4& c, PxShape* s, double lt, double m
 {
 	// Inicializar RenderItem
 	renderItem = new RenderItem(s, transform, color);
-	RegisterRenderItem(renderItem);
 }
 
 Entity::~Entity()

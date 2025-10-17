@@ -21,7 +21,6 @@ void Scene::create_particle(const Particle_Data& pd)
 		pd.color,
 		pd.vel,
 		pd.acc,
-		pd.damping, 
 		pd.tipo,
 		pd.masa,
 		pd.vida, 
@@ -66,11 +65,6 @@ void Scene::create_projectile(const Projectile_Data& pd, Camera* c)
 
 	// Añadirlo a la lista de objetos de la escena
 	gObjs.push_back(proj);
-}
-
-void Scene::enter()
-{
-	for (auto o : gObjs) RegisterRenderItem(o->getRenderItem());
 }
 
 void Scene::exit()

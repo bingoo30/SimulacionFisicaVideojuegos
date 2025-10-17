@@ -1,12 +1,6 @@
 #include "ParticleSystem.h"
-
-ParticleSystem::ParticleSystem(): num(0), gen(nullptr), particles_list()
+ParticleSystem::ParticleSystem(Generator* g, const Particle_Data& pd, const Particle_Deviation_Data& pdd, int n) :gen(g), particles_list(), model(pd), deviation(pdd), num(n)
 {
-}
-
-ParticleSystem::ParticleSystem(int n, Generator* g): num(n), gen(g), particles_list()
-{
-	init();
 }
 
 ParticleSystem::~ParticleSystem()
@@ -25,7 +19,8 @@ ParticleSystem::~ParticleSystem()
 
 void ParticleSystem::spawn()
 {
-	gen->generate_particles(pos_d, vel_d, mas_d, dur_d, r_color, r_cant);
+	auto& l = gen->generate_particles(model, deviation, num);
+	particles_list.splice(particles_list.end(), l);
 }
 
 void ParticleSystem::update(double dt)

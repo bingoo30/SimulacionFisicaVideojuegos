@@ -2,21 +2,18 @@
 #include "Particle.h"
 #include "Generator.h"
 #include <list>
+#include "StructForEntities.h"
 class ParticleSystem
 {
 public:
 #pragma region constructoras y destructora
-	ParticleSystem();
-	ParticleSystem(int n, Generator* g);
+	ParticleSystem(Generator* g, const Particle_Data& pd, const Particle_Deviation_Data& pdd, int n);
 	virtual ~ParticleSystem();
 #pragma endregion
 
 #pragma region getters y setters
 	Generator* getGenerator() { return gen; };
-	void setGenerator(Generator* g) { gen = g; init(); };
-
-	int getN() { return num; };
-	void setN(int nn) { num = nn; };
+	void setGenerator(Generator* g) { gen = g;};
 #pragma endregion
 
 #pragma region metodos publicos
@@ -29,24 +26,13 @@ protected:
 	Generator* gen;
 	std::list<Particle*> particles_list;
 
-	//numero de particulas que quiero spawnear
+	Particle_Data model;
+	Particle_Deviation_Data deviation;
 	int num;
-#pragma endregion
-
-#pragma region atributos personalizados
-	//atributos que hay que modificar en la constructora de las subclases
-	physx::PxVec3 pos_d;
-	physx::PxVec3 vel_d;
-	double mas_d;
-	double dur_d;
-	bool r_color;
-	bool r_cant;
 #pragma endregion
 
 #pragma region metodos auxiliares
 	void erase();
-	//metodo para inicializar el generador, obligatorio a usarlo
-	virtual void init() = 0;
 #pragma endregion
 };
 

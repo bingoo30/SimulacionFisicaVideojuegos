@@ -122,21 +122,20 @@ void changeScene(int newS) {
 	
 	myScenes[sceneAct]->exit();
 	sceneAct = newS;
-	myScenes[sceneAct]->enter();
 }
 // Function called when a key is pressed
 void keyPress(unsigned char key, const PxTransform& camera)
 {
 	PX_UNUSED(camera);
-	Particle_Data pd;
+	/*Particle_Data pd;
 	pd.vel = {10, 10, 0};
 	Pistol_Bullet_Data pbd;
-	Cannon_Data cd;
+	Cannon_Data cd;*/
 	switch(toupper(key))
 	{
 	case ' ':
 		break;
-	case 'J':
+	/*case 'J':
 		pd.color = { 1,0,0,1 }; 
 		pd.tipo = Entity::EULER;
 		myScenes[sceneAct]->create_particle(pd);
@@ -156,7 +155,7 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		break;
 	case 'C':
 		myScenes[sceneAct]->create_projectile(cd, GetCamera());
-		break;
+		break;*/
 	case '0':
 		changeScene(0);
 		break;

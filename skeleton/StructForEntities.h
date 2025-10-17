@@ -2,6 +2,7 @@
 #include <PxPhysicsAPI.h>
 #include "RenderUtils.hpp"
 #include "Entity.h"
+#pragma region practica 1
 //fichero auxiliar que guardan los structs(datos) necesarios necesarios para inicializar un objeto de la escena
 struct Particle_Data
 {
@@ -9,12 +10,12 @@ struct Particle_Data
 	physx::PxVec4 color = physx::PxVec4(1, 1, 1, 1); //el color por defecto es blanco
 	physx::PxVec3 vel = physx::PxVec3(0); //por defecto no hay velocidad
 	physx::PxVec3 acc = physx::PxVec3(0, -10.0, 0); //la aceleracion por defecto es la gravedad
-	double damping = 0.99; 
 	Entity::IntegrateMode tipo = Entity::EULER;
-	float masa = 1.0f;
+	float masa = 0.0f;
 	double vida = 5.0;
 	double volumen = 0.1;
 };
+
 struct Projectile_Data {
 	physx::PxVec3 pos = physx::PxVec3(0);
 	physx::PxVec4 color = physx::PxVec4(1, 1, 1, 1);
@@ -32,8 +33,8 @@ struct Projectile_Data {
 struct Pistol_Bullet_Data : public Projectile_Data {
 	Pistol_Bullet_Data() {
 		color = physx::PxVec4(0.8f, 0.6f, 0.2f, 1.0f); //bronce
-		masa = 0.008f;                      
-		vida = 2.5;  
+		masa = 0.008f;
+		vida = 2.5;
 		vel_real = 350.0;
 		vel_sim = 100.0;
 		offset = 1.0;
@@ -53,8 +54,10 @@ struct Cannon_Data : public Projectile_Data {
 	}
 };
 
-physx::PxVec3 CONST_GRAVITY = physx::PxVec3(0.0f, -9.8f, 0.0f);
+physx::PxVec3 CONST_GRAVITY = physx::PxVec3(0.0f, -10.0f, 0.0f);
+#pragma endregion
 
+#pragma region practica 2
 //array de colores
 physx::PxVec4 colors[8] = {
 physx::PxVec4(1, 0, 0, 1), // rojo
@@ -66,3 +69,21 @@ physx::PxVec4(0, 1, 1, 1),  // cian
 physx::PxVec4(1, 1, 1, 1), // blanco
 physx::PxVec4(0, 0, 0, 1), // negro
 };
+struct Particle_Deviation_Data {
+	physx::PxVec3 ori;
+	physx::PxVec3 vel;
+	double mas;
+	double dur;
+	bool r_color;
+	bool r_cant;
+};
+
+struct Fire_Particle_Data:public Particle_Data {
+	Fire_Particle_Data() {
+		color = physx::PxVec4(1, 0, 0, 1); //color rojo
+		vel = physx::PxVec3(0, 5, 0); //hacia arriba
+		tipo = Entity::VERLET;
+		vida = 1.5;
+	}
+};
+#pragma endregion
