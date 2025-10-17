@@ -30,6 +30,10 @@ void ParticleSystem::update(double dt)
 	}
 }
 
+void ParticleSystem::derregister() {
+	for (auto p: particles_list) DeregisterRenderItem(p->getRenderItem());
+}
+
 void ParticleSystem::erase()
 {
 	for (auto p : particles_list) {

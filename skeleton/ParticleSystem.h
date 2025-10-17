@@ -19,6 +19,7 @@ public:
 #pragma region metodos publicos
 	void spawn();
 	void update(double dt);
+	void derregister();
 #pragma endregion
 
 protected:
