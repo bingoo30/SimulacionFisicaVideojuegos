@@ -7,11 +7,10 @@ Projectile::Projectile(
     const PxVec4& c,
     const PxVec3& v,
     const PxVec3& a,
-    double d,
     float m,
     double lt,
     double vol
-) : Particle(p, c, v, a, d, EULER_SEMIIMPLICIT, m, lt, vol)
+) : Particle(p, c, v, a, EULER_SEMIIMPLICIT, m, lt, vol)
 {
 }
 

@@ -30,10 +30,9 @@ protected:
 	Particle_Data model;
 	Particle_Deviation_Data deviation;
 	int num;
-#pragma endregion
 
-#pragma region metodos auxiliares
-	void erase();
+	double spawnAccumulator;
+	double spawnInterval;
 #pragma endregion
 };
 

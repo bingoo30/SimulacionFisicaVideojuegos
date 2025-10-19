@@ -69,23 +69,24 @@ Scene::~Scene()
 
 void Scene::exit()
 {
-	for (auto s : gPartSys) DeregisterRenderItem(o->getRenderItem());
+	for (auto s : gPartSys) s->derregister();
 }
 void Scene::update(double t) {
-	// integrar y comprobar tiempo de vida
-	for (auto it = gObjs.begin(); it != gObjs.end();) {
-		Entity* e = *it;
-		if (e != nullptr) {
-			e->update(t);
+	//// integrar y comprobar tiempo de vida
+	//for (auto it = gPartSys.begin(); it != gPartSys.end();) {
+	//	Entity* e = *it;
+	//	if (e != nullptr) {
+	//		e->update(t);
 
-			if (e->isDead()) {
-				DeregisterRenderItem(e->getRenderItem());
-				delete e;
-				it = gObjs.erase(it);
-			}
-			else {
-				++it;
-			}
-		}
-	}
+	//		if (e->isDead()) {
+	//			DeregisterRenderItem(e->getRenderItem());
+	//			delete e;
+	//			it = gObjs.erase(it);
+	//		}
+	//		else {
+	//			++it;
+	//		}
+	//	}
+	//}
+	for (auto p : gPartSys) p->update(t);
 }

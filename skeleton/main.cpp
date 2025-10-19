@@ -57,7 +57,7 @@ void initPhysics(bool interactive)
 
 	// For Solid Rigids +++++++++++++++++++++++++++++++++++++
 	PxSceneDesc sceneDesc(gPhysics->getTolerancesScale());
-	sceneDesc.gravity = PxVec3(0.0f, -9.8f, 0.0f);
+	sceneDesc.gravity = CONST_GRAVITY;
 	gDispatcher = PxDefaultCpuDispatcherCreate(2);
 	sceneDesc.cpuDispatcher = gDispatcher;
 	sceneDesc.filterShader = contactReportFilterShader;
@@ -76,7 +76,10 @@ void initPhysics(bool interactive)
 	//RegisterRenderItem(bolaZ);
 
 	//myScenes.push_back(new Scene1());
-	myScenes.push_back(new Scene1());
+	Scene* s1 = new Scene1();
+	s1->init();
+	myScenes.push_back(s1);
+	
 	sceneAct = 0;
 }
 

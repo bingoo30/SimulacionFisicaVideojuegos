@@ -8,7 +8,7 @@ class Scene{
 public:
 	Scene();
 	virtual ~Scene();
-	virtual void init() = 0;
+	virtual void init() =0;
 	virtual void update(double t);
 	virtual void exit();
 

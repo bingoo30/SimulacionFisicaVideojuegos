@@ -15,7 +15,7 @@ public:
         double vol = 0.025,
         double d = 0.995  // damping
     );
-
+    virtual ~Particle() {};
     void integrate(double t) override;
 
 protected:

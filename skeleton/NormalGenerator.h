@@ -3,10 +3,10 @@
 class NormalGenerator:public Generator {
 public:
 #pragma region constructoras y destructora
-	NormalGenerator() :Generator() {};
-	virtual ~NormalGenerator() {};
+	NormalGenerator() = default;
+	virtual ~NormalGenerator() = default;
 #pragma endregion 
 #pragma region metodos
-	std::list<Particle*>& generate_particles(const Particle_Data& model, const Particle_Deviation_Data& deviation, int n) override;
+	std::list<Particle*> generate_particles(const Particle_Data& model, const Particle_Deviation_Data& deviation, int n) override;
 #pragma endregion
 };

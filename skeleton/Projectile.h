@@ -8,7 +8,6 @@ public:
         const physx::PxVec4& c,
         const physx::PxVec3& v,
         const physx::PxVec3& a,
-        double d,
         float m,
         double lt, 
         double vol);
