@@ -34,7 +34,7 @@ std::list<Particle*> UniformGenerator::generate_particles(const Particle_Data& m
         //crear particula y insertar a la lista
         PxGeometry g = create_geometry(geo, PxVec3(model.volumen, model.volumen, model.volumen));
         PxShape* sh = CreateShape(g);
-        Particle* p = new Particle(pos, color, vel, model.acc, model.tipo, mass, life, sh);
+        Particle* p = new Particle(pos, color, vel, model.acc, model.tipo, mass, life, CreateShape(PxSphereGeometry(model.volumen)));
         particles.push_back(p);
     }
 

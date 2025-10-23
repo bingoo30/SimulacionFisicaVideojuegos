@@ -33,7 +33,7 @@ std::list<Particle*> NormalGenerator::generate_particles(const Particle_Data& mo
         //crear particula y anadir a la lista
         PxGeometry g = create_geometry(geo, PxVec3(model.volumen, model.volumen, model.volumen));
         PxShape* sh = CreateShape(g);
-        Particle* p = new Particle(pos, color, vel, model.acc, model.tipo, mass, life, sh);
+        Particle* p = new Particle(pos, color, vel, model.acc, model.tipo, mass, life, CreateShape(physx::PxSphereGeometry(model.volumen)));
         particles.push_back(p);
     }
 

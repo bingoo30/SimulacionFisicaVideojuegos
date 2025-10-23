@@ -42,7 +42,7 @@ protected:
         case physx::PxGeometryType::eSPHERE:
             return physx::PxSphereGeometry(size.x);
         case physx::PxGeometryType::eCAPSULE:
-            return physx::PxCapsuleGeometry(size.x, size.y * 0.5f);
+            return physx::PxCapsuleGeometry(size.x*0.5, size.y);
         case physx::PxGeometryType::eBOX:
             return physx::PxBoxGeometry(size.x * 0.5f, size.y * 0.5f, size.z * 0.5f);
         default:
