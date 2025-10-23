@@ -2,7 +2,7 @@
 using namespace std;
 using namespace physx;
 
-std::list<Particle*> UniformGenerator::generate_particles(const Particle_Data& model, const Particle_Deviation_Data& deviation,int n) {
+std::list<Particle*> UniformGenerator::generate_particles(const Particle_Data& model, const Particle_Deviation_Data& deviation,int n, physx::PxGeometryType::Enum geo) {
     std::list<Particle*> particles;
 
     //decidir si queremos generar exactamente n particulas nuevas
@@ -29,10 +29,12 @@ std::list<Particle*> UniformGenerator::generate_particles(const Particle_Data& m
         double life = model.vida + uniform_dev(deviation.dur);
 
         //color aleatorio
-        PxVec4 color = deviation.r_color ? colors[random_color_index(7)] : model.color;
+        PxVec4 color = deviation.r_color ? colors[model.color_offset, model.color_offset + model.color_tam] : model.color;
 
         //crear particula y insertar a la lista
-        Particle* p = new Particle(pos, color, vel, model.acc, model.tipo, mass, life, model.volumen);
+        PxGeometry g = create_geometry(geo, PxVec3(model.volumen, model.volumen, model.volumen));
+        PxShape* sh = CreateShape(g);
+        Particle* p = new Particle(pos, color, vel, model.acc, model.tipo, mass, life, sh);
         particles.push_back(p);
     }
 

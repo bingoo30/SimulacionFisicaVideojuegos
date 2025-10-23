@@ -8,7 +8,7 @@ public:
 	Generator(): _mt(std::random_device{}()) {};
 	virtual ~Generator() {};
 
-	virtual std::list<Particle*> generate_particles (const Particle_Data& model, const Particle_Deviation_Data& deviation, int n) = 0;
+	virtual std::list<Particle*> generate_particles (const Particle_Data& model, const Particle_Deviation_Data& deviation, int n, physx::PxGeometryType::Enum geo) = 0;
 protected:
 	std::mt19937 _mt;
 #pragma region metodos auxiliares de calculo
@@ -25,8 +25,8 @@ protected:
     }
 
     //funcion auxiliar para color aleatorio entre 0 y max_index
-    int random_color_index(int max_index) {
-        std::uniform_int_distribution<int> dist(0, max_index);
+    int random_color_index(int min_index, int max_index) {
+        std::uniform_int_distribution<int> dist(min_index, max_index-1);
         return dist(_mt);
     }
 
@@ -35,5 +35,20 @@ protected:
         std::uniform_real_distribution<float> dist(min, max);
         return dist(_mt);
     }
+
+    physx::PxGeometry create_geometry(physx::PxGeometryType::Enum mode, const physx::PxVec3& size) {
+        switch (mode)
+        {
+        case physx::PxGeometryType::eSPHERE:
+            return physx::PxSphereGeometry(size.x);
+        case physx::PxGeometryType::eCAPSULE:
+            return physx::PxCapsuleGeometry(size.x, size.y * 0.5f);
+        case physx::PxGeometryType::eBOX:
+            return physx::PxBoxGeometry(size.x * 0.5f, size.y * 0.5f, size.z * 0.5f);
+        default:
+            return physx::PxSphereGeometry(0.1f); // fallback seguro
+        }
+    }
+
 #pragma endregion
 };

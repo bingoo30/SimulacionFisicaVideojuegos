@@ -9,8 +9,8 @@ Projectile::Projectile(
     const PxVec3& a,
     float m,
     double lt,
-    double vol
-) : Particle(p, c, v, a, EULER_SEMIIMPLICIT, m, lt, vol)
+    physx::PxShape* sh
+) : Particle(p, c, v, a, VERLET, m, lt, sh) 
 {
 }
 

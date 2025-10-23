@@ -1,9 +1,9 @@
 #pragma once
 #include "Scene.h"
-class Scene1 :
+class Scene2 :
     public Scene
 {
 public:
-    Scene1() = default;
+    Scene2() = default;
     void init() override;
 };

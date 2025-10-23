@@ -12,11 +12,12 @@ public:
         IntegrateMode t,     // tipo de integración
         float m,     // masa
         double lt, //tiempo de vida
-        double vol = 0.025,
-        double d = 0.995  // damping
+        physx::PxShape* sh, //tipo de geometria que uso
+        double d = 0.995 // damping
     );
     virtual ~Particle() {};
     void integrate(double t) override;
+    const physx::PxVec3& getPosition() const { return transform->p; };
 
 protected:
     void int_Euler(double t);

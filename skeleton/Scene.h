@@ -10,6 +10,7 @@ public:
 	virtual ~Scene();
 	virtual void init() =0;
 	virtual void update(double t);
+	virtual void enter();
 	virtual void exit();
 
 	//void create_particle(const Particle_Data& pd);

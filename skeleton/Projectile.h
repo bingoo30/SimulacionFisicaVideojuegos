@@ -10,7 +10,7 @@ public:
         const physx::PxVec3& a,
         float m,
         double lt, 
-        double vol);
+        physx::PxShape* g);
     virtual ~Projectile();
 };
 

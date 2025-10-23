@@ -7,7 +7,7 @@ class ParticleSystem
 {
 public:
 #pragma region constructoras y destructora
-	ParticleSystem(Generator* g, const Particle_Data& pd, const Particle_Deviation_Data& pdd, int n);
+	ParticleSystem(Generator* g, const Particle_Data& pd, const Particle_Deviation_Data& pdd, int n, physx::PxGeometryType::Enum geo);
 	virtual ~ParticleSystem();
 #pragma endregion
 
@@ -20,6 +20,7 @@ public:
 	void spawn();
 	void update(double dt);
 	void derregister();
+	void register_particles(); 
 #pragma endregion
 
 protected:
@@ -33,6 +34,9 @@ protected:
 
 	double spawnAccumulator;
 	double spawnInterval;
+
+	physx::PxGeometryType::Enum geometry;
 #pragma endregion
+	virtual bool check_out_of_limit(Particle* p) const = 0;
 };
 

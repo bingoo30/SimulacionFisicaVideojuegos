@@ -17,6 +17,7 @@
 #include "StructForEntities.h"
 #include "Scene.h"
 #include "Scene1.h"
+#include "Scene2.h"
 
 std::string display_text = "Practica 1";
 
@@ -79,7 +80,9 @@ void initPhysics(bool interactive)
 	Scene* s1 = new Scene1();
 	s1->init();
 	myScenes.push_back(s1);
-	
+	Scene* s2 = new Scene2();
+	s2->init();
+	myScenes.push_back(s2);
 	sceneAct = 0;
 }
 
@@ -125,6 +128,7 @@ void changeScene(int newS) {
 	
 	myScenes[sceneAct]->exit();
 	sceneAct = newS;
+	myScenes[sceneAct]->enter();
 }
 // Function called when a key is pressed
 void keyPress(unsigned char key, const PxTransform& camera)
