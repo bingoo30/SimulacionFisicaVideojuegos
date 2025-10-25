@@ -22,6 +22,7 @@
     <ClCompile Include="RainParticleSystem.cpp" />
     <ClCompile Include="FireParticleSystem.cpp" />
     <ClCompile Include="Scene2.cpp" />
+    <ClCompile Include="ForceGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -47,6 +48,7 @@
     <ClInclude Include="RainParticleSystem.h" />
     <ClInclude Include="FireParticleSystem.h" />
     <ClInclude Include="Scene2.h" />
+    <ClInclude Include="ForceGenerator.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">
