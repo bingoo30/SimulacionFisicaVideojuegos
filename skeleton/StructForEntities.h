@@ -112,7 +112,7 @@ struct Fire_Deviation_Data : public Particle_Deviation_Data {
 
 struct Rain_Particle_Data : public Particle_Data {
 	Rain_Particle_Data() {
-		color = physx::PxVec4(0.6f, 0.6f, 1.0f, 1.0f); // azul claro tipico de la lluvia
+		color = physx::PxVec4(0.0f, 0.0f, 0.8f, 1.0f); // azul claro tipico de la lluvia
 		vel = physx::PxVec3(0.0f, -10.0f, 0.0f);       // caida rapida hacia abajo
 		tipo = Entity::VERLET;            // integracion estable para velocidad alta
 		vida = 3.0;                                    // suficiente para recorrer la zona

@@ -32,9 +32,9 @@ std::list<Particle*> UniformGenerator::generate_particles(const Particle_Data& m
         PxVec4 color = deviation.r_color ? colors[model.color_offset, model.color_offset + model.color_tam] : model.color;
 
         //crear particula y insertar a la lista
-        PxGeometry g = create_geometry(geo, PxVec3(model.volumen, model.volumen, model.volumen));
-        PxShape* sh = CreateShape(g);
-        Particle* p = new Particle(pos, color, vel, model.acc, model.tipo, mass, life, CreateShape(PxSphereGeometry(model.volumen)));
+        auto g = create_geometry(geo, PxVec3(model.volumen, model.volumen, model.volumen));
+        PxShape* sh = CreateShape(*g);
+        Particle* p = new Particle(pos, color, vel, model.acc, model.tipo, mass, life, sh);
         particles.push_back(p);
     }
 

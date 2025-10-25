@@ -31,8 +31,8 @@ std::list<Particle*> NormalGenerator::generate_particles(const Particle_Data& mo
         PxVec4 color = deviation.r_color ? colors[random_color_index(model.color_offset, model.color_offset + model.color_tam)] : model.color;
 
         //crear particula y anadir a la lista
-        PxGeometry g = create_geometry(geo, PxVec3(model.volumen, model.volumen, model.volumen));
-        PxShape* sh = CreateShape(g);
+        auto g = create_geometry(geo, PxVec3(model.volumen, model.volumen, model.volumen));
+        PxShape* sh = CreateShape(*g);
         Particle* p = new Particle(pos, color, vel, model.acc, model.tipo, mass, life, CreateShape(physx::PxSphereGeometry(model.volumen)));
         particles.push_back(p);
     }
