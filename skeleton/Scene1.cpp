@@ -5,6 +5,7 @@
 
 void Scene1::init()
 {
+	display = "escena 1: sistema de particulas: fuego";
 	Fire_Particle_Data fpd;
 	fpd.pos = Vector3(0, 0, 0);
 	Fire_Deviation_Data fdd;

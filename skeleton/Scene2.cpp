@@ -4,6 +4,7 @@
 
 void Scene2::init()
 {
+	display = "escena 2: sistema de particulas: lluvia";
 	Rain_Particle_Data rpd;
 	rpd.pos = Vector3(0, 80, 0);
 	Rain_Deviation_Data rdd;

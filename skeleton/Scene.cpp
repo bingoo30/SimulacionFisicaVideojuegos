@@ -5,7 +5,7 @@
 #include "Projectile.h"
 #include <cmath>
 using namespace physx;
-Scene::Scene(): gObjs(), gPartSys()
+Scene::Scene(): gObjs(), gPartSys(), display("escena")
 {
 }
 
