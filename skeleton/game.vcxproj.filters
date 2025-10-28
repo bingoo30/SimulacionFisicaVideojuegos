@@ -23,6 +23,7 @@
     <ClCompile Include="FireParticleSystem.cpp" />
     <ClCompile Include="Scene2.cpp" />
     <ClCompile Include="ForceGenerator.cpp" />
+    <ClCompile Include="Scene0.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -49,6 +50,7 @@
     <ClInclude Include="FireParticleSystem.h" />
     <ClInclude Include="Scene2.h" />
     <ClInclude Include="ForceGenerator.h" />
+    <ClInclude Include="Scene0.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">

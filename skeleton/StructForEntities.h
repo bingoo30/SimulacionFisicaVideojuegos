@@ -13,7 +13,7 @@ struct Particle_Data
 	Entity::IntegrateMode tipo = Entity::EULER;
 	float masa = 0.0f;
 	double vida = 5.0;
-	double volumen = 0.1;
+	double volumen = 1.0;
 	int color_offset = 0;
 	int color_tam =8;
 };
@@ -52,7 +52,7 @@ struct Cannon_Data : public Projectile_Data {
 		vel_real = 1000.0;
 		vel_sim = 500.0;
 		offset = 5.0;
-		volumen = 3.5;
+		volumen = 7.5;
 	}
 };
 

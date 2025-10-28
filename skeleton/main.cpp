@@ -16,6 +16,7 @@
 #include "Particle.h"
 #include "StructForEntities.h"
 #include "Scene.h"
+#include "Scene0.h"
 #include "Scene1.h"
 #include "Scene2.h"
 
@@ -77,6 +78,9 @@ void initPhysics(bool interactive)
 	//RegisterRenderItem(bolaZ);
 
 	//myScenes.push_back(new Scene1());
+	Scene* s0 = new Scene0();
+	s0->init();
+	myScenes.push_back(s0);
 	Scene* s1 = new Scene1();
 	s1->init();
 	myScenes.push_back(s1);
@@ -129,20 +133,28 @@ void changeScene(int newS) {
 	myScenes[sceneAct]->exit();
 	sceneAct = newS;
 	myScenes[sceneAct]->enter();
+
+	// Cambiar el texto mostrado
+	switch (sceneAct) {
+	case 0: display_text = "Escena 1 - invocar particulas y proyectiles"; break;
+	case 1: display_text = "Escena 2 - sistema de particulas: fuego"; break;
+	case 2: display_text = "Escena 3 - sistema de particulas: lluvia"; break;
+	default: display_text = "Escena desconocida"; break;
+	}
 }
 // Function called when a key is pressed
 void keyPress(unsigned char key, const PxTransform& camera)
 {
 	PX_UNUSED(camera);
-	/*Particle_Data pd;
+	Particle_Data pd;
 	pd.vel = {10, 10, 0};
 	Pistol_Bullet_Data pbd;
-	Cannon_Data cd;*/
+	Cannon_Data cd;
 	switch(toupper(key))
 	{
 	case ' ':
 		break;
-	/*case 'J':
+	case 'J':
 		pd.color = { 1,0,0,1 }; 
 		pd.tipo = Entity::EULER;
 		myScenes[sceneAct]->create_particle(pd);
@@ -162,14 +174,12 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		break;
 	case 'C':
 		myScenes[sceneAct]->create_projectile(cd, GetCamera());
-		break;*/
+		break;
 	case '0':
-		changeScene(0);
-		break;
 	case '1':
-		changeScene(1);
-		break;
-	default:
+	case '2':
+		int newScene = key - '0'; // conversion de char a int
+		changeScene(newScene);
 		break;
 	}
 }
