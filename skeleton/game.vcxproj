@@ -257,6 +257,7 @@
     <ClCompile Include="callbacks.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="FireParticleSystem.cpp" />
+    <ClCompile Include="FireworkParticleSystem.cpp" />
     <ClCompile Include="ForceGenerator.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NormalGenerator.cpp" />
@@ -279,6 +280,7 @@
     <ClInclude Include="core.hpp" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="FireParticleSystem.h" />
+    <ClInclude Include="FireworkParticleSystem.h" />
     <ClInclude Include="ForceGenerator.h" />
     <ClInclude Include="Generator.h" />
     <ClInclude Include="NormalGenerator.h" />
