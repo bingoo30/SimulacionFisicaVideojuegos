@@ -10,6 +10,6 @@ void Scene1::init()
 	fpd.pos = Vector3(0, 0, 0);
 	Fire_Deviation_Data fdd;
 
-	FireParticleSystem* fps = new FireParticleSystem(fpd, fdd, 5);
+	FireParticleSystem* fps = new FireParticleSystem(fpd, fdd, 1);
 	gPartSys.push_back(fps);
 }

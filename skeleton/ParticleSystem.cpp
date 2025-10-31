@@ -26,25 +26,8 @@ void ParticleSystem::spawn()
 }
 
 void ParticleSystem::update(double dt) {
-    for (auto it = particles_list.begin(); it != particles_list.end();) {
-        Particle* p = *it;
-        p->update(dt);
-
-        if (p->isDead() || check_out_of_limit(p)) {
-            DeregisterRenderItem(p->getRenderItem());
-            it = particles_list.erase(it);
-        }
-        else {
-            ++it;
-        }
-    }
-
-    spawnAccumulator += dt;
-    if (spawnAccumulator >= spawnInterval) {
-        int spawnCount = (int)(spawnAccumulator / spawnInterval);
-        for (int i = 0; i < spawnCount; ++i) spawn();
-        spawnAccumulator = 0.0;
-    }
+    update_particles(dt);
+    check_spawn(dt);
 }
 
 void ParticleSystem::derregister() {
@@ -54,6 +37,36 @@ void ParticleSystem::derregister() {
 void ParticleSystem::register_particles()
 {
     for (auto p : particles_list) RegisterRenderItem(p->getRenderItem());
+}
+
+void ParticleSystem::update_particles(double dt)
+{
+    for (auto it = particles_list.begin(); it != particles_list.end();) {
+        Particle* p = *it;
+        p->update(dt);
+
+        if (p->isDead() || check_out_of_limit(p)) {
+            // primero ejecutar el callback para que la subclase pueda generar explosiones
+            on_particle_removed(p);
+
+            DeregisterRenderItem(p->getRenderItem());
+            it = particles_list.erase(it);
+        }
+        else {
+            ++it;
+        }
+    }
+}
+
+
+void ParticleSystem::check_spawn(double dt)
+{
+    spawnAccumulator += dt;
+    if (spawnAccumulator >= spawnInterval) {
+        int spawnCount = (int)(spawnAccumulator / spawnInterval);
+        for (int i = 0; i < spawnCount; ++i) spawn();
+        spawnAccumulator = 0.0;
+    }
 }
 
 

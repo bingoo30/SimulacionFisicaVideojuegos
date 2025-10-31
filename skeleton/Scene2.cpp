@@ -1,6 +1,7 @@
 #include "Scene2.h"
 #include "Entity.h"
 #include "RainParticleSystem.h"
+#include "FireworkParticleSystem.h"
 
 void Scene2::init()
 {
@@ -11,4 +12,11 @@ void Scene2::init()
 
 	RainParticleSystem* rps = new RainParticleSystem(rpd, rdd, 20);
 	gPartSys.push_back(rps);
+
+	Firework_Rocket_Data frd;
+	Firework_Explosion_Deviation fed;
+	rpd.pos = Vector3(0, 0, 0);
+
+	FireworkParticleSystem* fwps = new FireworkParticleSystem(frd, fed, 5);
+	gPartSys.push_back(fwps);
 }

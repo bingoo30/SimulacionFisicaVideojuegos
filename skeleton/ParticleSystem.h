@@ -18,15 +18,16 @@ public:
 
 #pragma region metodos publicos
 	void spawn();
-	void update(double dt);
+	virtual void update(double dt);
 	void derregister();
 	void register_particles(); 
+	virtual void on_particle_removed(Particle* p) { };
 #pragma endregion
 
 protected:
 #pragma region atributos
 	Generator* gen;
-	std::list<Particle*> particles_list;
+	mutable std::list<Particle*> particles_list;
 
 	Particle_Data model;
 	Particle_Deviation_Data deviation;
@@ -38,5 +39,7 @@ protected:
 	physx::PxGeometryType::Enum geometry;
 #pragma endregion
 	virtual bool check_out_of_limit(Particle* p) const = 0;
+	virtual void update_particles(double dt);
+	virtual void check_spawn(double dt);
 };
 

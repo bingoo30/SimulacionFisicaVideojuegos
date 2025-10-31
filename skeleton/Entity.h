@@ -17,6 +17,9 @@ public:
 	virtual void update(double t);
 	RenderItem* getRenderItem() { return renderItem; };
 	bool isDead() const { return (lifetime > 0.0 && age >= lifetime); };
+
+	float getMass() const { return masa; };
+
 protected:
 	virtual void integrate(double t) = 0;
 	void update_lifetime(double t);

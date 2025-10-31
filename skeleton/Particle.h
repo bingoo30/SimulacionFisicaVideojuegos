@@ -18,7 +18,7 @@ public:
     virtual ~Particle() {};
     void integrate(double t) override;
     const physx::PxVec3& getPosition() const { return transform->p; };
-
+    const physx::PxVec3& getVel() const { return vel; };
 protected:
     void int_Euler(double t);
     void int_Euler_Semiimplicit(double t);

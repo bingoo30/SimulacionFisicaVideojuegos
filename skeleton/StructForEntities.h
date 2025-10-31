@@ -131,4 +131,28 @@ struct Rain_Deviation_Data :public Particle_Deviation_Data {
 		r_cant = true; 
 	}
 };
+
+struct Firework_Rocket_Data : public Particle_Data {
+	Firework_Rocket_Data() {
+		color = physx::PxVec4(1.0f, 1.0f, 1.0f, 1.0f);  // blanco brillante
+		vel = physx::PxVec3(0, 40.0f, 0);               // hacia arriba
+		masa = 0.5f;
+		vida = 3.0;                                     // explota a los 3 segundos
+		volumen = 1.5f;
+		tipo = Entity::EULER_SEMIIMPLICIT;
+	}
+};
+
+struct Firework_Explosion_Deviation : public Particle_Deviation_Data {
+	Firework_Explosion_Deviation() {
+		vel = physx::PxVec3(30.0f, 20.0f, 30.0f);       // dispersion radial
+		ori = physx::PxVec3(0.0f);
+		mas = 0.1;
+		dur = 0.5;
+		r_color = true;                                 // colores aleatorios
+		r_cant = false;
+		valid_box = 5.0;
+	}
+};
 #pragma endregion
+

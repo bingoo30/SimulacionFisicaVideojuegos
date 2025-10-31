@@ -9,6 +9,7 @@ public:
 	virtual ~Generator() {};
 
 	virtual std::list<Particle*> generate_particles (const Particle_Data& model, const Particle_Deviation_Data& deviation, int n, physx::PxGeometryType::Enum geo) = 0;
+   
 protected:
 	std::mt19937 _mt;
 #pragma region metodos auxiliares de calculo
