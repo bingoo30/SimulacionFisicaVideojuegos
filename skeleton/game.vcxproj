@@ -259,6 +259,8 @@
     <ClCompile Include="FireParticleSystem.cpp" />
     <ClCompile Include="FireworkParticleSystem.cpp" />
     <ClCompile Include="ForceGenerator.cpp" />
+    <ClCompile Include="ForceRegistry.cpp" />
+    <ClCompile Include="GravityForceGenerator.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NormalGenerator.cpp" />
     <ClCompile Include="Particle.cpp" />
@@ -282,7 +284,9 @@
     <ClInclude Include="FireParticleSystem.h" />
     <ClInclude Include="FireworkParticleSystem.h" />
     <ClInclude Include="ForceGenerator.h" />
+    <ClInclude Include="ForceRegistry.h" />
     <ClInclude Include="Generator.h" />
+    <ClInclude Include="GravityForceGenerator.h" />
     <ClInclude Include="NormalGenerator.h" />
     <ClInclude Include="Particle.h" />
     <ClInclude Include="ParticleSystem.h" />

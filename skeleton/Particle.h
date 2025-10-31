@@ -19,6 +19,9 @@ public:
     void integrate(double t) override;
     const physx::PxVec3& getPosition() const { return transform->p; };
     const physx::PxVec3& getVel() const { return vel; };
+
+    void add_force(const physx::PxVec3& f);
+    void clean_force();
 protected:
     void int_Euler(double t);
     void int_Euler_Semiimplicit(double t);
@@ -31,4 +34,6 @@ protected:
 
     double damping;
     uint8_t integr_mode;
+
+    physx::PxVec3 force; //fuerza resultante a ejercer
 };

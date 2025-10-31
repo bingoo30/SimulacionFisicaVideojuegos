@@ -7,7 +7,8 @@ Particle::Particle(const PxVec3& p, const PxVec4& color, const PxVec3& v, const 
 	vel(v),
 	acc(a),
 	damping(d),
-	integr_mode(t)
+	integr_mode(t),
+	force(PxVec3(0))
 {
 }
 
@@ -28,6 +29,16 @@ void Particle::integrate(double t)
 	default:
 		break;
 	}
+}
+
+void Particle::add_force(const physx::PxVec3& f)
+{
+	force += f;
+}
+
+void Particle::clean_force()
+{
+	force = PxVec3(0);
 }
 
 void Particle::int_Euler(double t)
