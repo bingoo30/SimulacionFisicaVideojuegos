@@ -2,8 +2,8 @@
 using namespace std;
 using namespace physx;
 
-std::list<Particle*> UniformGenerator::generate_particles(const Particle_Data& model, const Particle_Deviation_Data& deviation,int n, physx::PxGeometryType::Enum geo) {
-    std::list<Particle*> particles;
+Particle_List UniformGenerator::generate_particles(const Particle_Data& model, const Particle_Deviation_Data& deviation,int n, physx::PxGeometryType::Enum geo) {
+    Particle_List particles;
 
     //decidir si queremos generar exactamente n particulas nuevas
     int count = n;
@@ -34,8 +34,8 @@ std::list<Particle*> UniformGenerator::generate_particles(const Particle_Data& m
         //crear particula y insertar a la lista
         auto g = create_geometry(geo, PxVec3(model.volumen, model.volumen, model.volumen));
         PxShape* sh = CreateShape(*g);
-        Particle* p = new Particle(pos, color, vel, model.acc, model.tipo, mass, life, sh);
-        particles.push_back(p);
+        Particle* p = new Particle(pos, color, vel, model.tipo, mass, life, sh);
+        particles.push_back(make_unique<Particle>(p));
     }
 
     return particles;

@@ -9,7 +9,6 @@ struct Particle_Data
 	physx::PxVec3 pos = physx::PxVec3(0); //la posicion por defecto es el origen
 	physx::PxVec4 color = physx::PxVec4(1, 1, 1, 1); //el color por defecto es blanco
 	physx::PxVec3 vel = physx::PxVec3(0); //por defecto no hay velocidad
-	physx::PxVec3 acc = physx::PxVec3(0, -10.0, 0); //la aceleracion por defecto es la gravedad
 	Entity::IntegrateMode tipo = Entity::EULER;
 	float masa = 0.0f;
 	double vida = 5.0;

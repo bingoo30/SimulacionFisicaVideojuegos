@@ -8,14 +8,13 @@ public:
         const physx::PxVec3& p, // posición
         const physx::PxVec4& c, // color
         const physx::PxVec3& v, // velocidad
-        const physx::PxVec3& a, // aceleración
         IntegrateMode t,     // tipo de integración
         float m,     // masa
         double lt, //tiempo de vida
         physx::PxShape* sh, //tipo de geometria que uso
         double d = 0.995 // damping
     );
-    virtual ~Particle() {};
+    virtual ~Particle();
     void integrate(double t) override;
     const physx::PxVec3& getPosition() const { return transform->p; };
     const physx::PxVec3& getVel() const { return vel; };
@@ -34,6 +33,5 @@ protected:
 
     double damping;
     uint8_t integr_mode;
-
-    physx::PxVec3 force; //fuerza resultante a ejercer
+    physx::PxVec3 force;     // aceleración
 };

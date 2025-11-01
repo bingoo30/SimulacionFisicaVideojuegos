@@ -8,6 +8,7 @@ public:
     virtual ~GravityForceGenerator() = default;
 
     void update_force(Particle* p) override;
-private:
+protected:
     Vector3 gravity;
+    physx::PxVec3 calculate_force(Particle* p) override;
 };

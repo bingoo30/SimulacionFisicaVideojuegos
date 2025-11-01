@@ -3,31 +3,27 @@
 #include "Entity.h"
 #include "Particle.h"
 #include "Projectile.h"
+#include "StructForEntities.h"
 #include <cmath>
 using namespace physx;
-Scene::Scene(): gObjs(), gPartSys(), display("escena")
+Scene::Scene() : gObjs(), gPartSys(), display("escena"), gForceReg(new ForceRegistry()), g(new GravityForceGenerator(CONST_GRAVITY))
 {
 }
 
 Scene::~Scene()
 {
-	for (auto o : gObjs) delete o;
-	gObjs.clear();
-	for (auto s : gPartSys) delete s;
-	gPartSys.clear();
+	delete gForceReg;
 }
 void Scene::enter() {
 	// Registrar todos los sistemas de partículas en el render
-	for (auto s : gPartSys) {
-		s->register_particles(); // método que crea los render items
-	}
-	for (auto o : gObjs) RegisterRenderItem(o->getRenderItem());
+	for (auto& s : gPartSys) s->register_particles(); // método que crea los render items
+	for (auto& o : gObjs) RegisterRenderItem(o->getRenderItem());
 }
 
 void Scene::exit()
 {
-	for (auto s : gPartSys) s->derregister();
-	for (auto o : gObjs) DeregisterRenderItem(o->getRenderItem());
+	for (auto& s : gPartSys) s->derregister();
+	for (auto& o : gObjs) DeregisterRenderItem(o->getRenderItem());
 }
 void Scene::create_particle(const Particle_Data& pd)
 {
@@ -35,12 +31,12 @@ void Scene::create_particle(const Particle_Data& pd)
 		pd.pos,
 		pd.color,
 		pd.vel,
-		pd.acc,
 		pd.tipo,
 		pd.masa,
 		pd.vida,
 		CreateShape(physx::PxSphereGeometry(pd.volumen)));
-	gObjs.push_back(part);
+	gForceReg->add_registry(part, g);
+	gObjs.push_back(std::make_unique<Particle>(part));
 
 }
 void Scene::create_projectile(const Projectile_Data& pd, Camera* c)
@@ -76,10 +72,10 @@ void Scene::create_projectile(const Projectile_Data& pd, Camera* c)
 		pd.vida,
 		CreateShape(physx::PxSphereGeometry(pd.volumen))
 	);
-
-	gObjs.push_back(proj);
+	gForceReg->add_registry(proj, g);
+	gObjs.push_back(std::make_unique<Particle>(proj));
 }
 void Scene::update(double t) {
-	for (auto o : gObjs) o->update(t);
-	for (auto p : gPartSys) p->update(t);
+	for (auto& o : gObjs) o->update(t);
+	for (auto& p : gPartSys) p->update(t);
 }

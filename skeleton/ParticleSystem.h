@@ -2,6 +2,7 @@
 #include "Particle.h"
 #include "Generator.h"
 #include <list>
+#include <memory>
 #include "StructForEntities.h"
 class ParticleSystem
 {
@@ -27,7 +28,7 @@ public:
 protected:
 #pragma region atributos
 	Generator* gen;
-	mutable std::list<Particle*> particles_list;
+	mutable std::list<std::unique_ptr<Particle>> particles_list;
 
 	Particle_Data model;
 	Particle_Deviation_Data deviation;

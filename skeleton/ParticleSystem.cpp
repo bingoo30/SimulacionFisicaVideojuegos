@@ -7,11 +7,6 @@ ParticleSystem::ParticleSystem(Generator* g, const Particle_Data& pd, const Part
 
 ParticleSystem::~ParticleSystem()
 {
-	//liberar la lista
-	for (auto p : particles_list) {
-		DeregisterRenderItem(p->getRenderItem());
-		delete p;
-	}
 	particles_list.clear();
 
 	//liberar el generador

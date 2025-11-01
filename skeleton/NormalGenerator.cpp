@@ -2,8 +2,8 @@
 using namespace std;
 using namespace physx;
 
-std::list<Particle*> NormalGenerator::generate_particles(const Particle_Data& model, const Particle_Deviation_Data& deviation, int n, physx::PxGeometryType::Enum geo) {
-    std::list<Particle*> particles;
+Particle_List NormalGenerator::generate_particles(const Particle_Data& model, const Particle_Deviation_Data& deviation, int n, physx::PxGeometryType::Enum geo) {
+    Particle_List particles;
 
     int count = n;
     if (deviation.r_cant) count = (int)(round(n * random_fraction()));
@@ -33,8 +33,8 @@ std::list<Particle*> NormalGenerator::generate_particles(const Particle_Data& mo
         //crear particula y anadir a la lista
         auto g = create_geometry(geo, PxVec3(model.volumen, model.volumen, model.volumen));
         PxShape* sh = CreateShape(*g);
-        Particle* p = new Particle(pos, color, vel, model.acc, model.tipo, mass, life, CreateShape(physx::PxSphereGeometry(model.volumen)));
-        particles.push_back(p);
+        Particle* p = new Particle(pos, color, vel, model.tipo, mass, life, CreateShape(physx::PxSphereGeometry(model.volumen)));
+        particles.push_back(make_unique<Particle>(p));
     }
 
     return particles;

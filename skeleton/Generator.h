@@ -3,12 +3,13 @@
 #include <list>
 #include "Particle.h"
 #include "StructForEntities.h"
+using Particle_List = std::list<std::unique_ptr<Particle>>;
 class Generator {
 public:
 	Generator(): _mt(std::random_device{}()) {};
 	virtual ~Generator() {};
 
-	virtual std::list<Particle*> generate_particles (const Particle_Data& model, const Particle_Deviation_Data& deviation, int n, physx::PxGeometryType::Enum geo) = 0;
+	virtual Particle_List generate_particles (const Particle_Data& model, const Particle_Deviation_Data& deviation, int n, physx::PxGeometryType::Enum geo) = 0;
    
 protected:
 	std::mt19937 _mt;

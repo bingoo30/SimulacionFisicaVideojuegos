@@ -6,11 +6,12 @@
 
 class ForceRegistry {
 public:
-    void addRegistry(Particle* particle, ForceGenerator* fg);
+    ForceRegistry();
+    virtual ~ForceRegistry();
+    void add_registry(Particle* particle, ForceGenerator* fg);
     void remove(Particle* particle, ForceGenerator* fg);
-    void clearParticle(Particle* particle);
-    void clear();
-    void updateForces();
+    void clear_particle(Particle* particle);
+    void update_forces();
 protected:
     struct ForceReg {
         Particle* particle;

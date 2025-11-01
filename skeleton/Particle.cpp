@@ -1,15 +1,19 @@
 #include "Particle.h"
 using namespace physx;
 
-Particle::Particle(const PxVec3& p, const PxVec4& color, const PxVec3& v, const PxVec3& a, IntegrateMode t, float m, double lt, physx::PxShape* sh, double d) :
+Particle::Particle(const PxVec3& p, const PxVec4& color, const PxVec3& v, IntegrateMode t, float m, double lt, physx::PxShape* sh, double d) :
 	Entity(p, color, sh, lt, m),
 	pos_ant(p),           // posición anterior = posición inicial
 	vel(v),
-	acc(a),
+	acc(PxVec3(0.0)),
 	damping(d),
-	integr_mode(t),
-	force(PxVec3(0))
+	integr_mode(t)
 {
+}
+
+Particle::~Particle()
+{
+	
 }
 
 void Particle::integrate(double t)

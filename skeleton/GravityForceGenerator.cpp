@@ -9,6 +9,11 @@ void GravityForceGenerator::update_force(Particle* p)
 
     if (p != nullptr) {
         if (p->getMass() <= 0.0f) return;
-        p->add_force(gravity * p->getMass());
+        p->add_force(calculate_force(p));
     }
+}
+
+physx::PxVec3 GravityForceGenerator::calculate_force(Particle* p)
+{
+    return gravity * p->getMass();
 }

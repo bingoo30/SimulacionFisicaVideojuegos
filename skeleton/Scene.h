@@ -2,9 +2,12 @@
 #include <PxPhysicsAPI.h>
 #include <vector>
 #include <string>
+#include <memory>
 #include "Entity.h"
 #include "ParticleSystem.h"
 #include "StructForEntities.h"
+#include "ForceRegistry.h"
+#include "GravityForceGenerator.h"
 class Scene{
 public:
 	Scene();
@@ -18,8 +21,10 @@ public:
 	void create_projectile(const Projectile_Data& pd, Camera* c);
 	const std::string& getDisplayText()const { return display; };
 protected:
-	std::vector<Entity*> gObjs;
-	std::vector<ParticleSystem*> gPartSys;
+	std::vector<std::unique_ptr<Entity>> gObjs;
+	std::vector<std::unique_ptr<ParticleSystem>> gPartSys;
 	std::string display;
+	GravityForceGenerator* g; //gravedad: meto a todas las particulas
+	ForceRegistry* gForceReg;
 };
 
