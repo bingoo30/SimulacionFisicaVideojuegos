@@ -5,45 +5,67 @@
 class Entity
 {
 public:
-	Entity(const physx::PxVec3& p = physx::PxVec3(0), 
-		   const physx::PxVec4& c = physx::PxVec4(1), 
-		   physx::PxShape* s=nullptr, 
-		   double vol=1.0, 
-		   double lt = -1.0, 
-		   double m = 0.0);
-	Entity(const physx::PxVec3& p = physx::PxVec3(0),
-		const physx::PxVec4& c = physx::PxVec4(1),
-		physx::PxShape* s = nullptr,
-		double vol = 1.0,
-		double lt = -1.0,
-		double m = 0.0,
-		bool create);
+	Entity(const physx::PxVec3& p, 
+		   const physx::PxVec4& c, 
+		   double m,
+		   physx::PxShape* s, 
+		   double v, 
+		   double lt);
 	virtual ~Entity();
 	virtual void update(double t);
-	RenderItem* getRenderItem() { return renderItem.get(); };
 	bool isDead() const { return (lifetime > 0.0 && age >= lifetime); };
 
-	double getMass() const { return mass; };
-	double getLifeTime() const { return lifetime; };
-	double getVol() const { return volume; };
-	physx::PxShape* getShape() const { return shape; };
-protected:
-	virtual void integrate(double t) = 0;
-	void update_lifetime(double t);
-	void derregisterRenderItem();
-	void create_renderItem();
-	bool isValidRenderItem() const;
-	std::unique_ptr<RenderItem> renderItem;
-	physx::PxTransform transform;
-	physx::PxVec4 color;	// color
-	double mass;  //masa
-	physx::PxShape* shape;
 
+
+#pragma region getters
+	RenderItem* getRenderItem() { return renderItem.get(); }; 
+	const physx::PxTransform getTransform() const { return transform; };
+	const physx::PxVec4& getColor() const { return color; };
+	double getMass() const { return mass; };
+	physx::PxShape* getShape() const { return shape; };
+	double getVol() const { return volume; };
+	double getLifeTime() const { return lifetime; };
+#pragma endregion
+
+protected:
+#pragma region atributos protegidos
+
+	//componente transform
+	physx::PxTransform transform;
+	// color
+	physx::PxVec4 color;
+	//masa
+	double mass;
+	//forma
+	physx::PxShape* shape;
+	//volumen de la particula (solo se usa para crear particulas hijas)
+	double volume;
 	//para quitarlo del vector si lleva mucho tiempo en la escena
-	double lifetime;  // segundos de vida (-1 = infinito)
-	double age;       // tiempo acumulado
-	double volume; //volumen de la particula (solo se usa para crear particulas hijas)
+	//segundos de vida 
+	double lifetime; 
+
+
+	//tiempo acumulado
+	double age;
+	//render item
+	std::unique_ptr<RenderItem> renderItem;
+#pragma endregion
+#pragma region metodos protegidos (auxiliares)
+	//metodo virtual puro para la integracion de la entidad
+	virtual void integrate(double t) = 0;
+	//actualizacion del timer
+	void update_lifetime(double t);
+	//derregistrar el render item actual, si existe
+	void derregister_renderItem();
+	//crear un render item nuevo. Si ya existe, elimina el anterior
+	void create_renderItem();
+	//comprobar si tenemos un render item valido
+	bool isValidRenderItem() const;
+#pragma endregion
 private:
+#pragma region atributos privados
+	//flag para saber si una entidad tiene render item o no
 	bool renderItemRegisted;
+#pragma endregion
 };
 

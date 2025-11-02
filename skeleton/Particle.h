@@ -5,6 +5,16 @@ class ParticleSystem;
 class Particle : public Entity
 {
 public:
+    enum IntegrateMode {
+        EULER,
+        EULER_SEMIIMPLICIT,
+        VERLET
+    };
+    enum ParticleType {
+        NORMAL,
+        FIREWORK_ROCKET,
+        FIREWORK_SPARK
+    };
     Particle(
         const physx::PxVec3& p, // posición
         const physx::PxVec4& c, // color
@@ -24,7 +34,7 @@ public:
     void trigger_death(ParticleSystem* sys) const;
 
 
-    const physx::PxVec3& getPosition() const { return transform->p; };
+    const physx::PxVec3& getPosition() const { return transform.p; };
     const physx::PxVec3& getVel() const { return vel; };
     const IntegrateMode getType() const { return integr_mode; };
     const ParticleType getParticleType() const { return par_type; };
