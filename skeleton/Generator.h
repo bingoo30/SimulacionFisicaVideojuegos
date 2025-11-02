@@ -38,16 +38,16 @@ protected:
         return dist(_mt);
     }
 
-    std::unique_ptr<physx::PxGeometry> create_geometry(physx::PxGeometryType::Enum mode, const physx::PxVec3& size) {
+    physx::PxGeometry* create_geometry(physx::PxGeometryType::Enum mode, const physx::PxVec3& size) {
         switch (mode) {
         case physx::PxGeometryType::eSPHERE:
-            return std::make_unique<physx::PxSphereGeometry>(size.x);
+            return new physx::PxSphereGeometry(size.x);
         case physx::PxGeometryType::eCAPSULE:
-            return std::make_unique<physx::PxCapsuleGeometry>(size.x*0.5, size.y*0.25);
+            return new physx::PxCapsuleGeometry(size.x * 0.5f, size.y * 0.25f);
         case physx::PxGeometryType::eBOX:
-            return std::make_unique<physx::PxBoxGeometry>(size.x * 0.5f, size.y * 0.5f, size.z * 0.5f);
+            return new physx::PxBoxGeometry(size.x * 0.5f, size.y * 0.5f, size.z * 0.5f);
         default:
-            return std::make_unique<physx::PxSphereGeometry>(0.1f);
+            return new physx::PxSphereGeometry(0.1f);
         }
     }
 
