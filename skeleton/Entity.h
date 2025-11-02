@@ -25,7 +25,7 @@ public:
 
 	double getMass() const { return masa; };
 	double getLifeTime() const { return lifetime; };
-	double getVol() const {}
+	double getVol() const { return volume; };
 protected:
 	virtual void integrate(double t) = 0;
 	void update_lifetime(double t);

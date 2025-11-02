@@ -36,14 +36,14 @@ void Particle::integrate(double t)
 	}
 }
 
-void Particle::set_on_death(std::function<void(ParticleSystem&, const Particle&)> cb)
+void Particle::set_on_death(std::function<void(ParticleSystem*, const Particle*)> cb)
 {
 	on_death = cb;
 }
 
 void Particle::trigger_death(ParticleSystem* sys) const
 {
-	if (on_death&& sys != nullptr) on_death(*sys, *this); 
+	if (on_death&& sys != nullptr) on_death(sys, this); 
 }
 
 void Particle::add_force(const physx::PxVec3& f)

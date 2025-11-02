@@ -147,6 +147,7 @@ void changeScene(int newS) {
 void keyPress(unsigned char key, const PxTransform& camera)
 {
 	PX_UNUSED(camera);
+	myScenes[sceneAct]->handle_input(key);
 	switch(toupper(key))
 	{
 	case ' ':

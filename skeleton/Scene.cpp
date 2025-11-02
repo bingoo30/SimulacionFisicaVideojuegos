@@ -6,6 +6,7 @@
 #include "StructForEntities.h"
 #include <cmath>
 using namespace physx;
+using namespace std;
 Scene::Scene() : gObjs(), gPartSys(), display("escena"), gForceReg(new ForceRegistry()), g(new GravityForceGenerator(CONST_GRAVITY))
 {
 }
@@ -34,30 +35,30 @@ void Scene::create_particle(const Particle_Data& pd)
 		pd.type,
 		pd.mass,
 		pd.life,
-		CreateShape(physx::PxSphereGeometry(pd.vol)),
+		CreateShape(PxSphereGeometry(pd.vol)),
 		pd.vol);
 	gForceReg->add_registry(part, g);
-	gObjs.push_back(std::make_unique<Particle>(part));
+	gObjs.push_back(unique_ptr<Particle>(part));
 
 }
 void Scene::create_projectile(const Projectile_Data& pd, Camera* c)
 {
 	//posicion de la camara como posicion inicial
-	physx::PxVec3 startPos = c->getTransform().p;
+	PxVec3 startPos = c->getTransform().p;
 
 	//direccion;
-	physx::PxVec3 forward = c->getDir().getNormalized();
+	PxVec3 forward = c->getDir().getNormalized();
 
 	//velocidad real
-	physx::PxVec3 vr = forward * pd.vel_real;
+	PxVec3 vr = forward * pd.vel_real;
 
 	//velocidad simulada para que sea visible en pantalla
-	physx::PxVec3 vel_sim = forward * pd.vel_sim;
+    PxVec3 vel_sim = forward * pd.vel_sim;
 
 	//masa simulada para conservar la energia cinetica
 	//NOTA: al tener el vector forward normalizado, su modulo es 1, 
 	//por lo que el modulo de la velocidad real es exactamente la vel_real que hemos introducido
-	float masa_sim = pd.masa * pow(pd.vel_real / pd.vel_sim, 2);
+	float masa_sim = pd.mass * pow(pd.vel_real / pd.vel_sim, 2);
 
 	// Aceleraci�n simulada ajustando la gravedad
 	physx::PxVec3 acc_sim = pd.acc;
@@ -68,13 +69,14 @@ void Scene::create_projectile(const Projectile_Data& pd, Camera* c)
 		startPos + forward * pd.offset,
 		pd.color,
 		vel_sim,
-		acc_sim, 
+		//acc_sim, 
 		masa_sim,
-		pd.vida,
-		CreateShape(physx::PxSphereGeometry(pd.volumen))
+		pd.life,
+		CreateShape(PxSphereGeometry(pd.vol)),
+		pd.vol
 	);
 	gForceReg->add_registry(proj, g);
-	gObjs.push_back(std::make_unique<Particle>(proj));
+	gObjs.push_back(unique_ptr<Particle>(proj));
 }
 void Scene::update(double t) {
 	for (auto& o : gObjs) o->update(t);

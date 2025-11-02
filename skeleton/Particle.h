@@ -20,7 +20,7 @@ public:
     void integrate(double t) override;
     
     //eventos
-    void set_on_death(std::function<void(ParticleSystem&, const Particle&)> cb);
+    void set_on_death(std::function<void(ParticleSystem* sys, const Particle*)> cb);
     void trigger_death(ParticleSystem* sys) const;
 
 
@@ -48,5 +48,5 @@ protected:
     ParticleType par_type = NORMAL;
     physx::PxVec3 force;     // aceleración
 
-    std::function<void(ParticleSystem&, const Particle&)> on_death;
+    std::function<void(ParticleSystem*, const Particle*)> on_death;
 };

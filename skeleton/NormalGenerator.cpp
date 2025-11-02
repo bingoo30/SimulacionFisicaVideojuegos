@@ -1,4 +1,5 @@
 #include "NormalGenerator.h"
+#include <memory>
 using namespace std;
 using namespace physx;
 
@@ -33,8 +34,8 @@ Particle_List NormalGenerator::generate_particles(const Particle_Data& model, co
         //crear particula y anadir a la lista
         auto g = create_geometry(geo, PxVec3(model.vol, model.vol, model.vol));
         PxShape* sh = CreateShape(*g);
-        Particle* p = new Particle(pos, color, vel, model.type, mass, life, CreateShape(physx::PxSphereGeometry(model.vol)));
-        particles.push_back(make_unique<Particle>(p));
+        Particle* p = new Particle(pos, color, vel, model.type, mass, life, CreateShape(physx::PxSphereGeometry(model.vol)), model.vol);
+        particles.push_back(unique_ptr<Particle>(p));
     }
 
     return particles;

@@ -9,7 +9,9 @@ void Scene0::init()
 void Scene0::handle_input(unsigned char key)
 {
 	Particle_Data pd;
+	Cannon_Data cd;
 	pd.vel = { 10, 10, 0 };
+	Pistol_Bullet_Data pbd;
 	switch (toupper(key))
 	{
 	case ' ':
@@ -30,11 +32,9 @@ void Scene0::handle_input(unsigned char key)
 		create_particle(pd);
 		break;
 	case 'P':
-		Pistol_Bullet_Data pbd;
 		create_projectile(pbd, GetCamera());
 		break;
 	case 'C':
-		Cannon_Data cd;
 		create_projectile(cd, GetCamera());
 		break;
 	}

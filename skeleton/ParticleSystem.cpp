@@ -36,7 +36,7 @@ void ParticleSystem::register_particles()
 
 void ParticleSystem::add_particle(Particle* p)
 {
-    particles_list.push_back(make_unique<Particle>(p));
+    particles_list.push_back(unique_ptr<Particle>(p));
 }
 
 void ParticleSystem::update_particles(double dt)

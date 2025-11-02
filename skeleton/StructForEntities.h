@@ -26,32 +26,32 @@ struct Projectile_Data {
 	double vel_sim;
 	physx::PxVec3 acc = physx::PxVec3(0, -10.0, 0);
 	double damping = 0.99;
-	float masa = 10.0f;
-	double vida = 5.0;
-	double volumen = 0.1;
+	float mass = 10.0f;
+	double life = 5.0;
+	double vol = 0.1;
 };
 //bala de una pistola
 struct Pistol_Bullet_Data : public Projectile_Data {
 	Pistol_Bullet_Data() {
 		color = physx::PxVec4(0.8f, 0.6f, 0.2f, 1.0f); //bronce
-		masa = 0.008f;
-		vida = 2.5;
+		mass = 0.008f;
+		life = 2.5;
 		vel_real = 350.0;
 		vel_sim = 100.0;
 		offset = 1.0;
-		volumen = 0.2;
+		vol = 0.2;
 	}
 };
 //canon
 struct Cannon_Data : public Projectile_Data {
 	Cannon_Data() {
 		color = physx::PxVec4(1.0f, 0.4f, 0.0f, 1.0f); //naranja
-		masa = 3.5f;
-		vida = 5.0;
+		mass = 3.5f;
+		life = 5.0;
 		vel_real = 1000.0;
 		vel_sim = 500.0;
 		offset = 5.0;
-		volumen = 7.5;
+		vol = 7.5;
 	}
 };
 

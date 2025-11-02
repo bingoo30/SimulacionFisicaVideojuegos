@@ -1,4 +1,5 @@
 #include "UniformGenerator.h"
+#include <memory>
 using namespace std;
 using namespace physx;
 
@@ -25,17 +26,17 @@ Particle_List UniformGenerator::generate_particles(const Particle_Data& model, c
         );
 
         //masa y duracion
-        double mass = model.masa + uniform_dev(deviation.mas);
-        double life = model.vida + uniform_dev(deviation.dur);
+        double mass = model.mass + uniform_dev(deviation.mas);
+        double life = model.life + uniform_dev(deviation.dur);
 
         //color aleatorio
         PxVec4 color = deviation.r_color ? colors[model.color_offset, model.color_offset + model.color_tam] : model.color;
 
         //crear particula y insertar a la lista
-        auto g = create_geometry(geo, PxVec3(model.volumen, model.volumen, model.volumen));
+        auto g = create_geometry(geo, PxVec3(model.vol));
         PxShape* sh = CreateShape(*g);
-        Particle* p = new Particle(pos, color, vel, model.tipo, mass, life, sh);
-        particles.push_back(make_unique<Particle>(p));
+        Particle* p = new Particle(pos, color, vel, model.type, mass, life, sh, model.vol);
+        particles.push_back(unique_ptr<Particle>(p));
     }
 
     return particles;

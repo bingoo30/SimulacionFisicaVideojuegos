@@ -1,4 +1,6 @@
 ﻿#include "FireworkGenerator.h"
+#include "ParticleSystem.h"
+#include <memory>
 using namespace std;
 using namespace physx;
 Particle_List FireworkGenerator::generate_particles(
@@ -40,7 +42,7 @@ Particle_List FireworkGenerator::generate_particles(
     Particle* rocket = new Particle(pos, color, vel, model.type, mass, life, sh, model.vol);
     rocket->setParticleType(Entity::FIREWORK_ROCKET);
     // añadir callback para explosión
-    rocket->set_on_death([this, n, model = model, deviation = deviation, geo](ParticleSystem& sys, const Particle& parent) {
+    rocket->set_on_death([this, n, model, deviation, geo](ParticleSystem* sys, const Particle* parent) {
 
         int count = n;
         if (deviation.r_cant)
@@ -61,16 +63,16 @@ Particle_List FireworkGenerator::generate_particles(
             );
 
             // masa y vida propias de los sparks
-            double mass = parent.getMass() * 0.2 + normal_dev(deviation.mas);
+            double mass = parent->getMass() * 0.2 + normal_dev(deviation.mas);
             double life = 0.5 + normal_dev(deviation.dur);
-            double vol = parent.getVol() * 0.75;
+            double vol = parent->getVol() * 0.75;
 
             auto g = create_geometry(geo, PxVec3(vol, vol, vol));
             PxShape* sh = CreateShape(*g);
 
-            Particle* spark = new Particle(parent.getPosition(), color, spark_vel, parent.getType(), mass, life, sh, vol);
+            Particle* spark = new Particle(parent->getPosition(), color, spark_vel, parent->getType(), mass, life, sh, vol);
             spark->setParticleType(Entity::FIREWORK_SPARK);
-            sys.add_particle(spark);
+            sys->add_particle(spark);
         }
         });
 

@@ -26,7 +26,7 @@ void Scene2::handle_input(unsigned char key)
 	switch (toupper(key))
 	{
 	case 'F':
-
+		static_cast<FireworkParticleSystem*>(gPartSys[1].get())->launch_firework();
 		break;
 	}
 }
