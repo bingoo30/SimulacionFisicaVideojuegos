@@ -7,10 +7,10 @@ public:
     Projectile(const physx::PxVec3& p,
         const physx::PxVec4& c,
         const physx::PxVec3& v,
-        const physx::PxVec3& a,
         float m,
         double lt, 
-        physx::PxShape* g);
+        physx::PxShape* g,
+        double vol);
     virtual ~Projectile();
 };
 

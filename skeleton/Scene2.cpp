@@ -11,12 +11,12 @@ void Scene2::init()
 	Rain_Deviation_Data rdd;
 
 	RainParticleSystem* rps = new RainParticleSystem(rpd, rdd, 20);
-	gPartSys.push_back(rps);
+	gPartSys.push_back(std::unique_ptr<RainParticleSystem>(rps));
 
 	Firework_Rocket_Data frd;
 	Firework_Explosion_Deviation fed;
 	rpd.pos = Vector3(0, 0, 0);
 
 	FireworkParticleSystem* fwps = new FireworkParticleSystem(frd, fed, 5);
-	gPartSys.push_back(fwps);
+	gPartSys.push_back(std::unique_ptr<FireworkParticleSystem>(fwps));
 }

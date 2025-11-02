@@ -1,13 +1,14 @@
 #include "Particle.h"
+#include "ParticleSystem.h"
 using namespace physx;
 
-Particle::Particle(const PxVec3& p, const PxVec4& color, const PxVec3& v, IntegrateMode t, float m, double lt, physx::PxShape* sh, double d) :
-	Entity(p, color, sh, lt, m),
-	pos_ant(p),           // posición anterior = posición inicial
-	vel(v),
-	acc(PxVec3(0.0)),
-	damping(d),
-	integr_mode(t)
+Particle::Particle(const physx::PxVec3& p, const physx::PxVec4& c, const physx::PxVec3& v, IntegrateMode t, float m, double lt, physx::PxShape* sh, double vol, double d):
+Entity(p, c, sh, vol, lt, m),
+pos_ant(p),           // posición anterior = posición inicial
+vel(v),
+acc(PxVec3(0.0)),
+damping(d),
+integr_mode(t)
 {
 }
 
@@ -33,6 +34,16 @@ void Particle::integrate(double t)
 	default:
 		break;
 	}
+}
+
+void Particle::set_on_death(std::function<void(ParticleSystem&, const Particle&)> cb)
+{
+	on_death = cb;
+}
+
+void Particle::trigger_death(ParticleSystem* sys) const
+{
+	if (on_death&& sys != nullptr) on_death(*sys, *this); 
 }
 
 void Particle::add_force(const physx::PxVec3& f)

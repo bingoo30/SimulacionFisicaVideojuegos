@@ -24,16 +24,16 @@ Particle_List NormalGenerator::generate_particles(const Particle_Data& model, co
         );
 
         //masa y duracion
-        double mass = model.masa + normal_dev(deviation.mas);
-        double life = model.vida + normal_dev(deviation.dur);
+        double mass = model.mass + normal_dev(deviation.mas);
+        double life = model.life + normal_dev(deviation.dur);
 
         //color aleatorio
         PxVec4 color = deviation.r_color ? colors[random_color_index(model.color_offset, model.color_offset + model.color_tam)] : model.color;
 
         //crear particula y anadir a la lista
-        auto g = create_geometry(geo, PxVec3(model.volumen, model.volumen, model.volumen));
+        auto g = create_geometry(geo, PxVec3(model.vol, model.vol, model.vol));
         PxShape* sh = CreateShape(*g);
-        Particle* p = new Particle(pos, color, vel, model.tipo, mass, life, CreateShape(physx::PxSphereGeometry(model.volumen)));
+        Particle* p = new Particle(pos, color, vel, model.type, mass, life, CreateShape(physx::PxSphereGeometry(model.vol)));
         particles.push_back(make_unique<Particle>(p));
     }
 

@@ -22,13 +22,13 @@ public:
 	virtual void update(double dt);
 	void derregister();
 	void register_particles(); 
-	virtual void on_particle_removed(Particle* p) { };
+	void add_particle(Particle* p);
 #pragma endregion
 
 protected:
 #pragma region atributos
 	Generator* gen;
-	mutable std::list<std::unique_ptr<Particle>> particles_list;
+	mutable Particle_List particles_list;
 
 	Particle_Data model;
 	Particle_Deviation_Data deviation;

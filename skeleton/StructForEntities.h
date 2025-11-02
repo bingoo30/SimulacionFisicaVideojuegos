@@ -9,10 +9,10 @@ struct Particle_Data
 	physx::PxVec3 pos = physx::PxVec3(0); //la posicion por defecto es el origen
 	physx::PxVec4 color = physx::PxVec4(1, 1, 1, 1); //el color por defecto es blanco
 	physx::PxVec3 vel = physx::PxVec3(0); //por defecto no hay velocidad
-	Entity::IntegrateMode tipo = Entity::EULER;
-	float masa = 0.0f;
-	double vida = 5.0;
-	double volumen = 1.0;
+	Entity::IntegrateMode type = Entity::EULER;
+	float mass = 0.0f;
+	double life = 5.0;
+	double vol = 1.0;
 	int color_offset = 0;
 	int color_tam =8;
 };
@@ -90,9 +90,9 @@ struct Fire_Particle_Data:public Particle_Data {
 	Fire_Particle_Data() {
 		color = physx::PxVec4(1, 0, 0, 1); //color rojo
 		vel = physx::PxVec3(0, 20.0, 0); //hacia arriba
-		tipo = Entity::EULER_SEMIIMPLICIT;
-		vida = 1.0;
-		volumen = 0.85;
+		type = Entity::EULER_SEMIIMPLICIT;
+		life = 1.0;
+		vol = 0.85;
 		color_offset = 8;
 		color_tam = 4;
 	}
@@ -113,10 +113,10 @@ struct Rain_Particle_Data : public Particle_Data {
 	Rain_Particle_Data() {
 		color = physx::PxVec4(0.0f, 0.0f, 0.8f, 1.0f); // azul claro tipico de la lluvia
 		vel = physx::PxVec3(0.0f, -10.0f, 0.0f);       // caida rapida hacia abajo
-		tipo = Entity::VERLET;            // integracion estable para velocidad alta
-		vida = 3.0;                                    // suficiente para recorrer la zona
-		volumen = 0.35f;                               // gotas finas
-		masa = 0.01f;                                  // ligera
+		type = Entity::VERLET;            // integracion estable para velocidad alta
+		life = 3.0;                                    // suficiente para recorrer la zona
+		vol = 0.35f;                               // gotas finas
+		mass = 0.01f;                                  // ligera
 	}
 };
 struct Rain_Deviation_Data :public Particle_Deviation_Data {
@@ -135,10 +135,10 @@ struct Firework_Rocket_Data : public Particle_Data {
 	Firework_Rocket_Data() {
 		color = physx::PxVec4(1.0f, 1.0f, 1.0f, 1.0f);  // blanco brillante
 		vel = physx::PxVec3(0, 40.0f, 0);               // hacia arriba
-		masa = 0.5f;
-		vida = 3.0;                                     // explota a los 3 segundos
-		volumen = 1.5f;
-		tipo = Entity::EULER_SEMIIMPLICIT;
+		mass = 0.5f;
+		life = 3.0;                                     // explota a los 3 segundos
+		vol = 1.5f;
+		type = Entity::EULER_SEMIIMPLICIT;
 	}
 };
 

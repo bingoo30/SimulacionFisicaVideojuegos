@@ -26,28 +26,34 @@ void ParticleSystem::update(double dt) {
 }
 
 void ParticleSystem::derregister() {
-	for (auto p: particles_list) DeregisterRenderItem(p->getRenderItem());
+	for (auto& p: particles_list) DeregisterRenderItem(p->getRenderItem());
 }
 
 void ParticleSystem::register_particles()
 {
-    for (auto p : particles_list) RegisterRenderItem(p->getRenderItem());
+    for (auto& p : particles_list) RegisterRenderItem(p->getRenderItem());
+}
+
+void ParticleSystem::add_particle(Particle* p)
+{
+    particles_list.push_back(make_unique<Particle>(p));
 }
 
 void ParticleSystem::update_particles(double dt)
 {
-    for (auto it = particles_list.begin(); it != particles_list.end();) {
-        Particle* p = *it;
+    for (auto it = particles_list.begin(); it != particles_list.end();)
+    {
+        Particle* p = it->get();  // obtener puntero
+
         p->update(dt);
 
-        if (p->isDead() || check_out_of_limit(p)) {
-            // primero ejecutar el callback para que la subclase pueda generar explosiones
-            on_particle_removed(p);
-
+        if (p->isDead() || check_out_of_limit(p))
+        {
             DeregisterRenderItem(p->getRenderItem());
-            it = particles_list.erase(it);
+            it = particles_list.erase(it);  // erase devuelve el siguiente iterador
         }
-        else {
+        else
+        {
             ++it;
         }
     }

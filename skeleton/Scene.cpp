@@ -25,16 +25,21 @@ void Scene::exit()
 	for (auto& s : gPartSys) s->derregister();
 	for (auto& o : gObjs) DeregisterRenderItem(o->getRenderItem());
 }
+void Scene::handle_input(unsigned char key)
+{
+
+}
 void Scene::create_particle(const Particle_Data& pd)
 {
 	Particle* part = new Particle(
 		pd.pos,
 		pd.color,
 		pd.vel,
-		pd.tipo,
-		pd.masa,
-		pd.vida,
-		CreateShape(physx::PxSphereGeometry(pd.volumen)));
+		pd.type,
+		pd.mass,
+		pd.life,
+		CreateShape(physx::PxSphereGeometry(pd.vol)),
+		pd.vol);
 	gForceReg->add_registry(part, g);
 	gObjs.push_back(std::make_unique<Particle>(part));
 

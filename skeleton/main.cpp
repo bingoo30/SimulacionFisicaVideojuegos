@@ -157,17 +157,17 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		break;
 	case 'J':
 		pd.color = { 1,0,0,1 }; 
-		pd.tipo = Entity::EULER;
+		pd.type = Entity::EULER;
 		myScenes[sceneAct]->create_particle(pd);
 		break;
 	case 'K':
 		pd.color = { 0,1,0,1 };
-		pd.tipo = Entity::EULER_SEMIIMPLICIT;
+		pd.type = Entity::EULER_SEMIIMPLICIT;
 		myScenes[sceneAct]->create_particle(pd);
 		break;
 	case 'L':
 		pd.color = { 0,0,1,1 };
-		pd.tipo = Entity::VERLET;
+		pd.type = Entity::VERLET;
 		myScenes[sceneAct]->create_particle(pd);
 		break;
 	case 'P':
