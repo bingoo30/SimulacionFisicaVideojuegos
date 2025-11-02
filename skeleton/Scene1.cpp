@@ -13,3 +13,7 @@ void Scene1::init()
 	FireParticleSystem* fps = new FireParticleSystem(fpd, fdd, 1);
 	gPartSys.push_back(std::unique_ptr<FireParticleSystem>(fps));
 }
+
+void Scene1::handle_input(unsigned char key)
+{
+}

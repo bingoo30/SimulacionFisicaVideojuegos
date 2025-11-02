@@ -9,6 +9,11 @@ public:
 		EULER_SEMIIMPLICIT,
 		VERLET
 	};
+	enum ParticleType {
+		NORMAL,
+		FIREWORK_ROCKET,
+		FIREWORK_SPARK
+	};
 	//p =posicion inicial
 	//c =color
 	//s =forma de la geometria

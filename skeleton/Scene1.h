@@ -6,4 +6,5 @@ class Scene1 :
 public:
     Scene1() = default;
     void init() override;
+    void handle_input(unsigned char key) override;
 };

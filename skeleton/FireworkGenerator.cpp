@@ -38,7 +38,7 @@ Particle_List FireworkGenerator::generate_particles(
 
     // crear partícula principal (cohete)
     Particle* rocket = new Particle(pos, color, vel, model.type, mass, life, sh, model.vol);
-
+    rocket->setParticleType(Entity::FIREWORK_ROCKET);
     // añadir callback para explosión
     rocket->set_on_death([this, n, model = model, deviation = deviation, geo](ParticleSystem& sys, const Particle& parent) {
 
@@ -69,6 +69,7 @@ Particle_List FireworkGenerator::generate_particles(
             PxShape* sh = CreateShape(*g);
 
             Particle* spark = new Particle(parent.getPosition(), color, spark_vel, parent.getType(), mass, life, sh, vol);
+            spark->setParticleType(Entity::FIREWORK_SPARK);
             sys.add_particle(spark);
         }
         });

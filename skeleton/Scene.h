@@ -16,7 +16,7 @@ public:
 	virtual void update(double t);
 	virtual void enter();
 	virtual void exit();
-	virtual void handle_input(unsigned char key);
+	virtual void handle_input(unsigned char key)=0;
 
 	void create_particle(const Particle_Data& pd);
 	void create_projectile(const Projectile_Data& pd, Camera* c);

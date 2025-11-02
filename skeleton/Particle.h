@@ -27,6 +27,8 @@ public:
     const physx::PxVec3& getPosition() const { return transform->p; };
     const physx::PxVec3& getVel() const { return vel; };
     const IntegrateMode getType() const { return integr_mode; };
+    const ParticleType getParticleType() const { return par_type; };
+    void setParticleType(ParticleType t) { par_type = t; };
 
     void add_force(const physx::PxVec3& f);
     void clean_force();
@@ -43,6 +45,7 @@ protected:
 
     double damping;
     IntegrateMode integr_mode;
+    ParticleType par_type = NORMAL;
     physx::PxVec3 force;     // aceleración
 
     std::function<void(ParticleSystem&, const Particle&)> on_death;

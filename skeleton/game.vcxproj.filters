@@ -23,11 +23,11 @@
     <ClCompile Include="FireParticleSystem.cpp" />
     <ClCompile Include="Scene2.cpp" />
     <ClCompile Include="Scene0.cpp" />
-    <ClCompile Include="FireworkParticleSystem.cpp" />
     <ClCompile Include="ForceRegistry.cpp" />
     <ClCompile Include="GravityForceGenerator.cpp" />
     <ClCompile Include="WindForceGenerator.cpp" />
     <ClCompile Include="FireworkGenerator.cpp" />
+    <ClCompile Include="FireworkParticleSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -55,11 +55,11 @@
     <ClInclude Include="Scene2.h" />
     <ClInclude Include="ForceGenerator.h" />
     <ClInclude Include="Scene0.h" />
-    <ClInclude Include="FireworkParticleSystem.h" />
     <ClInclude Include="ForceRegistry.h" />
     <ClInclude Include="GravityForceGenerator.h" />
     <ClInclude Include="WindForceGenerator.h" />
     <ClInclude Include="FireworkGenerator.h" />
+    <ClInclude Include="FireworkParticleSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">

@@ -25,10 +25,6 @@ void Scene::exit()
 	for (auto& s : gPartSys) s->derregister();
 	for (auto& o : gObjs) DeregisterRenderItem(o->getRenderItem());
 }
-void Scene::handle_input(unsigned char key)
-{
-
-}
 void Scene::create_particle(const Particle_Data& pd)
 {
 	Particle* part = new Particle(

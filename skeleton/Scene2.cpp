@@ -20,3 +20,13 @@ void Scene2::init()
 	FireworkParticleSystem* fwps = new FireworkParticleSystem(frd, fed, 5);
 	gPartSys.push_back(std::unique_ptr<FireworkParticleSystem>(fwps));
 }
+
+void Scene2::handle_input(unsigned char key)
+{
+	switch (toupper(key))
+	{
+	case 'F':
+
+		break;
+	}
+}
