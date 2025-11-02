@@ -3,7 +3,7 @@
 using namespace physx;
 
 Particle::Particle(const physx::PxVec3& p, const physx::PxVec4& c, const physx::PxVec3& v, IntegrateMode t, float m, double lt, physx::PxShape* sh, double vol, double d):
-Entity(p, c, sh, vol, lt, m),
+Entity(p, c, sh, vol, lt, m, false),
 pos_ant(p),           // posición anterior = posición inicial
 vel(v),
 acc(PxVec3(0.0)),
@@ -58,7 +58,7 @@ void Particle::clean_force()
 
 void Particle::int_Euler(double t)
 {
-	transform->p += t * vel;
+	transform.p += t * vel;
 	vel += t * acc;
 	 
 	calcular_damping(t);
@@ -69,21 +69,21 @@ void Particle::int_Euler_Semiimplicit(double t)
 	vel += acc * t;
 	//damping
 	calcular_damping(t);
-	transform->p += t * vel;
+	transform.p += t * vel;
 }
 
 void Particle::int_Verlet(double t)
 {
 	// si es la primera integración, usamos Euler
-	if (pos_ant == transform->p) {
+	if (pos_ant == transform.p) {
 		int_Euler(t);
 	}
 	else {
 		// guardamos posición actual
-		PxVec3 posAct = transform->p;
+		PxVec3 posAct = transform.p;
 
-		transform->p = 2.0f * transform->p - pos_ant + acc * (t*t);
-		vel = (transform->p - pos_ant) / (2.0f * float(t));
+		transform.p = 2.0f * transform.p - pos_ant + acc * (t*t);
+		vel = (transform.p - pos_ant) / (2.0f * float(t));
 
 		calcular_damping(t);
 

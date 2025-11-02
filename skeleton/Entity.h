@@ -5,17 +5,6 @@
 class Entity
 {
 public:
-	enum IntegrateMode {
-		EULER,
-		EULER_SEMIIMPLICIT,
-		VERLET
-	};
-	enum ParticleType {
-		NORMAL,
-		FIREWORK_ROCKET,
-		FIREWORK_SPARK
-	};
-
 	Entity(const physx::PxVec3& p = physx::PxVec3(0), 
 		   const physx::PxVec4& c = physx::PxVec4(1), 
 		   physx::PxShape* s=nullptr, 
@@ -28,7 +17,7 @@ public:
 		double vol = 1.0,
 		double lt = -1.0,
 		double m = 0.0,
-		bool create = false);
+		bool create);
 	virtual ~Entity();
 	virtual void update(double t);
 	RenderItem* getRenderItem() { return renderItem.get(); };
