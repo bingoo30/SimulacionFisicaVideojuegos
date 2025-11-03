@@ -5,6 +5,7 @@
 #include "Entity.h"
 #include "ParticleSystem.h"
 #include "ForceRegistry.h"
+#include "GravityForceGenerator.h"
 #include "StructForEntities.h"
 class Scene{
 public:
@@ -25,6 +26,9 @@ public:
 	virtual void add_entity_with_renderItem(Entity* e);
 	virtual void add_particle_system(ParticleSystem* ps);
 
+	void add_gravity_force_to(Particle* p);
+	GravityForceGenerator* getGravityGenerator() { return gr; };
+
 protected:
 	std::vector<Entity*> gObjs;
 	std::vector<ParticleSystem*> gPartSys;
@@ -32,6 +36,6 @@ protected:
 	std::string display;
 
 	ForceRegistry* fRegistry;
-
+	GravityForceGenerator* gr;
 };
 

@@ -5,7 +5,7 @@
 #include "Projectile.h"
 #include <cmath>
 using namespace physx;
-Scene::Scene(): gObjs(), gPartSys(), display("escena"), fRegistry(new ForceRegistry())
+Scene::Scene(): gObjs(), gPartSys(), display("escena"), fRegistry(new ForceRegistry()), gr(new GravityForceGenerator({ 0.0, -9.8, 0.0 }))
 {
 }
 
@@ -102,15 +102,32 @@ void Scene::add_particle_system(ParticleSystem* ps)
 	}
 }
 
+void Scene::add_gravity_force_to(Particle* p)
+{
+	if (p != nullptr) {
+		fRegistry->add_registry(p, gr);
+	}
+}
+
 void Scene::clean()
 {
-	for (auto e : gObjs) delete e;
+	for (auto e : gObjs) {
+		delete e;
+		e = nullptr;
+	}
 	gObjs.clear();
 
-	for (auto ps : gPartSys) delete ps;
+	for (auto ps : gPartSys) {
+		delete ps;
+		ps = nullptr;
+	}
 	gPartSys.clear();
 
 	delete fRegistry;
+	fRegistry = nullptr;
+
+	delete gr;
+	gr = nullptr;
 }
 
 void Scene::update(double t) {

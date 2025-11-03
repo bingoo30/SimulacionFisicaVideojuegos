@@ -13,5 +13,5 @@ bool FireParticleSystem::check_out_of_limit(Particle* p) const
 	if (!p) return true;
 
 	const physx::PxVec3& pos = p->getPosition();
-	return pos.y < 0.0 || std::abs(pos.x) > deviation.valid_box || std::abs(pos.z) > deviation.valid_box;
+	return pos.y <= 0.0 ||pos.y > deviation.valid_box*7 || std::abs(pos.x) > deviation.valid_box || std::abs(pos.z) > deviation.valid_box;
 }

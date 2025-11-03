@@ -1,17 +1,23 @@
 #include "ForceRegistry.h"
-ForceRegistry::ForceRegistry(): registries()
+#include "SceneManager.h"
+ForceRegistry::ForceRegistry(): registries(),forces()
 {
 }
 ForceRegistry::~ForceRegistry()
 {
-    for (auto r : registries){
-        if (r.fg != nullptr) delete r.fg;
-    }
-    registries.clear();
+    
+    registries.clear(); //solo limpia el vector
+    for (auto f : forces) delete f;
+    forces.clear();
 }
 void ForceRegistry::add_registry(Particle* particle, ForceGenerator* fg) {
-    if (particle!=nullptr && fg!=nullptr)
+    if (particle != nullptr && fg != nullptr) {
         registries.push_back({ particle, fg });
+        //solo meter fuerzas que no son la gravedad, la gravedad se borra manualmente en cada escena
+        if (fg != SceneManager::instance().getCurrScene()->getGravityGenerator()) {
+            forces.push_back(fg);
+        }
+    }
 }
 void ForceRegistry::remove(Particle* particle, ForceGenerator* fg) {
     registries.erase(

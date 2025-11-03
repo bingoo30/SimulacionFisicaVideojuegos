@@ -19,6 +19,7 @@
 #include "Scene0.h"
 #include "Scene1.h"
 #include "Scene2.h"
+#include "SceneManager.h"
 
 std::string display_text = "Practica 1";
 
@@ -42,12 +43,9 @@ ContactReportCallback gContactReportCallback;
 
 
 
-std::vector<Scene*> myScenes;
-int sceneAct = 0;
-
 
 void updateDisplay() {
-	display_text = myScenes[sceneAct]->getDisplayText();
+	display_text = SceneManager::instance().getCurrScene()->getDisplayText();
 }
 // Initialize physics engine
 void initPhysics(bool interactive)
@@ -87,15 +85,14 @@ void initPhysics(bool interactive)
 	//myScenes.push_back(new Scene1());
 	Scene* s0 = new Scene0();
 	s0->init();
-	myScenes.push_back(s0);
+	SceneManager::instance().add(s0);
 	Scene* s1 = new Scene1();
 	s1->init();
-	myScenes.push_back(s1);
+	SceneManager::instance().add(s1);
 	Scene* s2 = new Scene2();
 	s2->init();
-	myScenes.push_back(s2);
-	sceneAct = 0;
-	myScenes[sceneAct]->enter();
+	SceneManager::instance().add(s2);
+	SceneManager::instance().set_initial_scene(0);
 	updateDisplay();
 }
 
@@ -110,7 +107,7 @@ void stepPhysics(bool interactive, double t)
 	gScene->simulate(t);
 	gScene->fetchResults(true);
 
-	myScenes[sceneAct]->update(t);
+	SceneManager::instance().getCurrScene()->update(t);
 	std::this_thread::sleep_for(std::chrono::microseconds(10));
 }
 
@@ -122,7 +119,7 @@ void cleanupPhysics(bool interactive)
 
 	//unregister all render items
 	DeregisterAllRenderItems();
-	myScenes.clear();
+	SceneManager::instance().clean();
 
 	// Rigid Body ++++++++++++++++++++++++++++++++++++++++++
 	gScene->release();
@@ -136,19 +133,11 @@ void cleanupPhysics(bool interactive)
 	
 	gFoundation->release();
 }
-void changeScene(int newS) {
-	if (newS >= myScenes.size() || newS == sceneAct) return;
-	
-	myScenes[sceneAct]->exit();
-	sceneAct = newS;
-	myScenes[sceneAct]->enter();
-	updateDisplay();
-}
 // Function called when a key is pressed
 void keyPress(unsigned char key, const PxTransform& camera)
 {
 	PX_UNUSED(camera);
-	myScenes[sceneAct]->handle_input(key);
+	SceneManager::instance().getCurrScene()->handle_input(key);
 	switch(toupper(key))
 	{
 	case ' ':
@@ -157,7 +146,7 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	case '1':
 	case '2':
 		int newScene = key - '0'; // conversion de char a int
-		changeScene(newScene);
+		SceneManager::instance().change_scene(newScene);
 		break;
 	}
 }

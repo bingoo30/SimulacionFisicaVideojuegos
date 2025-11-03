@@ -87,7 +87,7 @@ struct Particle_Deviation_Data {
 struct Fire_Particle_Data:public Particle_Data {
 	Fire_Particle_Data() {
 		color = physx::PxVec4(1, 0, 0, 1); //color rojo
-		vel = physx::PxVec3(0, 20.0, 0); //hacia arriba
+		vel = physx::PxVec3(0, 30.0, 0); //hacia arriba
 		mode = IntegrateMode::SEMI_IMPLICIT_EULER;
 		lifetime = 1.0;
 		vol = 0.85;
@@ -98,7 +98,7 @@ struct Fire_Particle_Data:public Particle_Data {
 struct Fire_Deviation_Data : public Particle_Deviation_Data {
 	Fire_Deviation_Data() {
 		ori = physx::PxVec3(1.5f, 0.0f, 1.5f);
-		vel = physx::PxVec3(0.75f, 2.0f, 0.75f);
+		vel = physx::PxVec3(0.75f, 5.0f, 0.75f);
 		mas = 0.02;
 		dur = 0.5;
 		r_color = true;

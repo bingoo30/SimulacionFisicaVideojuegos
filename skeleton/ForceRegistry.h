@@ -27,5 +27,6 @@ protected:
         ForceGenerator* fg;
     };
     std::vector<ForceReg> registries;
+    std::vector<ForceGenerator*> forces; //para borrar las fuerzas
 #pragma endregion
 };

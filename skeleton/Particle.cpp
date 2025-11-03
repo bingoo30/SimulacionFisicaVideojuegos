@@ -47,6 +47,7 @@ void Particle::clean_force()
 
 void Particle::update_force()
 {
+	if (force.isZero()) return;
 	acc = CONST_GRAVITY + (force * (1.0/ mass));
 }
 
