@@ -4,7 +4,7 @@
 
 FireParticleSystem::FireParticleSystem(const Particle_Data& pd, const Particle_Deviation_Data& pdd, int n) : ParticleSystem(new NormalGenerator(), pd, pdd, n, physx::PxGeometryType::Enum::eSPHERE)
 {
-	spawnInterval = 0.05;
+	spawn_period = 0.05;
 }
 
 bool FireParticleSystem::check_out_of_limit(Particle* p) const

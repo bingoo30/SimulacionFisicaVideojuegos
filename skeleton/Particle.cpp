@@ -1,66 +1,81 @@
 #include "Particle.h"
 #include "ParticleSystem.h"
 using namespace physx;
-
-Particle::Particle(const physx::PxVec3& p, const physx::PxVec4& c, const physx::PxVec3& v, IntegrateMode t, float m, double lt, physx::PxShape* sh, double vol, double d):
-Entity(p, c, sh, vol, lt, m, false),
-pos_ant(p),           // posición anterior = posición inicial
-vel(v),
-acc(PxVec3(0.0)),
-damping(d),
-integr_mode(t)
+#pragma region constructoras
+Particle::Particle(const PxVec3& p, const PxVec4& c, double m, PxShape* sh, double vol, double lt, const PxVec3& v, IntegrateMode t, ParticleType pt, double d)
+	:Entity(p, c, m, sh, vol, lt),
+	vel(v), integr_mode(t), par_type(pt), damping(d), force(PxVec3(0.0)), acc(PxVec3(0.0)), last_pos(p)
 {
 }
-
-Particle::~Particle()
+Particle::Particle(const Particle& other, bool create)
+	: Entity(other.transform.p, other.color, other.mass, other.shape, other.volume, other.lifetime, create),
+	vel(other.vel),
+	integr_mode(other.integr_mode),
+	par_type(other.par_type),
+	damping(other.damping),
+	force(PxVec3(0.0)),
+	acc(other.acc),
+	last_pos(other.transform.p)
 {
-	
 }
-
-void Particle::integrate(double t)
+Particle& Particle::operator=(const Particle& other)
 {
-	if (t <= 0.0) return; // evitar dt negativo
+	if (this != &other) {
+		transform.p = other.transform.p;
+		vel = other.vel;
+		acc = other.acc;
+		mass = other.mass;
+		damping = other.damping;
+		lifetime = other.lifetime;
+		integr_mode = other.integr_mode;
+		age = 0; // Reiniciar tiempo
+		last_pos = other.transform.p;
+		color = other.color;
+	}
+	return *this;
+}
+#pragma endregion
+#pragma region update
+void Particle::update(double dt)
+{
+	update_force();
+	integrate(dt);
+	update_lifetime(dt);
+	if (is_dead())
+		return;
+	clean_force();
+}
+void Particle::integrate(double dt)
+{
+	if (dt <= 0.0) return; // evitar dt negativo
 
 	switch (integr_mode) {
 	case IntegrateMode::EULER:
-		int_Euler(t);
+		int_Euler(dt);
 		break;
 	case IntegrateMode::EULER_SEMIIMPLICIT:
-		int_Euler_Semiimplicit(t);
+		int_Euler_Semiimplicit(dt);
 		break;
 	case IntegrateMode::VERLET:
-		int_Verlet(t);
+		int_Verlet(dt);
 		break;
 	default:
 		break;
 	}
 }
-
-void Particle::set_on_death(std::function<void(ParticleSystem*, const Particle*)> cb)
+void Particle::update_force()
 {
-	on_death = cb;
+	if (!force.isZero()) {
+		acc = CONST_GRAVITY + (force / mass);
+	}
 }
-
-void Particle::trigger_death(ParticleSystem* sys) const
-{
-	if (on_death&& sys != nullptr) on_death(sys, this); 
-}
-
-void Particle::add_force(const physx::PxVec3& f)
-{
-	force += f;
-}
-
-void Particle::clean_force()
-{
-	force = PxVec3(0);
-}
-
+#pragma endregion
+#pragma region metodos de integracion
 void Particle::int_Euler(double t)
 {
 	transform.p += t * vel;
 	vel += t * acc;
-	 
+
 	calcular_damping(t);
 }
 
@@ -75,20 +90,20 @@ void Particle::int_Euler_Semiimplicit(double t)
 void Particle::int_Verlet(double t)
 {
 	// si es la primera integración, usamos Euler
-	if (pos_ant == transform.p) {
+	if (last_pos == transform.p) {
 		int_Euler(t);
 	}
 	else {
 		// guardamos posición actual
-		PxVec3 posAct = transform.p;
+		PxVec3 pos_act = transform.p;
 
-		transform.p = 2.0f * transform.p - pos_ant + acc * (t*t);
-		vel = (transform.p - pos_ant) / (2.0f * float(t));
+		transform.p = 2.0f * transform.p - last_pos + acc * (t * t);
+		vel = (transform.p - last_pos) / (2.0f * float(t));
 
 		calcular_damping(t);
 
 		// actualizamos posición anterior
-		pos_ant = posAct;
+		last_pos = pos_act;
 	}
 }
 
@@ -96,5 +111,6 @@ void Particle::calcular_damping(double t)
 {
 	vel *= pow(damping, t);
 }
+#pragma endregion
 
 

@@ -1,5 +1,6 @@
 #include "UniformGenerator.h"
 #include <memory>
+#include "Scene.h"
 using namespace std;
 using namespace physx;
 
@@ -35,8 +36,10 @@ Particle_List UniformGenerator::generate_particles(const Particle_Data& model, c
         //crear particula y insertar a la lista
         auto g = create_geometry(geo, PxVec3(model.vol));
         PxShape* sh = CreateShape(*g);
-        Particle* p = new Particle(pos, color, vel, model.type, mass, life, sh, model.vol);
+        Particle* p = new Particle(pos, color, mass, CreateShape(physx::PxSphereGeometry(model.vol)), model.vol, life, vel, model.type);
+        p->create_renderItem();
         particles.push_back(unique_ptr<Particle>(p));
+        Scene::add_particle_to_registry(p);
     }
 
     return particles;

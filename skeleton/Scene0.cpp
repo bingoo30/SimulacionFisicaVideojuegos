@@ -18,17 +18,17 @@ void Scene0::handle_input(unsigned char key)
 		break;
 	case 'J':
 		pd.color = { 1,0,0,1 };
-		pd.type = Entity::EULER;
+		pd.type = EULER;
 		create_particle(pd);
 		break;
 	case 'K':
 		pd.color = { 0,1,0,1 };
-		pd.type = Entity::EULER_SEMIIMPLICIT;
+		pd.type = EULER_SEMIIMPLICIT;
 		create_particle(pd);
 		break;
 	case 'L':
 		pd.color = { 0,0,1,1 };
-		pd.type = Entity::VERLET;
+		pd.type = VERLET;
 		create_particle(pd);
 		break;
 	case 'P':

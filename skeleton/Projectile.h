@@ -6,11 +6,11 @@ class Projectile :
 public: 
     Projectile(const physx::PxVec3& p,
         const physx::PxVec4& c,
-        const physx::PxVec3& v,
-        float m,
-        double lt, 
+        double m, 
         physx::PxShape* g,
-        double vol);
-    virtual ~Projectile();
+        double vol,
+        double lt,
+        const physx::PxVec3& v);
+    virtual ~Projectile() = default;
 };
 

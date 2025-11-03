@@ -5,18 +5,36 @@
 class Entity
 {
 public:
-	Entity(const physx::PxVec3& p, 
-		   const physx::PxVec4& c, 
-		   double m,
-		   physx::PxShape* s, 
-		   double v, 
-		   double lt);
+#pragma region constructoras y destructora
+	Entity(const physx::PxVec3& p,
+		const physx::PxVec4& c,
+		double m,
+		physx::PxShape* s,
+		double v,
+		double lt);
+
+	Entity(const physx::PxVec3& p,
+		const physx::PxVec4& c,
+		double m,
+		physx::PxShape* s,
+		double v,
+		double lt,
+		bool create);
 	virtual ~Entity();
+#pragma endregion
+#pragma region metodos publicos
+	//derregistrar el render item actual, si existe
+	void derregister_renderItem();
+	//crear un render item nuevo. Si ya existe, elimina el anterior
+	void create_renderItem();
 	virtual void update(double t);
-	bool isDead() const { return (lifetime > 0.0 && age >= lifetime); };
+	bool is_alive ()const { return alive; };
+	bool is_dead() { 
+		alive = lifetime > 0.0 && age >= lifetime; 
+		return alive; };
 
-
-
+	void kill(){ alive = false; }
+#pragma endregion
 #pragma region getters
 	RenderItem* getRenderItem() { return renderItem.get(); }; 
 	const physx::PxTransform getTransform() const { return transform; };
@@ -26,10 +44,8 @@ public:
 	double getVol() const { return volume; };
 	double getLifeTime() const { return lifetime; };
 #pragma endregion
-
 protected:
 #pragma region atributos protegidos
-
 	//componente transform
 	physx::PxTransform transform;
 	// color
@@ -44,23 +60,20 @@ protected:
 	//segundos de vida 
 	double lifetime; 
 
-
 	//tiempo acumulado
 	double age;
 	//render item
 	std::unique_ptr<RenderItem> renderItem;
+
+	bool alive = true;
 #pragma endregion
 #pragma region metodos protegidos (auxiliares)
 	//metodo virtual puro para la integracion de la entidad
 	virtual void integrate(double t) = 0;
 	//actualizacion del timer
 	void update_lifetime(double t);
-	//derregistrar el render item actual, si existe
-	void derregister_renderItem();
-	//crear un render item nuevo. Si ya existe, elimina el anterior
-	void create_renderItem();
 	//comprobar si tenemos un render item valido
-	bool isValidRenderItem() const;
+	bool is_valid_renderItem() const;
 #pragma endregion
 private:
 #pragma region atributos privados

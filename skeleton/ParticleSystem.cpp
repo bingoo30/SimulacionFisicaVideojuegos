@@ -1,7 +1,7 @@
 #include "ParticleSystem.h"
 #include <algorithm>
 using namespace std;
-ParticleSystem::ParticleSystem(Generator* g, const Particle_Data& pd, const Particle_Deviation_Data& pdd, int n, physx::PxGeometryType::Enum geo) :gen(g), particles_list(), model(pd), deviation(pdd), num(n), spawnAccumulator(0), spawnInterval(0), geometry(geo)
+ParticleSystem::ParticleSystem(Generator* g, const Particle_Data& pd, const Particle_Deviation_Data& pdd, int n, physx::PxGeometryType::Enum geo) :gen(g), particles_list(), model(pd), deviation(pdd), num(n), spawn_acu(0), spawn_period(0), geometry(geo)
 {
 }
 
@@ -26,12 +26,12 @@ void ParticleSystem::update(double dt) {
 }
 
 void ParticleSystem::derregister() {
-	for (auto& p: particles_list) DeregisterRenderItem(p->getRenderItem());
+	for (auto& p: particles_list) p->derregister_renderItem();
 }
 
 void ParticleSystem::register_particles()
 {
-    for (auto& p : particles_list) RegisterRenderItem(p->getRenderItem());
+    for (auto& p : particles_list) p->create_renderItem();
 }
 
 void ParticleSystem::add_particle(Particle* p)
@@ -41,32 +41,27 @@ void ParticleSystem::add_particle(Particle* p)
 
 void ParticleSystem::update_particles(double dt)
 {
-    for (auto it = particles_list.begin(); it != particles_list.end();)
+    for (auto& it : particles_list)
     {
-        Particle* p = it->get();  // obtener puntero
+        it->update(dt);
 
-        p->update(dt);
-
-        if (p->isDead() || check_out_of_limit(p))
+        if (it->is_dead() || check_out_of_limit(it.get()))
         {
-            DeregisterRenderItem(p->getRenderItem());
-            it = particles_list.erase(it);  // erase devuelve el siguiente iterador
+            it->kill();
         }
-        else
-        {
-            ++it;
-        }
+    }
+    for (auto& it : particles_list) {
+        if (!it->is_alive()) it->derregister_renderItem();
     }
 }
 
-
 void ParticleSystem::check_spawn(double dt)
 {
-    spawnAccumulator += dt;
-    if (spawnAccumulator >= spawnInterval) {
-        int spawnCount = (int)(spawnAccumulator / spawnInterval);
-        for (int i = 0; i < spawnCount; ++i) spawn();
-        spawnAccumulator = 0.0;
+    spawn_acu += dt;
+    if (spawn_acu >= spawn_period) {
+        int count = (int)(spawn_acu / spawn_period);
+        for (int i = 0; i < count; ++i) spawn();
+        spawn_acu = 0.0;
     }
 }
 

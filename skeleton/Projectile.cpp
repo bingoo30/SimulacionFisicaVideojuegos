@@ -2,16 +2,5 @@
 using namespace physx;
 #include "Projectile.h"
 
-Projectile::Projectile(
-    const PxVec3& p,
-    const PxVec4& c,
-    const PxVec3& v,
-    float m,
-    double lt,
-    physx::PxShape* sh,
-    double vol
-) : Particle(p, c, v, VERLET, m, lt, sh, vol) 
-{
-}
-
-Projectile::~Projectile() {}
+Projectile::Projectile(const physx::PxVec3& p, const physx::PxVec4& c, double m, physx::PxShape* g, double vol, double lt, const physx::PxVec3& v)
+:Particle(p, c, m, g, vol, lt, v, VERLET){}

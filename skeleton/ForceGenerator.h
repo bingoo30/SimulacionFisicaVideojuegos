@@ -1,6 +1,5 @@
 #pragma once
 #include "core.hpp"
-
 class Particle;
 class ForceGenerator
 {

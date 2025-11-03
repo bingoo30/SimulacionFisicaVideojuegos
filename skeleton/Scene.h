@@ -21,11 +21,13 @@ public:
 	void create_particle(const Particle_Data& pd);
 	void create_projectile(const Projectile_Data& pd, Camera* c);
 	const std::string& getDisplayText()const { return display; };
+	static void add_particle_to_registry(Particle* p, ForceGenerator* f=nullptr);
 protected:
 	std::vector<std::unique_ptr<Entity>> gObjs;
 	std::vector<std::unique_ptr<ParticleSystem>> gPartSys;
 	std::string display;
 	GravityForceGenerator* g; //gravedad: meto a todas las particulas
 	ForceRegistry* gForceReg;
+	static Scene* currentScene; //escena actual para el metodo estatico
 };
 

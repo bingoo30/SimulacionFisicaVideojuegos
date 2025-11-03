@@ -7,12 +7,13 @@ using Particle_List = std::list<std::unique_ptr<Particle>>;
 class Generator {
 public:
 	Generator(): _mt(std::random_device{}()) {};
-	virtual ~Generator() {};
-
+    virtual ~Generator() {}; 
+    //metodo virtual puro para generar particulas
 	virtual Particle_List generate_particles (const Particle_Data& model, const Particle_Deviation_Data& deviation, int n, physx::PxGeometryType::Enum geo) = 0;
-   
 protected:
-	std::mt19937 _mt;
+#pragma region atributos
+    std::mt19937 _mt;
+#pragma endregion
 #pragma region metodos auxiliares de calculo
     //funcion auxiliar para distribucion uniforme en rango [-1, 1]
     float uniform_dev(float scale) {
@@ -50,6 +51,5 @@ protected:
             return new physx::PxSphereGeometry(0.1f);
         }
     }
-
 #pragma endregion
 };
