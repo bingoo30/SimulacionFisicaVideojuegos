@@ -7,31 +7,6 @@ Particle::Particle(const physx::PxVec3& p, const physx::PxVec4& c, float m, phys
 {
 }
 
-Particle::Particle(const Particle& other, bool create) :
-	Entity(other.transform.p, other.color, other.mass, other.shape, other.volume, other.lifetime, other.mode),
-	last_pos(other.transform.p), vel(other.vel), damping(other.damping), acc(other.acc), force(PxVec3(0.0))
-{
-}
-
-Particle& Particle::operator=(const Particle& other)
-{
-	if (this != &other) {
-		transform.p = other.transform.p;
-		last_pos = other.transform.p;
-		color = other.color;
-		mass = other.mass;
-		lifetime = other.lifetime;
-		volume = other.volume;
-		mode = other.mode;
-		vel = other.vel;
-		acc = other.acc;
-		damping = other.damping;
-		age = 0; 
-		force = PxVec3(0.0);
-	}
-	return *this;
-}
-
 void Particle::integrate(double t)
 {
 	if (t <= 0.0) return; // evitar dt negativo

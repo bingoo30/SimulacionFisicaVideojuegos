@@ -34,6 +34,7 @@ Particle_List NormalGenerator::generate_particles(const Particle_Data& model, co
         auto g = create_geometry(geo, PxVec3(model.vol));
         PxShape* sh = CreateShape(*g);
         Particle* p = new Particle(pos, color, mass, CreateShape(physx::PxSphereGeometry(model.vol)), model.vol, life, vel, SEMI_IMPLICIT_EULER);
+        p->create_renderItem();
         particles.push_back(p);
     }
     return particles;

@@ -35,6 +35,7 @@ Particle_List UniformGenerator::generate_particles(const Particle_Data& model, c
         auto g = create_geometry(geo, PxVec3(model.vol, model.vol, model.vol));
         PxShape* sh = CreateShape(*g);
         Particle* p = new Particle(pos, color, mass, CreateShape(physx::PxSphereGeometry(model.vol)), model.vol, life, vel, SEMI_IMPLICIT_EULER);
+        p->create_renderItem();
         particles.push_back(p);
     }
 

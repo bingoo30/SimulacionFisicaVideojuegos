@@ -15,8 +15,6 @@ public:
         IntegrateMode md,     // tipo de integración
         double d = 0.95 // damping
     );
-    Particle(const Particle& other, bool create = true);
-    Particle& operator=(const Particle& other);
 
     ~Particle()=default;
 

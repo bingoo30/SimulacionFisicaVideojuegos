@@ -113,14 +113,14 @@ struct Rain_Particle_Data : public Particle_Data {
 		vel = physx::PxVec3(0.0f, -10.0f, 0.0f);       // caida rapida hacia abajo
 		mode = IntegrateMode::VERLET;            // integracion estable para velocidad alta
 		lifetime = 3.0;                                    // suficiente para recorrer la zona
-		vol = 0.35f;                               // gotas finas
+		vol = 0.1f;                               // gotas finas
 		mass = 0.01f;                                  // ligera
 	}
 };
 struct Rain_Deviation_Data :public Particle_Deviation_Data {
 	Rain_Deviation_Data() {
-		ori = physx::PxVec3(50.0f, 0.0f, 50.0f);
-		vel = physx::PxVec3(0.0f, 2.0f, 0.0f);
+		ori = physx::PxVec3(80.0f, 0.0f, 80.0f);
+		vel = physx::PxVec3(1.0f, 2.0f, 1.0f);
 		mas = 0.002; 
 		dur = 0.5; 
 		r_color = false;
