@@ -40,15 +40,8 @@ PxDefaultCpuDispatcher*	gDispatcher = NULL;
 PxScene*				gScene      = NULL;
 ContactReportCallback gContactReportCallback;
 
-
-
 std::vector<Scene*> myScenes;
 int sceneAct = 0;
-
-
-void updateDisplay() {
-	display_text = myScenes[sceneAct]->getDisplayText();
-}
 // Initialize physics engine
 void initPhysics(bool interactive)
 {
@@ -95,7 +88,6 @@ void initPhysics(bool interactive)
 	s2->init();
 	myScenes.push_back(s2);
 	sceneAct = 0;
-	updateDisplay();
 }
 
 
@@ -141,7 +133,14 @@ void changeScene(int newS) {
 	myScenes[sceneAct]->exit();
 	sceneAct = newS;
 	myScenes[sceneAct]->enter();
-	updateDisplay();
+
+	// Cambiar el texto mostrado
+	switch (sceneAct) {
+	case 0: display_text = "Escena 1 - invocar particulas y proyectiles"; break;
+	case 1: display_text = "Escena 2 - sistema de particulas: fuego"; break;
+	case 2: display_text = "Escena 3 - sistema de particulas: lluvia"; break;
+	default: display_text = "Escena desconocida"; break;
+	}
 }
 // Function called when a key is pressed
 void keyPress(unsigned char key, const PxTransform& camera)
@@ -166,6 +165,7 @@ void onCollision(physx::PxActor* actor1, physx::PxActor* actor2)
 	PX_UNUSED(actor1);
 	PX_UNUSED(actor2);
 }
+
 
 int main(int, const char*const*)
 {
