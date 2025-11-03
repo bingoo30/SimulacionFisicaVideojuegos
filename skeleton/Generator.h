@@ -1,19 +1,18 @@
 #pragma once
 #include <random>
 #include <list>
+#include <memory>
 #include "Particle.h"
 #include "StructForEntities.h"
-using Particle_List = std::list<std::unique_ptr<Particle>>;
+using Particle_List = std::list<Particle*>;
 class Generator {
 public:
 	Generator(): _mt(std::random_device{}()) {};
-    virtual ~Generator() {}; 
-    //metodo virtual puro para generar particulas
+	virtual ~Generator() {};
+
 	virtual Particle_List generate_particles (const Particle_Data& model, const Particle_Deviation_Data& deviation, int n, physx::PxGeometryType::Enum geo) = 0;
 protected:
-#pragma region atributos
-    std::mt19937 _mt;
-#pragma endregion
+	std::mt19937 _mt;
 #pragma region metodos auxiliares de calculo
     //funcion auxiliar para distribucion uniforme en rango [-1, 1]
     float uniform_dev(float scale) {
@@ -39,17 +38,18 @@ protected:
         return dist(_mt);
     }
 
-    physx::PxGeometry* create_geometry(physx::PxGeometryType::Enum mode, const physx::PxVec3& size) {
+    std::unique_ptr<physx::PxGeometry> create_geometry(physx::PxGeometryType::Enum mode, const physx::PxVec3& size) {
         switch (mode) {
         case physx::PxGeometryType::eSPHERE:
-            return new physx::PxSphereGeometry(size.x);
+            return std::make_unique<physx::PxSphereGeometry>(size.x);
         case physx::PxGeometryType::eCAPSULE:
-            return new physx::PxCapsuleGeometry(size.x * 0.5f, size.y * 0.25f);
+            return std::make_unique<physx::PxCapsuleGeometry>(size.x*0.5, size.y*0.25);
         case physx::PxGeometryType::eBOX:
-            return new physx::PxBoxGeometry(size.x * 0.5f, size.y * 0.5f, size.z * 0.5f);
+            return std::make_unique<physx::PxBoxGeometry>(size.x * 0.5f, size.y * 0.5f, size.z * 0.5f);
         default:
-            return new physx::PxSphereGeometry(0.1f);
+            return std::make_unique<physx::PxSphereGeometry>(0.1f);
         }
     }
+
 #pragma endregion
 };

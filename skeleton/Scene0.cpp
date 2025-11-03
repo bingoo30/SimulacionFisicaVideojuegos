@@ -3,32 +3,30 @@
 void Scene0::init()
 {
 	display = "escena 0: invocar particulas y proyectiles";
-
 }
 
 void Scene0::handle_input(unsigned char key)
 {
 	Particle_Data pd;
-	Cannon_Data cd;
 	pd.vel = { 10, 10, 0 };
 	Pistol_Bullet_Data pbd;
+	Cannon_Data cd;
 	switch (toupper(key))
 	{
 	case ' ':
-		break;
 	case 'J':
 		pd.color = { 1,0,0,1 };
-		pd.type = EULER;
+		pd.mode = EULER;
 		create_particle(pd);
 		break;
 	case 'K':
 		pd.color = { 0,1,0,1 };
-		pd.type = EULER_SEMIIMPLICIT;
+		pd.mode = SEMI_IMPLICIT_EULER;
 		create_particle(pd);
 		break;
 	case 'L':
 		pd.color = { 0,0,1,1 };
-		pd.type = VERLET;
+		pd.mode = VERLET;
 		create_particle(pd);
 		break;
 	case 'P':

@@ -10,10 +10,6 @@ void Scene1::init()
 	fpd.pos = Vector3(0, 0, 0);
 	Fire_Deviation_Data fdd;
 
-	FireParticleSystem* fps = new FireParticleSystem(fpd, fdd, 1);
-	gPartSys.push_back(std::unique_ptr<FireParticleSystem>(fps));
-}
-
-void Scene1::handle_input(unsigned char key)
-{
+	FireParticleSystem* fps = new FireParticleSystem(fpd, fdd, 5);
+	gPartSys.push_back(fps);
 }

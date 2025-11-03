@@ -1,6 +1,4 @@
 #include "NormalGenerator.h"
-#include <memory>
-#include "Scene.h"
 using namespace std;
 using namespace physx;
 
@@ -27,19 +25,16 @@ Particle_List NormalGenerator::generate_particles(const Particle_Data& model, co
 
         //masa y duracion
         double mass = model.mass + normal_dev(deviation.mas);
-        double life = model.life + normal_dev(deviation.dur);
+        double life = model.lifetime + normal_dev(deviation.dur);
 
         //color aleatorio
         PxVec4 color = deviation.r_color ? colors[random_color_index(model.color_offset, model.color_offset + model.color_tam)] : model.color;
 
         //crear particula y anadir a la lista
-        auto g = create_geometry(geo, PxVec3(model.vol, model.vol, model.vol));
+        auto g = create_geometry(geo, PxVec3(model.vol));
         PxShape* sh = CreateShape(*g);
-        Particle* p = new Particle(pos, color, mass, CreateShape(physx::PxSphereGeometry(model.vol)), model.vol, life, vel, model.type);
-        p->create_renderItem();
-        particles.push_back(unique_ptr<Particle>(p));
-        Scene::add_particle_to_registry(p);
+        Particle* p = new Particle(pos, color, mass, CreateShape(physx::PxSphereGeometry(model.vol)), model.vol, life, vel, SEMI_IMPLICIT_EULER);
+        particles.push_back(p);
     }
-
     return particles;
 }

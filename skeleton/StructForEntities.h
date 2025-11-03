@@ -9,9 +9,9 @@ struct Particle_Data
 	physx::PxVec3 pos = physx::PxVec3(0); //la posicion por defecto es el origen
 	physx::PxVec4 color = physx::PxVec4(1, 1, 1, 1); //el color por defecto es blanco
 	physx::PxVec3 vel = physx::PxVec3(0); //por defecto no hay velocidad
-	IntegrateMode type = IntegrateMode::EULER;
-	float mass = 0.5f;
-	double life = 5.0;
+	IntegrateMode mode = IntegrateMode::SEMI_IMPLICIT_EULER;
+	double mass = 0.1;
+	double lifetime = 5.0;
 	double vol = 1.0;
 	int color_offset = 0;
 	int color_tam =8;
@@ -21,21 +21,19 @@ struct Projectile_Data {
 	physx::PxVec3 pos = physx::PxVec3(0);
 	physx::PxVec4 color = physx::PxVec4(1, 1, 1, 1);
 	double offset = 0.0;
-
 	double vel_real;
 	double vel_sim;
-	physx::PxVec3 acc = physx::PxVec3(0, -10.0, 0);
-	double damping = 0.99;
-	float mass = 10.0f;
-	double life = 5.0;
+	double mass = 10.0;
+	double lifetime = 5.0;
 	double vol = 0.1;
+	IntegrateMode mode = IntegrateMode::SEMI_IMPLICIT_EULER;
 };
 //bala de una pistola
 struct Pistol_Bullet_Data : public Projectile_Data {
 	Pistol_Bullet_Data() {
 		color = physx::PxVec4(0.8f, 0.6f, 0.2f, 1.0f); //bronce
 		mass = 0.008f;
-		life = 2.5;
+		lifetime = 2.5;
 		vel_real = 350.0;
 		vel_sim = 100.0;
 		offset = 1.0;
@@ -47,7 +45,7 @@ struct Cannon_Data : public Projectile_Data {
 	Cannon_Data() {
 		color = physx::PxVec4(1.0f, 0.4f, 0.0f, 1.0f); //naranja
 		mass = 3.5f;
-		life = 1.0;
+		lifetime = 5.0;
 		vel_real = 1000.0;
 		vel_sim = 500.0;
 		offset = 5.0;
@@ -90,8 +88,8 @@ struct Fire_Particle_Data:public Particle_Data {
 	Fire_Particle_Data() {
 		color = physx::PxVec4(1, 0, 0, 1); //color rojo
 		vel = physx::PxVec3(0, 20.0, 0); //hacia arriba
-		type = IntegrateMode::EULER_SEMIIMPLICIT;
-		life = 1.0;
+		mode = IntegrateMode::SEMI_IMPLICIT_EULER;
+		lifetime = 1.0;
 		vol = 0.85;
 		color_offset = 8;
 		color_tam = 4;
@@ -113,8 +111,8 @@ struct Rain_Particle_Data : public Particle_Data {
 	Rain_Particle_Data() {
 		color = physx::PxVec4(0.0f, 0.0f, 0.8f, 1.0f); // azul claro tipico de la lluvia
 		vel = physx::PxVec3(0.0f, -10.0f, 0.0f);       // caida rapida hacia abajo
-		type = IntegrateMode::VERLET;            // integracion estable para velocidad alta
-		life = 3.0;                                    // suficiente para recorrer la zona
+		mode = IntegrateMode::VERLET;            // integracion estable para velocidad alta
+		lifetime = 3.0;                                    // suficiente para recorrer la zona
 		vol = 0.35f;                               // gotas finas
 		mass = 0.01f;                                  // ligera
 	}
@@ -122,36 +120,11 @@ struct Rain_Particle_Data : public Particle_Data {
 struct Rain_Deviation_Data :public Particle_Deviation_Data {
 	Rain_Deviation_Data() {
 		ori = physx::PxVec3(50.0f, 0.0f, 50.0f);
-		vel = physx::PxVec3(1.0f, 2.0f, 1.0f);
+		vel = physx::PxVec3(0.0f, 2.0f, 0.0f);
 		mas = 0.002; 
 		dur = 0.5; 
-		valid_box = 10.0; 
 		r_color = false;
 		r_cant = true; 
 	}
 };
-
-struct Firework_Rocket_Data : public Particle_Data {
-	Firework_Rocket_Data() {
-		color = physx::PxVec4(1.0f, 1.0f, 1.0f, 1.0f);  // blanco brillante
-		vel = physx::PxVec3(0, 40.0f, 0);               // hacia arriba
-		mass = 0.5f;
-		life = 3.0;                                     // explota a los 3 segundos
-		vol = 1.5f;
-		type = IntegrateMode::EULER_SEMIIMPLICIT;
-	}
-};
-
-struct Firework_Explosion_Deviation : public Particle_Deviation_Data {
-	Firework_Explosion_Deviation() {
-		vel = physx::PxVec3(30.0f, 20.0f, 30.0f);       // dispersion radial
-		ori = physx::PxVec3(0.0f);
-		mas = 0.1;
-		dur = 0.5;
-		r_color = true;                                 // colores aleatorios
-		r_cant = false;
-		valid_box = 5.0;
-	}
-};
 #pragma endregion
-

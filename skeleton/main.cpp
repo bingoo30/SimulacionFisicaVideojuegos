@@ -95,6 +95,7 @@ void initPhysics(bool interactive)
 	s2->init();
 	myScenes.push_back(s2);
 	sceneAct = 0;
+	myScenes[sceneAct]->enter();
 	updateDisplay();
 }
 

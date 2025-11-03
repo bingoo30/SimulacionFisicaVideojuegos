@@ -97,21 +97,23 @@ void renderCallback()
 
 	startRender(sCamera->getEye(), sCamera->getDir());
 
-	//fprintf(stderr, "Num Render Items: %d\n", static_cast<int>(gRenderItems.size()));
+	fprintf(stderr, "Num Render Items: %d\n", static_cast<int>(gRenderItems.size()));
 	for (auto it = gRenderItems.begin(); it != gRenderItems.end(); ++it)
 	{
 		const RenderItem* obj = (*it);
-		auto objTransform = obj->transform;
-		if (!objTransform)
-		{
-			auto actor = obj->actor;
-			if (actor)
+		if (obj) {
+			auto objTransform = obj->transform;
+			if (!objTransform)
 			{
-				renderShape(*obj->shape, actor->getGlobalPose(), obj->color);
-				continue;
+				auto actor = obj->actor;
+				if (actor)
+				{
+					renderShape(*obj->shape, actor->getGlobalPose(), obj->color);
+					continue;
+				}
 			}
+			renderShape(*obj->shape, objTransform ? *objTransform : physx::PxTransform(PxIdentity), obj->color);
 		}
-		renderShape(*obj->shape, objTransform ? *objTransform : physx::PxTransform(PxIdentity), obj->color);
 	}
 
 	//PxScene* scene;
