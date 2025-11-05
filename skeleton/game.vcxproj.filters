@@ -68,6 +68,9 @@
       <Filter>practica 3</Filter>
     </ClCompile>
     <ClCompile Include="WhirlwindForceGenerator.cpp" />
+    <ClCompile Include="Scene4.cpp">
+      <Filter>practica 3</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Render\Camera.h">
@@ -146,6 +149,9 @@
       <Filter>practica 3</Filter>
     </ClInclude>
     <ClInclude Include="WhirlwindForceGenerator.h" />
+    <ClInclude Include="Scene4.h">
+      <Filter>practica 3</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">

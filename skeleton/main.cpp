@@ -20,6 +20,7 @@
 #include "Scene1.h"
 #include "Scene2.h"
 #include "Scene3.h"
+#include "Scene4.h"
 #include "SceneManager.h"
 
 std::string display_text = "Practica 1";
@@ -96,6 +97,9 @@ void initPhysics(bool interactive)
 	Scene* s3 = new Scene3();
 	s3->init();
 	SceneManager::instance().add(s3);
+	Scene* s4 = new Scene4();
+	s4->init();
+	SceneManager::instance().add(s4);
 
 	SceneManager::instance().set_initial_scene(0);
 	updateDisplay();

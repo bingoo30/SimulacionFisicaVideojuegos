@@ -94,23 +94,23 @@ struct Fire_Particle_Data:public Particle_Data {
 		color = physx::PxVec4(1, 0, 0, 1); //color rojo
 		vel = physx::PxVec3(0, 20.0, 0); //hacia arriba
 		mode = IntegrateMode::SEMI_IMPLICIT_EULER;
-		lifetime = 1.0;
-		vol = 0.85;
+		lifetime = 0.75;
+		vol = 0.55;
 		color_offset = 8;
 		color_tam = 4;
-		density = 0.35; //datos reales
-		mass = 0.0005;
+		density = 0.75; //datos reales
+		mass = 0.0025;
 	}
 };
 struct Fire_Deviation_Data : public Particle_Deviation_Data {
 	Fire_Deviation_Data() {
 		ori = physx::PxVec3(1.5f, 0.0f, 1.5f);
 		vel = physx::PxVec3(0.75f, 5.0f, 0.75f);
-		mas = 0.0;
+		mas = 0.0005;
 		dur = 0.5;
 		r_color = true;
 		r_cant = true;
-		valid_box = physx::PxVec3(80, 50, 30);
+		valid_box = physx::PxVec3(80, 40, 30);
 		
 	}
 };
@@ -121,8 +121,8 @@ struct Rain_Particle_Data : public Particle_Data {
 		vel = physx::PxVec3(0.0f, -5.0f, 0.0f);       // caida rapida hacia abajo
 		mode = IntegrateMode::VERLET;            // integracion estable para velocidad alta
 		lifetime = 3.0;                                    // suficiente para recorrer la zona
-		vol = 0.1f;                               // gotas finas
-		mass = 4.2e-6;                                  // ligera
+		vol = 0.35f;                               // gotas finas
+		mass = 0.00042;                                  // ligera
 		density = 1000.0;
 	}
 };
@@ -146,14 +146,20 @@ struct Rain_Deviation_Data :public Particle_Deviation_Data {
 struct Wind_Data {
 	//velocidad del viento
     //viento moderado: 5–15 m/s; fuerte: 20–30 m/s
-	physx::PxVec3 vel = physx::PxVec3(3.0, 0.0, 0.0);
-	//area de influencia del viento
-	physx::PxVec3 area = physx::PxVec3(200,200,200);
+	physx::PxVec3 vel = physx::PxVec3(5.0, 0.0, 0.0);
+	//radio del area de influencia
+	double area = 200.0;
 	//coeficiente de rozamiento del aire
 	double k1 = 0.1;
 	//densidad 1.225 (en principio no cambia, por eso no lo pongo aqui)
 	//coeficiente de arrastre aerodinámico
 	//esferas aprox 0.47, cubos aprox 1.05, cuerpos aerodinamicos aprox 0.1–0.3
 	double dragCoef = 0.47;
+};
+
+struct Whirlwind_Data: public Wind_Data {
+	Whirlwind_Data() {
+	}
+	double K = 1.5;
 };
 #pragma endregion

@@ -7,15 +7,15 @@ void Scene3::init()
 {
 	display = "escena 3: particulas con viento";
 	Wind_Data wd;
-	wind = new WindForceGenerator(physx::PxVec3(0.0), wd.vel, wd.area, wd.k1, wd.dragCoef);
+	wind = new WindForceGenerator(physx::PxVec3(0.0), wd.vel, wd.area, wd.k1, wd.dragCoef, false);
 
-	//Fire_Particle_Data fpd;
-	//fpd.pos = Vector3(0, 0, 0);
-	//Fire_Deviation_Data fdd;
+	Fire_Particle_Data fpd;
+	fpd.pos = Vector3(0, 0, 0);
+	Fire_Deviation_Data fdd;
 
-	//FireParticleSystem* fps = new FireParticleSystem(fpd, fdd, 5);
-	//fps->add_force_generator(wind);
-	//gPartSys.push_back(fps);
+	FireParticleSystem* fps = new FireParticleSystem(fpd, fdd, 5);
+	fps->add_force_generator(wind);
+	gPartSys.push_back(fps);
 
 	//Rain_Particle_Data rpd;
 	//rpd.pos = Vector3(0, 80, 0);

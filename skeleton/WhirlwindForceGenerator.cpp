@@ -4,13 +4,13 @@ void WhirlwindForceGenerator::update_force(Particle* p)
 {
     if (p == nullptr) return;
 
-    physx::PxVec3 r = p->getPosition() - center;
-    vel = k * Vector3(-r.y, r.x, 0);
+    const physx::PxVec3 r = p->getPosition() - center;
+    vel = k * physx::PxVec3(-r.z, 50 - r.y, r.x);
 
-   // WindGenerator::updateForce(particle, dt);
+    WindForceGenerator::update_force(p);
 }
 
-WhirlwindForceGenerator::WhirlwindForceGenerator(const physx::PxVec3& pos, const physx::PxVec3& wa, double k1, double d, double r, double K)
+WhirlwindForceGenerator::WhirlwindForceGenerator(const physx::PxVec3& pos, double r, double k1, double d, double K, bool realistic):
+WindForceGenerator(pos, physx::PxVec3(0.0), r, k1, d, realistic), k(K)
 {
-    center=
 }

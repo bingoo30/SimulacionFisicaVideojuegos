@@ -4,7 +4,7 @@ class WindForceGenerator :
     public ForceGenerator 
 {
 public:
-    WindForceGenerator(const physx::PxVec3& pos, const physx::PxVec3& v, const physx::PxVec3& wa, double _k1, double d);
+    WindForceGenerator(const physx::PxVec3& pos, const physx::PxVec3& v, double r, double _k1, double d, bool moreRealistic);
     virtual ~WindForceGenerator() = default;
     void update_force(Particle* p) override;
 #pragma region getters y setters
@@ -15,8 +15,8 @@ protected:
 #pragma region atributos
     //velocidad del viento
     physx::PxVec3 vel;
-    //area del viento
-    physx::PxVec3 area;
+    //radio del area del viento
+    double radius;
     //centro
     physx::PxVec3 center;
 
@@ -26,6 +26,8 @@ protected:
 
     double density;
     double dragCoef;
+
+    bool realistic;
 #pragma endregion
 
 #pragma region metodos auxiliares
