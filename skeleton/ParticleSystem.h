@@ -1,6 +1,7 @@
 #pragma once
 #include "Particle.h"
 #include "Generator.h"
+#include "ForceGenerator.h"
 #include <list>
 #include <memory>
 #include "StructForEntities.h"
@@ -18,12 +19,14 @@ public:
 	void derregister();
 	void register_particles(); 
 	void add_generator(Generator* gen);
+	void add_force_generator(ForceGenerator* gen);
 #pragma endregion
 
 protected:
 #pragma region atributos
 	std::list<std::unique_ptr<Particle>> particles_list;
 	std::list<Generator*> generators;
+	std::list<ForceGenerator*> force_generators;
 
 	//particula modelo
 	Particle_Data model;

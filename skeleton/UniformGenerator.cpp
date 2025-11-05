@@ -1,13 +1,15 @@
 #include "UniformGenerator.h"
+#include "SceneManager.h"
 using namespace std;
 using namespace physx;
 
-Particle_List UniformGenerator::generate_particles(const Particle_Data& model, const Particle_Deviation_Data& deviation,int n, physx::PxGeometryType::Enum geo) {
+Particle_List UniformGenerator::generate_particles(const Particle_Data& model, const Particle_Deviation_Data& deviation,int n, physx::PxGeometryType::Enum geo, 
+    const std::list<ForceGenerator*>& force_generators) {
     Particle_List particles;
 
     //decidir si queremos generar exactamente n particulas nuevas
     int count = n;
-    if (deviation.r_cant) count = (int)(std::round(n * random_fraction()));
+    if (deviation.r_cant) count = (int)(round(n * random_fraction()));
 
     for (int i = 0; i < count; ++i) {
         //posicion con desviacion uniforme
@@ -34,8 +36,16 @@ Particle_List UniformGenerator::generate_particles(const Particle_Data& model, c
         //crear particula y insertar a la lista
         auto g = create_geometry(geo, PxVec3(model.vol, model.vol, model.vol));
         PxShape* sh = CreateShape(*g);
-        Particle* p = new Particle(pos, color, mass, CreateShape(physx::PxSphereGeometry(model.vol)), model.vol, life, vel, SEMI_IMPLICIT_EULER);
+        Particle* p = new Particle(pos, color, mass, CreateShape(physx::PxSphereGeometry(model.vol)), model.vol, life, vel, SEMI_IMPLICIT_EULER, model.density);
         p->create_renderItem();
+
+        SceneManager::instance().getCurrScene()->add_gravity_force_to(p);
+
+        //aplicarle las distintas fuerzas que queremos agregar a las particulas
+        for (auto f : force_generators) {
+            SceneManager::instance().getCurrScene()->add_force_to(p, f);
+        }
+
         particles.push_back(p);
     }
 

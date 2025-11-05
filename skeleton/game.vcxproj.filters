@@ -58,6 +58,15 @@
     <ClCompile Include="GravityForceGenerator.cpp">
       <Filter>practica 3</Filter>
     </ClCompile>
+    <ClCompile Include="WindForceGenerator.cpp">
+      <Filter>practica 3</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>practica 3</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene3.cpp">
+      <Filter>practica 3</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Render\Camera.h">
@@ -124,6 +133,15 @@
       <Filter>practica 3</Filter>
     </ClInclude>
     <ClInclude Include="GravityForceGenerator.h">
+      <Filter>practica 3</Filter>
+    </ClInclude>
+    <ClInclude Include="WindForceGenerator.h">
+      <Filter>practica 3</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>practica 3</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene3.h">
       <Filter>practica 3</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,4 +1,4 @@
-#include <ctype.h>
+﻿#include <ctype.h>
 
 #include <PxPhysicsAPI.h>
 
@@ -19,6 +19,7 @@
 #include "Scene0.h"
 #include "Scene1.h"
 #include "Scene2.h"
+#include "Scene3.h"
 #include "SceneManager.h"
 
 std::string display_text = "Practica 1";
@@ -92,6 +93,10 @@ void initPhysics(bool interactive)
 	Scene* s2 = new Scene2();
 	s2->init();
 	SceneManager::instance().add(s2);
+	Scene* s3 = new Scene3();
+	s3->init();
+	SceneManager::instance().add(s3);
+
 	SceneManager::instance().set_initial_scene(0);
 	updateDisplay();
 }
@@ -142,11 +147,12 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	{
 	case ' ':
 		break;
-	case '0':
-	case '1':
-	case '2':
-		int newScene = key - '0'; // conversion de char a int
-		SceneManager::instance().change_scene(newScene);
+	default:
+		if (key >= '0' && key <= '9') {
+			int newScene = key - '0';  // conversión de char a int ('0'→0, '1'→1, ...)
+			SceneManager::instance().change_scene(newScene);
+			updateDisplay();
+		}
 		break;
 	}
 }

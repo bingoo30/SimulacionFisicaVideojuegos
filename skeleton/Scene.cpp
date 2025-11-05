@@ -3,6 +3,7 @@
 #include "Entity.h"
 #include "Particle.h"
 #include "Projectile.h"
+#include "SceneManager.h"
 #include <cmath>
 using namespace physx;
 Scene::Scene(): gObjs(), gPartSys(), display("escena"), fRegistry(new ForceRegistry()), gr(new GravityForceGenerator({ 0.0, -9.8, 0.0 }))
@@ -34,7 +35,7 @@ void Scene::exit()
 		if (ps)ps->derregister();
 	}
 }
-void Scene::create_particle(const Particle_Data& pd)
+Particle* Scene::create_particle(const Particle_Data& pd)
 {
 	Particle* part = new Particle(
 		pd.pos,
@@ -44,24 +45,26 @@ void Scene::create_particle(const Particle_Data& pd)
 		pd.vol,
 		pd.lifetime,
 		pd.vel,
-		pd.mode);
+		pd.mode,
+		pd.density);
 	part->create_renderItem();
+	SceneManager::instance().getCurrScene()->add_gravity_force_to(part);
 	gObjs.push_back(part);
-
+	return part;
 }
-void Scene::create_projectile(const Projectile_Data& pd, Camera* c)
+Projectile* Scene::create_projectile(const Projectile_Data& pd, Camera* c)
 {
 	//posicion de la camara como posicion inicial
-	physx::PxVec3 startPos = c->getTransform().p;
+	PxVec3 startPos = c->getTransform().p;
 
 	//direccion;
-	physx::PxVec3 forward = c->getDir().getNormalized();
+	PxVec3 forward = c->getDir().getNormalized();
 
 	//velocidad real
-	physx::PxVec3 vr = forward * pd.vel_real;
+	PxVec3 vr = forward * pd.vel_real;
 
 	//velocidad simulada para que sea visible en pantalla
-	physx::PxVec3 vel_sim = forward * pd.vel_sim;
+	PxVec3 vel_sim = forward * pd.vel_sim;
 
 	//masa simulada para conservar la energia cinetica
 	//NOTA: al tener el vector forward normalizado, su modulo es 1, 
@@ -81,10 +84,13 @@ void Scene::create_projectile(const Projectile_Data& pd, Camera* c)
 		pd.vol,
 		pd.lifetime,
 		vel_sim,
-		pd.mode
+		pd.mode,
+		pd.density
 	);
 	proj->create_renderItem();
+	SceneManager::instance().getCurrScene()->add_gravity_force_to(proj);
 	gObjs.push_back(proj);
+	return proj;
 }
 
 void Scene::add_entity_with_renderItem(Entity* e)
@@ -108,7 +114,12 @@ void Scene::add_gravity_force_to(Particle* p)
 		fRegistry->add_registry(p, gr);
 	}
 }
-
+void Scene::add_force_to(Particle* p, ForceGenerator* f)
+{
+	if (p != nullptr) {
+		fRegistry->add_registry(p, f);
+	}
+}
 void Scene::clean()
 {
 	for (auto e : gObjs) {

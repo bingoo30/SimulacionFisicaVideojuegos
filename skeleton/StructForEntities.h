@@ -15,6 +15,8 @@ struct Particle_Data
 	double vol = 1.0;
 	int color_offset = 0;
 	int color_tam =8;
+	double density = 1.225;
+
 };
 
 struct Projectile_Data {
@@ -26,6 +28,7 @@ struct Projectile_Data {
 	double mass = 10.0;
 	double lifetime = 5.0;
 	double vol = 0.1;
+	double density = 1.225;
 	IntegrateMode mode = IntegrateMode::SEMI_IMPLICIT_EULER;
 };
 //bala de una pistola
@@ -38,18 +41,20 @@ struct Pistol_Bullet_Data : public Projectile_Data {
 		vel_sim = 100.0;
 		offset = 1.0;
 		vol = 0.2;
+		density = 10500.0;
 	}
 };
 //canon
 struct Cannon_Data : public Projectile_Data {
 	Cannon_Data() {
 		color = physx::PxVec4(1.0f, 0.4f, 0.0f, 1.0f); //naranja
-		mass = 3.5f;
+		mass = 15.6f;
 		lifetime = 5.0;
 		vel_real = 1000.0;
-		vel_sim = 500.0;
+		vel_sim = 300.0;
 		offset = 5.0;
 		vol = 7.5;
+		density = 7850.0;
 	}
 };
 
@@ -79,7 +84,7 @@ struct Particle_Deviation_Data {
 	physx::PxVec3 vel;
 	double mas;
 	double dur;
-	double valid_box;
+	physx::PxVec3 valid_box;
 	bool r_color = false;
 	bool r_cant = false;
 };
@@ -87,44 +92,68 @@ struct Particle_Deviation_Data {
 struct Fire_Particle_Data:public Particle_Data {
 	Fire_Particle_Data() {
 		color = physx::PxVec4(1, 0, 0, 1); //color rojo
-		vel = physx::PxVec3(0, 30.0, 0); //hacia arriba
+		vel = physx::PxVec3(0, 20.0, 0); //hacia arriba
 		mode = IntegrateMode::SEMI_IMPLICIT_EULER;
 		lifetime = 1.0;
 		vol = 0.85;
 		color_offset = 8;
 		color_tam = 4;
+		density = 0.35; //datos reales
+		mass = 0.0005;
 	}
 };
 struct Fire_Deviation_Data : public Particle_Deviation_Data {
 	Fire_Deviation_Data() {
 		ori = physx::PxVec3(1.5f, 0.0f, 1.5f);
 		vel = physx::PxVec3(0.75f, 5.0f, 0.75f);
-		mas = 0.02;
+		mas = 0.0;
 		dur = 0.5;
 		r_color = true;
 		r_cant = true;
-		valid_box = 5.0;
+		valid_box = physx::PxVec3(80, 50, 30);
+		
 	}
 };
 
 struct Rain_Particle_Data : public Particle_Data {
 	Rain_Particle_Data() {
 		color = physx::PxVec4(0.0f, 0.0f, 0.8f, 1.0f); // azul claro tipico de la lluvia
-		vel = physx::PxVec3(0.0f, -10.0f, 0.0f);       // caida rapida hacia abajo
+		vel = physx::PxVec3(0.0f, -5.0f, 0.0f);       // caida rapida hacia abajo
 		mode = IntegrateMode::VERLET;            // integracion estable para velocidad alta
 		lifetime = 3.0;                                    // suficiente para recorrer la zona
 		vol = 0.1f;                               // gotas finas
-		mass = 0.01f;                                  // ligera
+		mass = 4.2e-6;                                  // ligera
+		density = 1000.0;
 	}
 };
 struct Rain_Deviation_Data :public Particle_Deviation_Data {
 	Rain_Deviation_Data() {
 		ori = physx::PxVec3(80.0f, 0.0f, 80.0f);
 		vel = physx::PxVec3(1.0f, 2.0f, 1.0f);
-		mas = 0.002; 
+		mas = 0.0; 
 		dur = 0.5; 
 		r_color = false;
 		r_cant = true; 
 	}
+};
+#pragma endregion
+
+#pragma region practica 3
+#ifndef PI
+#define PI 3.14159265358979323846
+#endif
+
+struct Wind_Data {
+	//velocidad del viento
+    //viento moderado: 5–15 m/s; fuerte: 20–30 m/s
+	physx::PxVec3 vel = physx::PxVec3(3.0, 0.0, 0.0);
+	//area de influencia del viento
+	physx::PxVec3 area = physx::PxVec3(200,200,200);
+	//coeficiente de rozamiento del aire
+	double k1 = 0.1;
+	//densidad 1.225 (en principio no cambia, por eso no lo pongo aqui)
+	//coeficiente de arrastre aerodinámico
+	//esferas aprox 0.47, cubos aprox 1.05, cuerpos aerodinamicos aprox 0.1–0.3
+	double dragCoef = 0.47;
 };
 #pragma endregion

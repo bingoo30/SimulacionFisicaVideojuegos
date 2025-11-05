@@ -7,6 +7,7 @@
 #include "ForceRegistry.h"
 #include "GravityForceGenerator.h"
 #include "StructForEntities.h"
+#include "Projectile.h"
 class Scene{
 public:
 	Scene();
@@ -17,8 +18,8 @@ public:
 	virtual void enter();
 	virtual void exit();
 
-	void create_particle(const Particle_Data& pd);
-	void create_projectile(const Projectile_Data& pd, Camera* c);
+	virtual Particle* create_particle(const Particle_Data& pd);
+	virtual Projectile* create_projectile(const Projectile_Data& pd, Camera* c);
 	const std::string& getDisplayText()const { return display; };
 
 	virtual void handle_input(unsigned char key) {};
@@ -27,6 +28,7 @@ public:
 	virtual void add_particle_system(ParticleSystem* ps);
 
 	void add_gravity_force_to(Particle* p);
+	void add_force_to(Particle* p, ForceGenerator* f);
 	GravityForceGenerator* getGravityGenerator() { return gr; };
 
 protected:

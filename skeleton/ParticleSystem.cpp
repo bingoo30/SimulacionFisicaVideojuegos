@@ -18,7 +18,7 @@ ParticleSystem::~ParticleSystem()
 void ParticleSystem::spawn()
 {
     for (auto g : generators) {
-        auto new_particles = g->generate_particles(model, deviation, num, geometry);
+        auto new_particles = g->generate_particles(model, deviation, num, geometry, force_generators);
         for (auto& new_p : new_particles) {
             particles_list.push_back(std::unique_ptr<Particle>(new_p));
         }
@@ -56,6 +56,11 @@ void ParticleSystem::add_generator(Generator* gen)
 {
     if (gen != nullptr);
     generators.push_back(gen);
+}
+void ParticleSystem::add_force_generator(ForceGenerator* gen)
+{
+    if (gen != nullptr);
+    force_generators.push_back(gen);
 }
 void ParticleSystem::kill_dead_particles()
 {

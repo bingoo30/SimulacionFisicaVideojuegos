@@ -4,7 +4,8 @@
 using namespace std;
 using namespace physx;
 
-Particle_List NormalGenerator::generate_particles(const Particle_Data& model, const Particle_Deviation_Data& deviation, int n, physx::PxGeometryType::Enum geo) {
+Particle_List NormalGenerator::generate_particles(const Particle_Data& model, const Particle_Deviation_Data& deviation, int n, physx::PxGeometryType::Enum geo,
+    const std::list<ForceGenerator*>& force_generators) {
     Particle_List particles;
 
     int count = n;
@@ -35,9 +36,14 @@ Particle_List NormalGenerator::generate_particles(const Particle_Data& model, co
         //crear particula y anadir a la lista
         auto g = create_geometry(geo, PxVec3(model.vol));
         PxShape* sh = CreateShape(*g);
-        Particle* p = new Particle(pos, color, mass, CreateShape(physx::PxSphereGeometry(model.vol)), model.vol, life, vel, SEMI_IMPLICIT_EULER);
+        Particle* p = new Particle(pos, color, mass, CreateShape(physx::PxSphereGeometry(model.vol)), model.vol, life, vel, SEMI_IMPLICIT_EULER, model.density);
         p->create_renderItem();
         SceneManager::instance().getCurrScene()->add_gravity_force_to(p);
+
+        //aplicarle las distintas fuerzas que queremos agregar a las particulas
+        for (auto f : force_generators) {
+            SceneManager::instance().getCurrScene()->add_force_to(p, f);
+        }
         particles.push_back(p);
     }
     return particles;
