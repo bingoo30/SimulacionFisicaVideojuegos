@@ -7,7 +7,7 @@ void Scene3::init()
 {
 	display = "escena 3: particulas con viento";
 	Wind_Data wd;
-	wind = new WindForceGenerator(wd.vel, wd.area, wd.k1, wd.dragCoef);
+	wind = new WindForceGenerator(physx::PxVec3(0.0), wd.vel, wd.area, wd.k1, wd.dragCoef);
 
 	//Fire_Particle_Data fpd;
 	//fpd.pos = Vector3(0, 0, 0);

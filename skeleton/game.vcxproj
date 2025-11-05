@@ -275,6 +275,7 @@
     <ClCompile Include="Scene3.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="UniformGenerator.cpp" />
+    <ClCompile Include="WhirlwindForceGenerator.cpp" />
     <ClCompile Include="WindForceGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -302,6 +303,7 @@
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="StructForEntities.h" />
     <ClInclude Include="UniformGenerator.h" />
+    <ClInclude Include="WhirlwindForceGenerator.h" />
     <ClInclude Include="WindForceGenerator.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -4,7 +4,7 @@
 #include <algorithm>
 using namespace physx;
 using namespace std;
-WindForceGenerator::WindForceGenerator(const physx::PxVec3& v, const physx::PxVec3& wa, double _k1, double d):ForceGenerator(), vel(v), area(wa),k1(_k1),k2(0.0),density(1.225), dragCoef(d)
+WindForceGenerator::WindForceGenerator(const physx::PxVec3& pos, const physx::PxVec3& v, const physx::PxVec3& wa, double _k1, double d):ForceGenerator(), vel(v), area(wa),k1(_k1),k2(0.0),density(1.225), dragCoef(d), center(pos)
 {
 }
 
@@ -15,10 +15,17 @@ PxVec3 WindForceGenerator::calculate_force(Particle* p)
     // si la masa es infinita (invMass ~ 0) => no aplicar
     if (abs(1.0 / p->getMass()) < 1e-10) return PxVec3(0.0f);
 
-    // fuera del área de efecto
+    // Comprobar si está dentro del área de influencia del viento
     PxVec3 pos = p->getPosition();
-    if (abs(pos.x) > area.x || abs(pos.y) > area.y || abs(pos.z) > area.z)
+    PxVec3 relPos = pos - center;
+
+    if (abs(relPos.x) > area.x * 0.5 ||
+        abs(relPos.y) > area.y * 0.5 ||
+        abs(relPos.z) > area.z * 0.5)
+    {
+        // fuera del área: sin viento
         return PxVec3(0.0f);
+    }
 
     //radio
     double r = p->getRadius();
