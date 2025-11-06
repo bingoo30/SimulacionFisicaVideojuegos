@@ -8,11 +8,6 @@ void ProjectIntro::init()
 	display = "Bingcheng Wang | Simulación física de videojuegos";
 }
 
-void ProjectIntro::update(double t)
-{
-
-}
-
 void ProjectIntro::render_interface()
 {
 	int width = glutGet(GLUT_WINDOW_WIDTH);
@@ -31,9 +26,7 @@ void ProjectIntro::handle_input(unsigned char key)
 	case ' ':
 		break;
 	case '\r': //tecla intro
-
-		SceneManager::instance().change_scene(States::SELECT_LEVELS);
-		
+		SceneManager::instance().change_scene(States::DEMO_SCENARIO);
 		break;
 	}
 }

@@ -1,9 +1,9 @@
 #pragma once
 #include "Scene.h"
-class ProjectIntro: public Scene{
+class ProjectScenario: public Scene{
 public:
 #pragma region constructora e inicializacion
-	ProjectIntro() = default;
+	ProjectScenario() = default;
 	void init() override;
 #pragma endregion
 #pragma region metodos publicos
@@ -12,7 +12,9 @@ public:
 #pragma endregion
 protected:
 #pragma region atributos
-	std::string title;
-	std::string subtitle;
+	std::string explication_tramps;
+	std::string instructions;
 #pragma endregion
+private:
+	void create_demo_platforms(Platform_Data& pd, Fire_Particle_Data& fpd, const Fire_Deviation_Data& fdd, double offset, int count);
 };

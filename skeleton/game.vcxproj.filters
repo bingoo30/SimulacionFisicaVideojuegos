@@ -70,11 +70,16 @@
     <ClCompile Include="Scene4.cpp">
       <Filter>practica 3</Filter>
     </ClCompile>
-    <ClCompile Include="ExplosionForceGenerator.cpp" />
     <ClCompile Include="WhirlwindForceGenerator.cpp">
       <Filter>practica 3</Filter>
     </ClCompile>
     <ClCompile Include="ProjectIntro.cpp">
+      <Filter>Proyecto intermedio</Filter>
+    </ClCompile>
+    <ClCompile Include="ExplosionForceGenerator.cpp">
+      <Filter>practica 3</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjectScenario.cpp">
       <Filter>Proyecto intermedio</Filter>
     </ClCompile>
   </ItemGroup>
@@ -154,7 +159,6 @@
     <ClInclude Include="Scene4.h">
       <Filter>practica 3</Filter>
     </ClInclude>
-    <ClInclude Include="ExplosionForceGenerator.h" />
     <ClInclude Include="WhirlwindForceGenerator.h">
       <Filter>practica 3</Filter>
     </ClInclude>
@@ -162,6 +166,12 @@
       <Filter>practica 1</Filter>
     </ClInclude>
     <ClInclude Include="ProjectIntro.h">
+      <Filter>Proyecto intermedio</Filter>
+    </ClInclude>
+    <ClInclude Include="ExplosionForceGenerator.h">
+      <Filter>practica 3</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectScenario.h">
       <Filter>Proyecto intermedio</Filter>
     </ClInclude>
   </ItemGroup>

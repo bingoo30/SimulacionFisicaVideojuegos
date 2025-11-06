@@ -3,8 +3,7 @@
 using namespace std;
 using namespace physx;
 
-Particle_List UniformGenerator::generate_particles(const Particle_Data& model, const Particle_Deviation_Data& deviation,int n, physx::PxGeometryType::Enum geo, 
-    const std::list<ForceGenerator*>& force_generators) {
+Particle_List UniformGenerator::generate_particles(const Particle_Data& model, const Particle_Deviation_Data& deviation,int n, physx::PxGeometryType::Enum geo) {
     Particle_List particles;
 
     //decidir si queremos generar exactamente n particulas nuevas
@@ -40,12 +39,6 @@ Particle_List UniformGenerator::generate_particles(const Particle_Data& model, c
         p->create_renderItem();
 
         SceneManager::instance().getCurrScene()->add_gravity_force_to(p);
-
-        //aplicarle las distintas fuerzas que queremos agregar a las particulas
-        for (auto f : force_generators) {
-            SceneManager::instance().getCurrScene()->add_force_to(p, f);
-        }
-
         particles.push_back(p);
     }
 

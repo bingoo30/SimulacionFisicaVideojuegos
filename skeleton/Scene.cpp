@@ -52,6 +52,31 @@ Particle* Scene::create_particle(const Particle_Data& pd)
 	gObjs.push_back(part);
 	return part;
 }
+Particle* Scene::create_Platform(const Platform_Data& pd)
+{
+	// Crear la forma del cubo
+	physx::PxShape* shape = CreateShape(physx::PxBoxGeometry(
+		pd.volx,
+		pd.voly,
+		pd.volz));
+
+	// Crear la partícula con esa forma
+	Particle* part = new Particle(
+		pd.pos,
+		pd.color,
+		pd.mass,
+		shape,
+		pd.vol,
+		pd.lifetime,
+		pd.vel,
+		pd.mode,
+		pd.density
+	);
+
+	//sin gravedad, es estatico
+	gObjs.push_back(part);
+	return part;
+}
 Projectile* Scene::create_projectile(const Projectile_Data& pd, Camera* c)
 {
 	//posicion de la camara como posicion inicial
@@ -114,12 +139,6 @@ void Scene::add_gravity_force_to(Particle* p)
 		fRegistry->add_registry(p, gr);
 	}
 }
-void Scene::add_force_to(Particle* p, ForceGenerator* f)
-{
-	if (p != nullptr) {
-		fRegistry->add_registry(p, f);
-	}
-}
 void Scene::clean()
 {
 	for (auto e : gObjs) {
@@ -145,11 +164,11 @@ void Scene::update(double t) {
 	fRegistry->update_forces(t);
 
 	for (auto& e : gObjs) {
-		if (e)e->update(t);
+		if (e)e->update(t);  
 	}
 
 	for (auto ps : gPartSys) {
-		if (ps)ps->update(t);
+		if (ps)ps->update(t); // cada sistema aplica sus propias fuerzas
 	}
 
 	for (auto it = gObjs.begin(); it != gObjs.end(); ) {

@@ -2,7 +2,7 @@
 #include <PxPhysicsAPI.h>
 #include "RenderUtils.hpp"
 #include <memory>
-enum IntegrateMode{EULER, SEMI_IMPLICIT_EULER, VERLET};
+enum IntegrateMode{EULER, SEMI_IMPLICIT_EULER, VERLET, NONE};
 class Entity
 {
 public:

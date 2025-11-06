@@ -11,8 +11,7 @@ public:
 	Generator(): _mt(std::random_device{}()) {};
 	virtual ~Generator() {};
 
-	virtual Particle_List generate_particles (const Particle_Data& model, const Particle_Deviation_Data& deviation, int n, physx::PxGeometryType::Enum geo, 
-        const std::list<ForceGenerator*>& force_generators) = 0;
+	virtual Particle_List generate_particles (const Particle_Data& model, const Particle_Deviation_Data& deviation, int n, physx::PxGeometryType::Enum geo) = 0;
 protected:
 	std::mt19937 _mt;
 #pragma region metodos auxiliares de calculo

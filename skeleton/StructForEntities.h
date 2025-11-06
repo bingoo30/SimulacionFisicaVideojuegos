@@ -63,7 +63,7 @@ inline physx::PxVec3 CONST_GRAVITY = physx::PxVec3(0.0f, -10.0f, 0.0f);
 
 #pragma region practica 2
 //array de colores
-inline const physx::PxVec4 colors[12] = {
+inline const physx::PxVec4 colors[20] = {
 	physx::PxVec4(1, 0, 0, 1), // rojo
 	physx::PxVec4(0, 1, 0, 1), // verde
 	physx::PxVec4(0, 0, 1, 1), // azul
@@ -72,11 +72,21 @@ inline const physx::PxVec4 colors[12] = {
 	physx::PxVec4(0, 1, 1, 1), // cian
 	physx::PxVec4(0, 0, 0, 1), // negro
 	physx::PxVec4(1, 1, 1, 1), // blanco
-	//a partir de aqui es el color del fuego
+	//a partir de aqui es una escala de rojos
 	physx::PxVec4(0.5f, 0.0f, 0.0f, 1.0f),  // rojo oscuro
 	physx::PxVec4(0.75f, 0.05f, 0.0f, 1.0f), // rojo intenso
 	physx::PxVec4(0.9f, 0.1f, 0.0f, 1.0f),   // rojo brillante
-	physx::PxVec4(1.0f, 0.2f, 0.1f, 1.0f)    // rojo claro
+	physx::PxVec4(1.0f, 0.2f, 0.1f, 1.0f),    // rojo claro
+	//a partir de aqui es una escala de verdes
+	physx::PxVec4(0.0f, 0.3f, 0.0f, 1.0f),   // verde oscuro (bosque)
+	physx::PxVec4(0.0f, 0.5f, 0.0f, 1.0f),   // verde medio (hierba)
+	physx::PxVec4(0.2f, 0.7f, 0.2f, 1.0f),   // verde brillante (hoja fresca)
+	physx::PxVec4(0.5f, 1.0f, 0.5f, 1.0f),   // verde claro (luminoso)
+	//a partir de aqui es una escala de morados
+	physx::PxVec4(0.2f, 0.0f, 0.3f, 1.0f),   // púrpura oscuro (violeta profundo)
+	physx::PxVec4(0.4f, 0.0f, 0.6f, 1.0f),   // morado intenso
+	physx::PxVec4(0.6f, 0.2f, 0.8f, 1.0f),   // lavanda brillante
+	physx::PxVec4(0.8f, 0.5f, 1.0f, 1.0f)   // violeta claro (pastel)
 };
 
 struct Particle_Deviation_Data {
@@ -110,7 +120,7 @@ struct Fire_Deviation_Data : public Particle_Deviation_Data {
 		dur = 0.5;
 		r_color = true;
 		r_cant = true;
-		valid_box = physx::PxVec3(80, 40, 30);
+		valid_box = physx::PxVec3(60, 40, 30);
 		
 	}
 };
@@ -170,3 +180,21 @@ struct Explosion_Data {
 	double tau = 1.0;
 };
 #pragma endregion
+
+#pragma region proyecto
+struct Platform_Data:public Particle_Data {
+	Platform_Data() {
+		color_offset = 12;
+		color = physx::PxVec4(0.5f, 1.0f, 0.0f, 1.0f);
+		mode = IntegrateMode::NONE;
+		mass = 10.0;
+		lifetime = -1;
+		color_tam = 4;
+		density = 1.225;
+	}
+	double volx =1.0;
+	double voly=1.0;
+	double volz=1.0;
+};
+#pragma endregion
+

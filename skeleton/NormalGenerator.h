@@ -8,7 +8,6 @@ public:
 	virtual ~NormalGenerator() = default;
 #pragma endregion 
 #pragma region metodos
-	Particle_List generate_particles(const Particle_Data& model, const Particle_Deviation_Data& deviation, int n, physx::PxGeometryType::Enum geo,
-		const std::list<ForceGenerator*>& force_generators) override;
+	Particle_List generate_particles(const Particle_Data& model, const Particle_Deviation_Data& deviation, int n, physx::PxGeometryType::Enum geo) override;
 #pragma endregion
 };

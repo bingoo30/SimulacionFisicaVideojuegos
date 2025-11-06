@@ -1,7 +1,7 @@
 #include "ParticleSystem.h"
 #include <algorithm>
 using namespace std;
-ParticleSystem::ParticleSystem(const Particle_Data& pd, const Particle_Deviation_Data& pdd, int n, physx::PxGeometryType::Enum geo) :generators(), particles_list(), model(pd), deviation(pdd), num(n), geometry(geo)
+ParticleSystem::ParticleSystem(const Particle_Data& pd, const Particle_Deviation_Data& pdd, int n, physx::PxGeometryType::Enum geo) :generators(), particles_list(), model(pd), deviation(pdd), num(n), geometry(geo), local_registry(ForceRegistry()), force_generators()
 {
 }
 
@@ -18,8 +18,13 @@ ParticleSystem::~ParticleSystem()
 void ParticleSystem::spawn()
 {
     for (auto g : generators) {
-        auto new_particles = g->generate_particles(model, deviation, num, geometry, force_generators);
+        auto new_particles = g->generate_particles(model, deviation, num, geometry);
         for (auto& new_p : new_particles) {
+            // registrar todas las fuerzas locales sobre esta partícula
+            for (auto fg : force_generators) {
+                local_registry.add_registry(new_p, fg);
+            }
+
             particles_list.push_back(std::unique_ptr<Particle>(new_p));
         }
         new_particles.clear();
@@ -27,9 +32,16 @@ void ParticleSystem::spawn()
 }
 
 void ParticleSystem::update(double dt) {
-    for (auto& p : particles_list) p->update(dt);
+    // actualiza las fuerzas de este sistema
+    local_registry.update_forces(dt);
+
+    // actualiza el movimiento de las partículas
+    for (auto& p : particles_list)
+        p->update(dt);
+
     kill_dead_particles();
 
+    // re-generar partículas si toca
     spawn_acu += dt;
     if (spawn_acu >= spawn_period) {
         spawn();

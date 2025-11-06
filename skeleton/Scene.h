@@ -20,6 +20,7 @@ public:
 	virtual void exit();
 
 	virtual Particle* create_particle(const Particle_Data& pd);
+	virtual Particle* create_Platform(const Platform_Data& pd);
 	virtual Projectile* create_projectile(const Projectile_Data& pd, Camera* c);
 	const std::string& getDisplayText()const { return display; };
 
@@ -29,7 +30,6 @@ public:
 	virtual void add_particle_system(ParticleSystem* ps);
 
 	void add_gravity_force_to(Particle* p);
-	void add_force_to(Particle* p, ForceGenerator* f);
 	GravityForceGenerator* getGravityGenerator() { return gr; };
 
 protected:

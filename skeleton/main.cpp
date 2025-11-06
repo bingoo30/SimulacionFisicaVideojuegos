@@ -24,6 +24,7 @@
 #include "SceneManager.h"
 
 #include "ProjectIntro.h"
+#include "ProjectScenario.h"
 std::string display_text = "";
 
 
@@ -111,6 +112,10 @@ void initPhysics(bool interactive)
 	Scene* intro = new ProjectIntro();
 	intro->init();
 	SceneManager::instance().add(intro);
+
+	Scene* scenario = new ProjectScenario();
+	scenario->init();
+	SceneManager::instance().add(scenario);
 
 	Scene* s0 = new Scene0();
 	s0->init();

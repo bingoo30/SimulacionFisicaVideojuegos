@@ -266,6 +266,7 @@
     <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="ProjectIntro.cpp" />
+    <ClCompile Include="ProjectScenario.cpp" />
     <ClCompile Include="RainParticleSystem.cpp" />
     <ClCompile Include="RenderUtils.cpp" />
     <ClCompile Include="Render\Camera.cpp" />
@@ -296,6 +297,7 @@
     <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="ProjectIntro.h" />
+    <ClInclude Include="ProjectScenario.h" />
     <ClInclude Include="RainParticleSystem.h" />
     <ClInclude Include="RenderUtils.hpp" />
     <ClInclude Include="Render\Camera.h" />

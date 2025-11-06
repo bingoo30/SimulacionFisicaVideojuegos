@@ -25,7 +25,8 @@ void Entity::create_renderItem()
 	renderItemRegisted = true;
 }
 bool Entity::check_death() {
-	alive = !(lifetime > 0.0 && age >= lifetime);
+	//esta vivo si no tiene tiempo de vida o cuando ya se acabo su tiempo
+	alive = lifetime == -1.0 || !(lifetime > 0.0 && age >= lifetime);
 	return alive;
 };
 void Entity::update_lifetime(double t)

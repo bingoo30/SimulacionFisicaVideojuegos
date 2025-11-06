@@ -4,8 +4,8 @@
 
 enum States {
     INTRO,
-    SELECT_LEVELS,
-    LEVEL1,
+    DEMO_SCENARIO,
+    DEMO_CHARACTER,
     VICTORY,
     GAME_OVER,
     LAST_STATE,

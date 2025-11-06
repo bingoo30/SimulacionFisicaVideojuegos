@@ -5,6 +5,7 @@
 #include <list>
 #include <memory>
 #include "StructForEntities.h"
+#include"ForceRegistry.h"
 class ParticleSystem
 {
 public:
@@ -27,6 +28,7 @@ protected:
 	std::list<std::unique_ptr<Particle>> particles_list;
 	std::list<Generator*> generators;
 	std::list<ForceGenerator*> force_generators;
+	ForceRegistry local_registry;
 
 	//particula modelo
 	Particle_Data model;
