@@ -29,7 +29,7 @@
 
 #include "Render.h"
 #include <assert.h>
-
+#include "../SceneManager.h"
 using namespace physx;
 
 static float gCylinderData[]={
@@ -289,6 +289,8 @@ void startRender(const PxVec3& cameraEye, const PxVec3& cameraDir, PxReal clipNe
 	// Display text
 	glColor4f(1.0f, 0.2f, 0.2f, 1.0f);
 	drawText(display_text, 0, 0);
+	//renderizar la interfaz de la escena actual
+	SceneManager::instance().getCurrScene()->render_interface();
 
 	// Setup camera
 	glMatrixMode(GL_PROJECTION);
@@ -403,6 +405,68 @@ void drawText(const std::string& text, int x, int y)
 	glPopMatrix();
 	glMatrixMode(GL_PROJECTION);
 	glLoadMatrixd(matrix);
+	glMatrixMode(GL_MODELVIEW);
+}
+
+void drawText(const std::string& text, float x, float y, int tam, bool centered, bool bold)
+{
+	//fuente
+	void* font = GLUT_STROKE_ROMAN;
+
+	int width = glutGet(GLUT_WINDOW_WIDTH);
+	int height = glutGet(GLUT_WINDOW_HEIGHT);
+
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+	glOrtho(0, width, 0, height, -1, 1);
+
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glLoadIdentity();
+	glDisable(GL_DEPTH_TEST);
+
+	//escalal
+	float scale = tam / 100.0f;
+
+	//ancho total
+	float textWidth = 0.0f;
+	for (char c : text)
+		textWidth += glutStrokeWidth(font, c);
+
+	float drawX = x;
+	if (centered)
+		drawX -= (textWidth * scale) / 2.0f;
+
+	glTranslatef(drawX, y, 0.0f);
+	glScalef(scale, scale, 1.0f);
+
+	// Dibujar texto (negrita simulada si aplica)
+	if (bold)
+	{
+		for (float dx = -1.2f; dx <= 1.2f; dx += 0.3f)
+		{
+			for (float dy = -0.3f; dy <= 0.3f; dy += 0.3f)
+			{
+				glPushMatrix();
+				glTranslatef(dx, dy, 0.0f);
+				for (char c : text)
+					glutStrokeCharacter(font, c);
+				glPopMatrix();
+			}
+		}
+	}
+	else
+	{
+		for (char c : text)
+			glutStrokeCharacter(font, c);
+	}
+
+	//Restaurar estado
+	glEnable(GL_DEPTH_TEST);
+	glPopMatrix();
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);
 }
 

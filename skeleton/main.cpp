@@ -23,7 +23,8 @@
 #include "Scene4.h"
 #include "SceneManager.h"
 
-std::string display_text = "Practica 1";
+#include "ProjectIntro.h"
+std::string display_text = "";
 
 
 using namespace physx;
@@ -84,24 +85,37 @@ void initPhysics(bool interactive)
 	//RenderItem* bolaZ = new RenderItem(CreateShape(PxSphereGeometry(1)), new PxTransform(0.0f, 0.0f, 20.0f), Vector4(0.0f, 0.0f, 1.0f, 1.0f));
 	//RegisterRenderItem(bolaZ);
 
-	//myScenes.push_back(new Scene1());
+
+	//practica
+	////myScenes.push_back(new Scene1());
+	//Scene* s0 = new Scene0();
+	//s0->init();
+	//SceneManager::instance().add(s0);
+	//Scene* s1 = new Scene1();
+	//s1->init();
+	//SceneManager::instance().add(s1);
+	//Scene* s2 = new Scene2();
+	//s2->init();
+	//SceneManager::instance().add(s2);
+	//Scene* s3 = new Scene3();
+	//s3->init();
+	//SceneManager::instance().add(s3);
+	//Scene* s4 = new Scene4();
+	//s4->init();
+	//SceneManager::instance().add(s4);
+
+	//SceneManager::instance().set_initial_scene(0);
+
+
+	//proyecto
+	Scene* intro = new ProjectIntro();
+	intro->init();
+	SceneManager::instance().add(intro);
+
 	Scene* s0 = new Scene0();
 	s0->init();
 	SceneManager::instance().add(s0);
-	Scene* s1 = new Scene1();
-	s1->init();
-	SceneManager::instance().add(s1);
-	Scene* s2 = new Scene2();
-	s2->init();
-	SceneManager::instance().add(s2);
-	Scene* s3 = new Scene3();
-	s3->init();
-	SceneManager::instance().add(s3);
-	Scene* s4 = new Scene4();
-	s4->init();
-	SceneManager::instance().add(s4);
-
-	SceneManager::instance().set_initial_scene(0);
+	SceneManager::instance().set_initial_scene(States::INTRO);
 	updateDisplay();
 }
 
@@ -117,6 +131,7 @@ void stepPhysics(bool interactive, double t)
 	gScene->fetchResults(true);
 
 	SceneManager::instance().getCurrScene()->update(t);
+	updateDisplay();
 	std::this_thread::sleep_for(std::chrono::microseconds(10));
 }
 
@@ -152,11 +167,11 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	case ' ':
 		break;
 	default:
-		if (key >= '0' && key <= '9') {
-			int newScene = key - '0';  // conversión de char a int ('0'→0, '1'→1, ...)
-			SceneManager::instance().change_scene(newScene);
-			updateDisplay();
-		}
+		//if (key >= '0' && key <= '9') {
+		//	int newScene = key - '0';  // conversión de char a int ('0'→0, '1'→1, ...)
+		//	SceneManager::instance().change_scene(newScene);
+		//	updateDisplay();
+		//}
 		break;
 	}
 }

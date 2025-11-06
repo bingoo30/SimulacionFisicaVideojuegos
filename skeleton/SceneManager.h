@@ -2,6 +2,14 @@
 #include <vector>
 #include "Scene.h"
 
+enum States {
+    INTRO,
+    SELECT_LEVELS,
+    LEVEL1,
+    VICTORY,
+    GAME_OVER,
+    LAST_STATE,
+};
 class SceneManager
 {
 public:
@@ -16,6 +24,13 @@ public:
     void clean();
 
 private:
+#pragma region atributos 
+    //escenas que tengo en el juego
+    std::vector<Scene*> scenes;
+    //escena actual
+    int currScene = 0;
+#pragma endregion
+
     //constructor y destructor privados
     SceneManager();
     ~SceneManager();
@@ -23,10 +38,6 @@ private:
     //evitar copia o asignacion
     SceneManager(const SceneManager&) = delete;
     SceneManager& operator=(const SceneManager&) = delete;
-
-private:
-    std::vector<Scene*> scenes;
-    int currScene = 0;
 };
 
 

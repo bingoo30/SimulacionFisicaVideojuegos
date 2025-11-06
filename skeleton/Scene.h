@@ -15,6 +15,7 @@ public:
 	void clean();
 	virtual void init() =0;
 	virtual void update(double t);
+	virtual void render_interface(){};
 	virtual void enter();
 	virtual void exit();
 

@@ -74,6 +74,9 @@
     <ClCompile Include="WhirlwindForceGenerator.cpp">
       <Filter>practica 3</Filter>
     </ClCompile>
+    <ClCompile Include="ProjectIntro.cpp">
+      <Filter>Proyecto intermedio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Render\Camera.h">
@@ -158,6 +161,9 @@
     <ClInclude Include="Scene.h">
       <Filter>practica 1</Filter>
     </ClInclude>
+    <ClInclude Include="ProjectIntro.h">
+      <Filter>Proyecto intermedio</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">
@@ -174,6 +180,9 @@
     </Filter>
     <Filter Include="practica 3">
       <UniqueIdentifier>{d0cbfbef-6796-4f5c-b449-7c3e26beebe4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Proyecto intermedio">
+      <UniqueIdentifier>{117362be-bbe0-437e-b314-03ee9597d1c5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
