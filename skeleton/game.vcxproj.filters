@@ -82,6 +82,8 @@
     <ClCompile Include="ProjectScenario.cpp">
       <Filter>Proyecto intermedio</Filter>
     </ClCompile>
+    <ClCompile Include="ProjectCharacterDemo.cpp" />
+    <ClCompile Include="Character.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Render\Camera.h">
@@ -174,6 +176,8 @@
     <ClInclude Include="ProjectScenario.h">
       <Filter>Proyecto intermedio</Filter>
     </ClInclude>
+    <ClInclude Include="ProjectCharacterDemo.h" />
+    <ClInclude Include="Character.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">

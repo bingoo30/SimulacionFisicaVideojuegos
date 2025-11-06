@@ -20,11 +20,14 @@ public:
 	virtual void exit();
 
 	virtual Particle* create_particle(const Particle_Data& pd);
+	virtual Particle* create_capsule_particle(const Particle_Data& pd);
 	virtual Particle* create_Platform(const Platform_Data& pd);
 	virtual Projectile* create_projectile(const Projectile_Data& pd, Camera* c);
 	const std::string& getDisplayText()const { return display; };
 
 	virtual void handle_input(unsigned char key) {};
+	virtual void handle_special_input(int key) {};
+	virtual void handle_key_up(unsigned char key) {};
 
 	virtual void add_entity_with_renderItem(Entity* e);
 	virtual void add_particle_system(ParticleSystem* ps);

@@ -25,6 +25,7 @@
 
 #include "ProjectIntro.h"
 #include "ProjectScenario.h"
+#include "ProjectCharacterDemo.h"
 std::string display_text = "";
 
 
@@ -117,9 +118,10 @@ void initPhysics(bool interactive)
 	scenario->init();
 	SceneManager::instance().add(scenario);
 
-	Scene* s0 = new Scene0();
-	s0->init();
-	SceneManager::instance().add(s0);
+	Scene* demo = new ProjectCharacterDemo();
+	demo->init();
+	SceneManager::instance().add(demo);
+
 	SceneManager::instance().set_initial_scene(States::INTRO);
 	updateDisplay();
 }
@@ -180,7 +182,16 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		break;
 	}
 }
-
+// Function called when a key is up
+void keyUp(unsigned char key)
+{
+	SceneManager::instance().getCurrScene()->handle_key_up(key);
+}
+// Function called when a special key is pressed
+void specialKeyPress(int key)
+{
+	SceneManager::instance().getCurrScene()->handle_special_input(key);
+}
 void onCollision(physx::PxActor* actor1, physx::PxActor* actor2)
 {
 	PX_UNUSED(actor1);

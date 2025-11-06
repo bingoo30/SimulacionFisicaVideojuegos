@@ -117,6 +117,32 @@ PxVec3 Camera::getDir() const
 	return mDir; 
 }
 
+bool useOrtho = true;
 
+void Camera::setupCamera()
+{
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+
+	float aspect = (float)glutGet(GLUT_WINDOW_WIDTH) / (float)glutGet(GLUT_WINDOW_HEIGHT);
+
+	if (useOrtho)
+	{
+		float orthoSize = 50.0f;
+		glOrtho(-orthoSize * aspect, orthoSize * aspect, -orthoSize, orthoSize, 0.1f, 1000.0f);
+	}
+	else
+	{
+		gluPerspective(45.0f, aspect, 0.1f, 1000.0f);
+	}
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
+	auto eye = sCamera->getEye();
+	auto dir = sCamera->getDir();
+	PxVec3 center = eye + dir;
+	gluLookAt(eye.x, eye.y, eye.z, center.x, center.y, center.z, 0.0f, 1.0f, 0.0f);
+}
 }
 

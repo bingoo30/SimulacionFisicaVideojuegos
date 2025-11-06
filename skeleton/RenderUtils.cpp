@@ -12,6 +12,8 @@ extern void initPhysics(bool interactive);
 extern void stepPhysics(bool interactive, double t);	
 extern void cleanupPhysics(bool interactive);
 extern void keyPress(unsigned char key, const PxTransform& camera);
+extern void keyUp(unsigned char key);
+extern void specialKeyPress(int key);
 extern PxPhysics* gPhysics;
 extern PxMaterial* gMaterial;
 
@@ -61,6 +63,20 @@ void keyboardCallback(unsigned char key, int x, int y)
 		keyPress(key, sCamera->getTransform());
 }
 
+void specialKeyCallback(int key, int x, int y)
+{
+	PX_UNUSED(x);
+	PX_UNUSED(y);
+	specialKeyPress(key);
+}
+
+// Teclas normales al soltar
+void keyboardUpCallback(unsigned char key, int x, int y)
+{
+	PX_UNUSED(x);
+	PX_UNUSED(y);
+	keyUp(key);
+}
 void mouseCallback(int button, int state, int x, int y)
 {
 	sCamera->handleMouse(button, state, x, y);
@@ -149,7 +165,9 @@ void renderLoop()
 
 	glutIdleFunc(idleCallback);
 	glutDisplayFunc(renderCallback);
-	glutKeyboardFunc(keyboardCallback);
+	glutKeyboardFunc(keyboardCallback);          // teclas normales
+	glutKeyboardUpFunc(keyboardUpCallback);           // teclas normales al soltar
+	glutSpecialFunc(specialKeyCallback);    // teclas especiales (flechas, F1–F12, etc.)
 	glutMouseFunc(mouseCallback);
 	glutMotionFunc(motionCallback);
 	motionCallback(0,0);

@@ -52,6 +52,23 @@ Particle* Scene::create_particle(const Particle_Data& pd)
 	gObjs.push_back(part);
 	return part;
 }
+Particle* Scene::create_capsule_particle(const Particle_Data& pd)
+{
+	Particle* part = new Particle(
+		pd.pos,
+		pd.color,
+		pd.mass,
+		CreateShape(physx::PxCapsuleGeometry(pd.vol*0.5, pd.vol*0.25)),
+		pd.vol,
+		pd.lifetime,
+		pd.vel,
+		pd.mode,
+		pd.density);
+	part->create_renderItem();
+	SceneManager::instance().getCurrScene()->add_gravity_force_to(part);
+	gObjs.push_back(part);
+	return part;
+}
 Particle* Scene::create_Platform(const Platform_Data& pd)
 {
 	// Crear la forma del cubo
