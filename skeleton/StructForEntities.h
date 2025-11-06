@@ -144,6 +144,7 @@ struct Rain_Deviation_Data :public Particle_Deviation_Data {
 #endif
 
 struct Wind_Data {
+	physx::PxVec3 center = physx::PxVec3(0.0, 0.0, 0.0);
 	//velocidad del viento
     //viento moderado: 5–15 m/s; fuerte: 20–30 m/s
 	physx::PxVec3 vel = physx::PxVec3(5.0, 0.0, 0.0);
@@ -161,5 +162,11 @@ struct Whirlwind_Data: public Wind_Data {
 	Whirlwind_Data() {
 	}
 	double K = 1.5;
+};
+struct Explosion_Data {
+	physx::PxVec3 center = physx::PxVec3(0.0, 0.0, 0.0);
+	double radius = 20.0;
+	double K = 8000.0;
+	double tau = 1.0;
 };
 #pragma endregion

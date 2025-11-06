@@ -8,7 +8,7 @@ WindForceGenerator::WindForceGenerator(const physx::PxVec3& pos, const physx::Px
 {
 }
 
-PxVec3 WindForceGenerator::calculate_force(Particle* p)
+PxVec3 WindForceGenerator::calculate_force(Particle* p, double dt)
 {
     if (!p) return PxVec3(0.0f);
 
@@ -47,7 +47,7 @@ PxVec3 WindForceGenerator::calculate_force(Particle* p)
     return windF;
 }
 
-void WindForceGenerator::update_force(Particle* p)
+void WindForceGenerator::update_force(Particle* p, double dt)
 {
     if (!p) return;
     p->add_force(calculate_force(p));

@@ -9,7 +9,7 @@ public:
 
     virtual ~WhirlwindForceGenerator() = default;
 
-    void update_force(Particle* p) override;
+    void update_force(Particle* p, double dt = 0.0) override;
 protected:
     // constante proporcional a la fuerza del torbellino
     double k;

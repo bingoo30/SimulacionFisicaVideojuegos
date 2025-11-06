@@ -18,7 +18,7 @@ public:
     //quitar todos los generadores de fuerza a una particula
     void clear_particle(Particle* particle);
     //actualizar las fuerzas
-    void update_forces();
+    void update_forces(double dt);
 #pragma endregion
 protected:
 #pragma region atributos

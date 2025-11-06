@@ -39,10 +39,10 @@ void ForceRegistry::clear_particle(Particle* particle) {
 }
 
 
-void ForceRegistry::update_forces() {
+void ForceRegistry::update_forces(double dt) {
     for (auto& reg : registries) {
         if (reg.particle && reg.fg) {
-            reg.fg->update_force(reg.particle);
+            reg.fg->update_force(reg.particle, dt);
         }
     }
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include "Scene.h"
 #include "WhirlwindForceGenerator.h"
+#include "ExplosionForceGenerator.h"
 class Scene4 :
     public Scene
 {
@@ -12,4 +13,5 @@ public:
     void handle_input(unsigned char key) override;
 protected:
     WhirlwindForceGenerator* whirlwind;
+    ExplosionForceGenerator* explosion;
 };

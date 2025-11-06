@@ -6,8 +6,8 @@ class ForceGenerator
 public:
 	ForceGenerator()=default;
 	virtual ~ForceGenerator() = default;
-	virtual void update_force(Particle* particle) = 0;
+	virtual void update_force(Particle* particle, double dt) = 0;
 protected:
-	virtual physx::PxVec3 calculate_force(Particle* p) = 0;
+	virtual physx::PxVec3 calculate_force(Particle* p, double dt) = 0;
 };
 

@@ -1,6 +1,6 @@
 ﻿#include "WhirlwindForceGenerator.h"
 #include "Particle.h"
-void WhirlwindForceGenerator::update_force(Particle* p)
+void WhirlwindForceGenerator::update_force(Particle* p, double dt)
 {
     if (p == nullptr) return;
 

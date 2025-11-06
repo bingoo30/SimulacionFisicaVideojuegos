@@ -142,7 +142,7 @@ void Scene::clean()
 }
 
 void Scene::update(double t) {
-	fRegistry->update_forces();
+	fRegistry->update_forces(t);
 
 	for (auto& e : gObjs) {
 		if (e)e->update(t);

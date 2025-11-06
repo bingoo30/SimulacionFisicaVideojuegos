@@ -67,8 +67,11 @@
     <ClCompile Include="Scene3.cpp">
       <Filter>practica 3</Filter>
     </ClCompile>
-    <ClCompile Include="WhirlwindForceGenerator.cpp" />
     <ClCompile Include="Scene4.cpp">
+      <Filter>practica 3</Filter>
+    </ClCompile>
+    <ClCompile Include="ExplosionForceGenerator.cpp" />
+    <ClCompile Include="WhirlwindForceGenerator.cpp">
       <Filter>practica 3</Filter>
     </ClCompile>
   </ItemGroup>
@@ -92,9 +95,6 @@
       <Filter>practica 1</Filter>
     </ClInclude>
     <ClInclude Include="Projectile.h">
-      <Filter>practica 1</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene.h">
       <Filter>practica 1</Filter>
     </ClInclude>
     <ClInclude Include="Scene0.h">
@@ -148,9 +148,15 @@
     <ClInclude Include="Scene3.h">
       <Filter>practica 3</Filter>
     </ClInclude>
-    <ClInclude Include="WhirlwindForceGenerator.h" />
     <ClInclude Include="Scene4.h">
       <Filter>practica 3</Filter>
+    </ClInclude>
+    <ClInclude Include="ExplosionForceGenerator.h" />
+    <ClInclude Include="WhirlwindForceGenerator.h">
+      <Filter>practica 3</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>practica 1</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

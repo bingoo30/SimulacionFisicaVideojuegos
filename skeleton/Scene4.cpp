@@ -3,20 +3,14 @@
 #include "FireParticleSystem.h"
 #include "RainParticleSystem.h"
 #include "StructForEntities.h"
+using namespace physx;
 void Scene4::init()
 {
 	display = "escena 4: particulas con torbellino";
-	Whirlwind_Data wd;
+	Whirlwind_Data wd; Explosion_Data ed;
 	
-	whirlwind = new WhirlwindForceGenerator(physx::PxVec3(0.0), wd.area, wd.k1, wd.dragCoef, wd.K, false);
-
-	//Fire_Particle_Data fpd;
-	//fpd.pos = Vector3(0, 0, 0);
-	//Fire_Deviation_Data fdd;
-
-	//FireParticleSystem* fps = new FireParticleSystem(fpd, fdd, 5);
-	//fps->add_force_generator(whirlwind);
-	//gPartSys.push_back(fps);
+	whirlwind = new WhirlwindForceGenerator(wd.center, wd.area, wd.k1, wd.dragCoef, wd.K, false);
+	explosion = new ExplosionForceGenerator(ed.center, ed.radius, ed.K, ed.tau);
 
 	Rain_Particle_Data rpd;
 	rpd.pos = Vector3(0, 80, 0);
@@ -71,6 +65,34 @@ void Scene4::handle_input(unsigned char key)
 		break;
 	case 'C':
 		create_projectile(cd, GetCamera());
+		break;
+	case 'E':
+		//Particle(
+		//	const physx::PxVec3 & p, // posición
+		//	const physx::PxVec4 & c, // color
+		//	float m,     // masa
+		//	physx::PxShape * sh, //tipo de geometria que uso,
+		//	double vol,
+		//	double lt, //tiempo de vida
+		//	const physx::PxVec3 & v, // velocidad
+		//	IntegrateMode md,     // tipo de integración,
+		//	double de = 1.225, //densidad del material (este es el de aire)
+		//	double d = 0.95 // damping
+		//);
+		Particle_Data pd;
+		for (int i = 0; i < 10; ++i) {
+			double angle = i * (360.0 / 10) * (PI / 180.0);
+			double radius = 3.0;
+			double x = cos(angle) * radius;
+			double z = sin(angle) * radius;
+
+			pd.pos = PxVec3(x, 10, z);
+			pd.mass = 1.0f*i;
+
+			auto p = Scene::create_particle(pd);
+			fRegistry->add_registry(p, explosion);
+		}
+		explosion->activate(true);
 		break;
 	}
 }
