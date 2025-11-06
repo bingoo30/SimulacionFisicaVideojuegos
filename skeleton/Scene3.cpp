@@ -10,8 +10,10 @@ void Scene3::init()
 	wind = new WindForceGenerator(physx::PxVec3(0.0), wd.vel, wd.area, wd.k1, wd.dragCoef, false);
 
 	Fire_Particle_Data fpd;
-	fpd.pos = Vector3(0, 0, 0);
+	fpd.pos = physx::PxVec3(0, 0, 0);
+	fpd.mass = 0.05;
 	Fire_Deviation_Data fdd;
+	fdd.vel = physx::PxVec3(0.0, 1.0, 0.0);
 
 	FireParticleSystem* fps = new FireParticleSystem(fpd, fdd, 5);
 	fps->add_force_generator(wind);

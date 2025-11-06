@@ -17,6 +17,7 @@ protected:
     double t;               // Constante de decaimiento temporal
     double elapsedTime;       // Tiempo transcurrido desde que comienza la explosión
     bool active;            // Si la explosión sigue activa
+    double expVel = 2.0;         // Velocidad en la que expannde
 #pragma endregion
 
 #pragma region metodos auxiliares

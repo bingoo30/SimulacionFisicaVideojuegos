@@ -13,6 +13,8 @@ void Scene4::init()
 	explosion = new ExplosionForceGenerator(ed.center, ed.radius, ed.K, ed.tau);
 
 	Rain_Particle_Data rpd;
+	rpd.mass = 0.1;
+	rpd.vol = 0.3;
 	rpd.pos = Vector3(0, 80, 0);
 	Rain_Deviation_Data rdd;
 
@@ -87,10 +89,11 @@ void Scene4::handle_input(unsigned char key)
 			double z = sin(angle) * radius;
 
 			pd.pos = PxVec3(x, 10, z);
-			pd.mass = 1.0f*i;
+			pd.mass = 0.2f;
 
 			auto p = Scene::create_particle(pd);
 			fRegistry->add_registry(p, explosion);
+			fRegistry->remove(p, gr);
 		}
 		explosion->activate(true);
 		break;
