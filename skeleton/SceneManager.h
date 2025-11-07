@@ -6,8 +6,8 @@ enum States {
     INTRO,
     DEMO_SCENARIO,
     DEMO_CHARACTER,
-    VICTORY,
-    GAME_OVER,
+    PARTICULAS_Y_PROYECTILES,
+    GENERADORES_FUERZA,
     LAST_STATE,
 };
 class SceneManager

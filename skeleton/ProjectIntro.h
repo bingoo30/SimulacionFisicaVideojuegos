@@ -14,5 +14,7 @@ protected:
 #pragma region atributos
 	std::string title;
 	std::string subtitle;
+	std::string detail1;
+	std::string detail2;
 #pragma endregion
 };

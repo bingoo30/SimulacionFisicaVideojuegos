@@ -4,7 +4,9 @@
 void ProjectIntro::init()
 {
 	title = "PROYECTO INTERMEDIO";
-	subtitle = "Pulsa ENTER para empezar...";
+	subtitle = "Pulsa ENTER para empezar con el proyecto...";
+	detail1 = "Pulsa 3 para probar disparo de particulas y proyectiles";
+	detail2 = "Pulsa 4 para probar generadores de fuerzas";
 	display = "Bingcheng Wang | Simulación física de videojuegos";
 }
 
@@ -17,6 +19,11 @@ void ProjectIntro::render_interface()
 	drawText(title, width*0.5, height*0.8, 64, true, true);
 	glColor4f(1.0f, 0.2f, 0.2f, 1.0f);
 	drawText(subtitle, width * 0.5, height * 0.5, 24);
+	glColor4f(1.0f, 0.2f, 0.2f, 1.0f);
+	drawText(detail1, width * 0.5, height * 0.4, 24);
+	glColor4f(1.0f, 0.2f, 0.2f, 1.0f);
+	drawText(detail2, width * 0.5, height * 0.3, 24);
+
 }
 
 void ProjectIntro::handle_input(unsigned char key)

@@ -122,6 +122,14 @@ void initPhysics(bool interactive)
 	demo->init();
 	SceneManager::instance().add(demo);
 
+	Scene* s0 = new Scene0();
+	s0->init();
+	SceneManager::instance().add(s0);
+
+	Scene* s4 = new Scene4();
+	s4->init();
+	SceneManager::instance().add(s4);
+
 	SceneManager::instance().set_initial_scene(States::INTRO);
 	updateDisplay();
 }
@@ -174,11 +182,14 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	case ' ':
 		break;
 	default:
-		//if (key >= '0' && key <= '9') {
-		//	int newScene = key - '0';  // conversión de char a int ('0'→0, '1'→1, ...)
-		//	SceneManager::instance().change_scene(newScene);
-		//	updateDisplay();
-		//}
+		if (key >= '0' && key <= '9') {
+			int newScene = key - '0';  // conversión de char a int ('0'→0, '1'→1, ...)
+			//estas 2 escenas estan reservadas para el proyecto
+			if (newScene != 1 && newScene != 2) {
+				SceneManager::instance().change_scene(newScene);
+				updateDisplay();
+			}
+		}
 		break;
 	}
 }

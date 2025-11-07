@@ -26,7 +26,7 @@ void Scene4::init()
 Particle* Scene4::create_particle(const Particle_Data& pd)
 {
 	Particle* p = Scene::create_particle(pd);
-	fRegistry->add_registry(p, whirlwind);
+	//fRegistry->add_registry(p, whirlwind);
 	return p;
 }
 
@@ -34,7 +34,7 @@ Projectile* Scene4::create_projectile(const Projectile_Data& pd, Camera* c)
 {
 	Projectile* pr = Scene::create_projectile(pd, c);
 	Particle* p = static_cast<Particle*>(pr);
-	fRegistry->add_registry(p, whirlwind);
+	//fRegistry->add_registry(p, whirlwind);
 	return pr;
 }
 
