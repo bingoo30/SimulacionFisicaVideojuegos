@@ -117,32 +117,10 @@ PxVec3 Camera::getDir() const
 	return mDir; 
 }
 
-bool useOrtho = true;
-
-void Camera::setupCamera()
+void Camera::resetCamera()
 {
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-
-	float aspect = (float)glutGet(GLUT_WINDOW_WIDTH) / (float)glutGet(GLUT_WINDOW_HEIGHT);
-
-	if (useOrtho)
-	{
-		float orthoSize = 50.0f;
-		glOrtho(-orthoSize * aspect, orthoSize * aspect, -orthoSize, orthoSize, 0.1f, 1000.0f);
-	}
-	else
-	{
-		gluPerspective(45.0f, aspect, 0.1f, 1000.0f);
-	}
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-
-	auto eye = sCamera->getEye();
-	auto dir = sCamera->getDir();
-	PxVec3 center = eye + dir;
-	gluLookAt(eye.x, eye.y, eye.z, center.x, center.y, center.z, 0.0f, 1.0f, 0.0f);
+	mEye = physx::PxVec3(50.0f, 50.0f, 50.0f);
+	mDir = physx::PxVec3(-0.6f, -0.2f, -0.7f).getNormalized();
 }
 }
 

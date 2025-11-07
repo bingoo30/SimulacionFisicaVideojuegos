@@ -47,7 +47,7 @@ public:
 
 	physx::PxVec3		getEye()	const;
 	physx::PxVec3		getDir()	const;
-	void setupCamera(); //añadido yo
+	void resetCamera(); //creado por mi
 	physx::PxTransform	getTransform() const;
 private:
 	physx::PxVec3	mEye;

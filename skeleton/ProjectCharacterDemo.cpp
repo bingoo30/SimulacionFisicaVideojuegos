@@ -43,11 +43,11 @@ void ProjectCharacterDemo::handle_special_input(int key)
 {
 	switch (key)
 	{
-	case GLUT_KEY_UP:
-		character->update_direction(true);
+	case GLUT_KEY_LEFT:
+		character->move_left();
 		break;
-	case GLUT_KEY_DOWN:
-		character->update_direction(false);
+	case GLUT_KEY_RIGHT:
+		character->move_right();
 		break;
 	}
 }
@@ -56,24 +56,24 @@ void ProjectCharacterDemo::handle_key_up(unsigned char key)
 {
 	if (key == ' ' && character)
 	{
-		//aplicar fuerza
-		character->setChargingForce(false);
-		character->add_force({ character->getDirection() * character->getCurrentForceMagnitude()});
-		character->setCurrentForce(0.0f);
+		// Salto
+		character->jump();
 	}
 }
 
 void ProjectCharacterDemo::create_character()
 {
 	Particle_Data pd;
-	pd.mass = 1.5;
+	pd.pos = physx::PxVec3(-20, 30, 0);
+	pd.vel = physx::PxVec3(0, -20, 0);
+	pd.mass = 30.0;
 	pd.color = colors[19];
 	pd.mode = VERLET;
 	pd.lifetime = -1.0;
-	pd.vol = 5.0;
+	pd.vol = 2.0;
 	auto shape = CreateShape(physx::PxBoxGeometry(pd.vol, pd.vol, pd.vol));
 	//shape->setLocalPose(PxTransform(PxQuat(PxHalfPi, PxVec3(0, 0, 1)))); 
 	character = new Character(pd.pos, pd.color, pd.mass, shape, pd.vol, pd.lifetime, pd.vel, pd.mode);
-	SceneManager::instance().getCurrScene()->add_gravity_force_to(character);
+	add_gravity_force_to(character);
 	gObjs.push_back(character);
 }

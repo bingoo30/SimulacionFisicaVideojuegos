@@ -43,7 +43,7 @@ protected:
 
     double realRadius;
     const double density;
-    void update_force();
+    virtual void update_force();
     void integrate_by_type(double dt);
     void calculate_real_radius();
 private:

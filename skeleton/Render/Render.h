@@ -49,6 +49,10 @@
 
 extern std::string display_text;
 
+enum ProjectionMode {
+    PERSPECTIVE,   // perspectiva
+    ORTHOGONAL   // ortogonal
+};
 namespace Snippets
 {
 void setupDefaultWindow(const char* name);

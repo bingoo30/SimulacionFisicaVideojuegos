@@ -229,6 +229,7 @@ void renderGeometry(const PxGeometryHolder& h, bool wireframe =false)
 	}
 }
 
+ProjectionMode current_projection_mode = PERSPECTIVE;
 namespace Snippets
 {
 
@@ -286,20 +287,60 @@ void startRender(const PxVec3& cameraEye, const PxVec3& cameraDir, PxReal clipNe
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	// Display text
+	// ======= Interfaz del juego (texto, HUD, etc.) =======
 	glColor4f(1.0f, 0.2f, 0.2f, 1.0f);
 	drawText(display_text, 0, 0);
-	//renderizar la interfaz de la escena actual
 	SceneManager::instance().getCurrScene()->render_interface();
+	// =====================================================
 
-	// Setup camera
+	// ======= Configuración de la cámara =======
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(60.0, GLdouble(glutGet(GLUT_WINDOW_WIDTH)) / GLdouble(glutGet(GLUT_WINDOW_HEIGHT)), GLdouble(clipNear), GLdouble(clipFar));
+
+	if (current_projection_mode == ORTHOGONAL)
+	{
+		const int windowWidth = glutGet(GLUT_WINDOW_WIDTH);
+		const int windowHeight = glutGet(GLUT_WINDOW_HEIGHT);
+		const float aspectRatio = static_cast<float>(windowWidth) / static_cast<float>(windowHeight);
+
+		const float gameWorldWidth = 30.0f;
+		const float gameWorldHeight = 25.0f;
+		const float worldAspect = gameWorldWidth / gameWorldHeight;
+
+		float visibleWidth, visibleHeight;
+		if (aspectRatio > worldAspect) {
+			visibleHeight = gameWorldHeight;
+			visibleWidth = gameWorldHeight * aspectRatio;
+		}
+		else {
+			visibleWidth = gameWorldWidth;
+			visibleHeight = gameWorldWidth / aspectRatio;
+		}
+
+		glOrtho(
+			-visibleWidth / 2, visibleWidth / 2,
+			-visibleHeight / 2, visibleHeight / 2,
+			clipNear, clipFar
+		);
+	}
+	else
+	{
+		gluPerspective(
+			60.0,
+			static_cast<GLdouble>(glutGet(GLUT_WINDOW_WIDTH)) / static_cast<GLdouble>(glutGet(GLUT_WINDOW_HEIGHT)),
+			static_cast<GLdouble>(clipNear),
+			static_cast<GLdouble>(clipFar)
+		);
+	}
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	gluLookAt(GLdouble(cameraEye.x), GLdouble(cameraEye.y), GLdouble(cameraEye.z), GLdouble(cameraEye.x + cameraDir.x), GLdouble(cameraEye.y + cameraDir.y), GLdouble(cameraEye.z + cameraDir.z), 0.0, 1.0, 0.0);
+	gluLookAt(
+		static_cast<GLdouble>(cameraEye.x), static_cast<GLdouble>(cameraEye.y), static_cast<GLdouble>(cameraEye.z),
+		static_cast<GLdouble>(cameraEye.x + cameraDir.x), static_cast<GLdouble>(cameraEye.y + cameraDir.y), static_cast<GLdouble>(cameraEye.z + cameraDir.z),
+		0.0, 1.0, 0.0
+	);
+	// ==========================================
 
 	glColor4f(0.4f, 0.4f, 0.4f, 1.0f);
 
