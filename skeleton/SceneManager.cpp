@@ -23,7 +23,8 @@ void SceneManager::change_scene(int idx)
     scenes[currScene]->exit();
     currScene = idx;
     scenes[currScene]->enter();
-    resetCamera();
+    auto c = GetCamera();
+    c->resetCamera();
 }
 
 void SceneManager::add(Scene* s)
