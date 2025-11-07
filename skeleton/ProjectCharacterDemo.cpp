@@ -7,7 +7,7 @@ void ProjectCharacterDemo::init()
 {
 	explication_forces = "Mantener SPACE para acumular fuerza y cuando sueltas se aplica dicha fuerza";
 	explication_inputs = "ENTER para volver a la pagina principal, 'Q' para retroceder...";
-	display = "Cómo funciona el juego...";
+	display = "-> mover derecha, <- mover izquierda";
 	create_character();
 }
 
@@ -17,9 +17,9 @@ void ProjectCharacterDemo::render_interface()
 	int height = glutGet(GLUT_WINDOW_HEIGHT);
 
 	glColor4f(0.0f, 0.0f, 0.0f, 1.0f);
-	drawText(explication_forces, width*0.05, height*0.8, 12, false, true);
+	drawText(explication_forces, width*0.55, height*0.8, 12, false, true);
 	glColor4f(0.0f, 0.1f, 0.7f, 1.0f);
-	drawText(explication_inputs, width * 0.05, height * 0.9, 16, false, true);
+	drawText(explication_inputs, width * 0.55, height * 0.9, 16, false, true);
 }
 
 void ProjectCharacterDemo::handle_input(unsigned char key)
