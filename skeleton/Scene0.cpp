@@ -3,6 +3,7 @@
 void Scene0::init()
 {
 	display = "escena 0: invocar particulas y proyectiles";
+	explication = "PARTICULAS: J euler, K semi implicit, L verlet; Proyectiles: C canon, P bala";
 }
 
 void Scene0::handle_input(unsigned char key)
@@ -17,23 +18,31 @@ void Scene0::handle_input(unsigned char key)
 	case 'J':
 		pd.color = { 1,0,0,1 };
 		pd.mode = EULER;
-		create_particle(pd);
+		fRegistry.add_registry(create_particle(pd), gr);
 		break;
 	case 'K':
 		pd.color = { 0,1,0,1 };
 		pd.mode = SEMI_IMPLICIT_EULER;
-		create_particle(pd);
+		fRegistry.add_registry(create_particle(pd), gr);
 		break;
 	case 'L':
 		pd.color = { 0,0,1,1 };
 		pd.mode = VERLET;
-		create_particle(pd);
+		fRegistry.add_registry(create_particle(pd), gr);
 		break;
 	case 'P':
-		create_projectile(pbd, GetCamera());
+		fRegistry.add_registry(create_projectile(pbd, GetCamera()), gr);
 		break;
 	case 'C':
-		create_projectile(cd, GetCamera());
+		fRegistry.add_registry(create_projectile(cd, GetCamera()), gr);
 		break;
 	}
+}
+void Scene0::render_interface()
+{
+	int width = glutGet(GLUT_WINDOW_WIDTH);
+	int height = glutGet(GLUT_WINDOW_HEIGHT);
+
+	glColor4f(0.0f, 0.0f, 0.0f, 1.0f);
+	drawText(explication, width * 0.1, height * 0.8, 12, false, false);
 }

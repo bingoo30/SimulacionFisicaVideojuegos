@@ -37,8 +37,6 @@ Particle_List UniformGenerator::generate_particles(const Particle_Data& model, c
         PxShape* sh = CreateShape(*g);
         Particle* p = new Particle(pos, color, mass, CreateShape(physx::PxSphereGeometry(model.vol)), model.vol, life, vel, SEMI_IMPLICIT_EULER, model.density);
         p->create_renderItem();
-
-        SceneManager::instance().getCurrScene()->add_gravity_force_to(p);
         particles.push_back(p);
     }
 

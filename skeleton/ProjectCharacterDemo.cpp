@@ -74,6 +74,6 @@ void ProjectCharacterDemo::create_character()
 	auto shape = CreateShape(physx::PxBoxGeometry(pd.vol, pd.vol, pd.vol));
 	//shape->setLocalPose(PxTransform(PxQuat(PxHalfPi, PxVec3(0, 0, 1)))); 
 	character = new Character(pd.pos, pd.color, pd.mass, shape, pd.vol, pd.lifetime, pd.vel, pd.mode);
-	add_gravity_force_to(character);
+	fRegistry.add_registry(character, gr);
 	gObjs.push_back(character);
 }

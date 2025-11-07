@@ -7,35 +7,29 @@ using namespace physx;
 void Scene4::init()
 {
 	display = "escena 4: particulas con torbellino";
-	Whirlwind_Data wd; Explosion_Data ed;
+	Whirlwind_Data wd; Explosion_Data ed; Wind_Data windD;
 	
+	wd.area = 50.0;
+	windD.area = 50.0f;
+	ed.center = PxVec3(10,0,0);
+	windD.center = PxVec3(-10, 0, 0);
+
 	whirlwind = new WhirlwindForceGenerator(wd.center, wd.area, wd.k1, wd.dragCoef, wd.K, false);
 	explosion = new ExplosionForceGenerator(ed.center, ed.radius, ed.K, ed.tau);
+	wind = new WindForceGenerator(windD.center, windD.vel, windD.area, windD.k1, windD.dragCoef, false);
 
-	Rain_Particle_Data rpd;
-	rpd.mass = 0.1;
-	rpd.vol = 0.3;
-	rpd.pos = Vector3(0, 80, 0);
-	Rain_Deviation_Data rdd;
+	//Rain_Particle_Data rpd;
+	//rpd.mass = 0.1;
+	//rpd.vol = 0.3;
+	//rpd.pos = Vector3(0, 80, 0);
+	//Rain_Deviation_Data rdd;
 
-	RainParticleSystem* rps = new RainParticleSystem(rpd, rdd, 20);
-	rps->add_force_generator(whirlwind);
-	gPartSys.push_back(rps);
-}
+	//RainParticleSystem* rps = new RainParticleSystem(rpd, rdd, 20);
+	//rps->add_force_generator(gr);
+	//rps->add_force_generator(whirlwind);
+	//gPartSys.push_back(rps);
 
-Particle* Scene4::create_particle(const Particle_Data& pd)
-{
-	Particle* p = Scene::create_particle(pd);
-	//fRegistry->add_registry(p, whirlwind);
-	return p;
-}
-
-Projectile* Scene4::create_projectile(const Projectile_Data& pd, Camera* c)
-{
-	Projectile* pr = Scene::create_projectile(pd, c);
-	Particle* p = static_cast<Particle*>(pr);
-	//fRegistry->add_registry(p, whirlwind);
-	return pr;
+	explication = "E: explosion, R:Torbellino, T: viento, Y: gravedad";
 }
 
 void Scene4::handle_input(unsigned char key)
@@ -47,27 +41,25 @@ void Scene4::handle_input(unsigned char key)
 	switch (toupper(key))
 	{
 	case ' ':
-	case 'J':
-		pd.color = { 1,0,0,1 };
-		pd.mode = EULER;
-		create_particle(pd);
 		break;
-	case 'K':
-		pd.color = { 0,1,0,1 };
-		pd.mode = SEMI_IMPLICIT_EULER;
-		create_particle(pd);
+	case 'Y':
+	{
+		Particle* p1 = create_particle(pd);
+		fRegistry.add_registry(p1, gr);
 		break;
-	case 'L':
-		pd.color = { 0,0,1,1 };
-		pd.mode = VERLET;
-		create_particle(pd);
+	}
+	case 'T':
+	{
+		Particle* p2 = create_projectile(pbd, GetCamera());
+		fRegistry.add_registry(p2, wind);
 		break;
-	case 'P':
-		create_projectile(pbd, GetCamera());
+	}
+	case 'R':
+	{
+		Particle* p3 = create_projectile(cd, GetCamera());
+		fRegistry.add_registry(p3, whirlwind);
 		break;
-	case 'C':
-		create_projectile(cd, GetCamera());
-		break;
+	}
 	case 'E':
 		//Particle(
 		//	const physx::PxVec3 & p, // posición
@@ -92,10 +84,18 @@ void Scene4::handle_input(unsigned char key)
 			pd.mass = 0.2f;
 
 			auto p = Scene::create_particle(pd);
-			fRegistry->add_registry(p, explosion);
-			fRegistry->remove(p, gr);
+			fRegistry.add_registry(p, explosion);
 		}
 		explosion->activate(true);
 		break;
 	}
+}
+
+void Scene4::render_interface()
+{
+	int width = glutGet(GLUT_WINDOW_WIDTH);
+	int height = glutGet(GLUT_WINDOW_HEIGHT);
+
+	glColor4f(0.0f, 0.0f, 0.0f, 1.0f);
+	drawText(explication, width * 0.7, height * 0.8, 12, false, false);
 }

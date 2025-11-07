@@ -27,7 +27,7 @@ protected:
 #pragma region atributos
 	std::list<std::unique_ptr<Particle>> particles_list;
 	std::list<Generator*> generators;
-	std::list<ForceGenerator*> force_generators;
+	std::list<std::unique_ptr<ForceGenerator>> force_generators;
 	ForceRegistry local_registry;
 
 	//particula modelo

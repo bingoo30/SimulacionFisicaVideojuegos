@@ -21,8 +21,8 @@ void ParticleSystem::spawn()
         auto new_particles = g->generate_particles(model, deviation, num, geometry);
         for (auto& new_p : new_particles) {
             // registrar todas las fuerzas locales sobre esta partícula
-            for (auto fg : force_generators) {
-                local_registry.add_registry(new_p, fg);
+            for (auto& fg : force_generators) {
+                local_registry.add_registry(new_p, fg.get());
             }
 
             particles_list.push_back(std::unique_ptr<Particle>(new_p));
@@ -71,8 +71,12 @@ void ParticleSystem::add_generator(Generator* gen)
 }
 void ParticleSystem::add_force_generator(ForceGenerator* gen)
 {
-    if (gen != nullptr);
-    force_generators.push_back(gen);
+    if (gen != nullptr) {
+        force_generators.push_back(std::unique_ptr<ForceGenerator>(gen));
+        for (auto& p : particles_list) {
+            local_registry.add_registry(p.get(), gen);
+        }
+    }
 }
 void ParticleSystem::kill_dead_particles()
 {

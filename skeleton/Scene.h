@@ -32,7 +32,7 @@ public:
 	virtual void add_entity_with_renderItem(Entity* e);
 	virtual void add_particle_system(ParticleSystem* ps);
 
-	void add_gravity_force_to(Particle* p);
+	//void add_gravity_force_to(Particle* p);
 	GravityForceGenerator* getGravityGenerator() { return gr; };
 
 protected:
@@ -41,7 +41,7 @@ protected:
 
 	std::string display;
 
-	ForceRegistry* fRegistry;
+	ForceRegistry fRegistry;
 	GravityForceGenerator* gr;
 };
 

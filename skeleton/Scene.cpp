@@ -6,7 +6,7 @@
 #include "SceneManager.h"
 #include <cmath>
 using namespace physx;
-Scene::Scene(): gObjs(), gPartSys(), display("escena"), fRegistry(new ForceRegistry()), gr(new GravityForceGenerator({ 0.0, -9.8, 0.0 }))
+Scene::Scene(): gObjs(), gPartSys(), display("escena"), fRegistry(ForceRegistry()), gr(new GravityForceGenerator({ 0.0, -9.8, 0.0 }))
 {
 }
 
@@ -48,7 +48,6 @@ Particle* Scene::create_particle(const Particle_Data& pd)
 		pd.mode,
 		pd.density);
 	part->create_renderItem();
-	SceneManager::instance().getCurrScene()->add_gravity_force_to(part);
 	gObjs.push_back(part);
 	return part;
 }
@@ -65,7 +64,6 @@ Particle* Scene::create_capsule_particle(const Particle_Data& pd)
 		pd.mode,
 		pd.density);
 	part->create_renderItem();
-	SceneManager::instance().getCurrScene()->add_gravity_force_to(part);
 	gObjs.push_back(part);
 	return part;
 }
@@ -130,7 +128,6 @@ Projectile* Scene::create_projectile(const Projectile_Data& pd, Camera* c)
 		pd.density
 	);
 	proj->create_renderItem();
-	SceneManager::instance().getCurrScene()->add_gravity_force_to(proj);
 	gObjs.push_back(proj);
 	return proj;
 }
@@ -149,13 +146,13 @@ void Scene::add_particle_system(ParticleSystem* ps)
 		gPartSys.push_back(ps);
 	}
 }
-
-void Scene::add_gravity_force_to(Particle* p)
-{
-	if (p != nullptr) {
-		fRegistry->add_registry(p, gr);
-	}
-}
+//
+//void Scene::add_gravity_force_to(Particle* p)
+//{
+//	if (p != nullptr) {
+//		fRegistry.add_registry(p, gr);
+//	}
+//}
 void Scene::clean()
 {
 	for (auto e : gObjs) {
@@ -170,18 +167,15 @@ void Scene::clean()
 	}
 	gPartSys.clear();
 
-	delete fRegistry;
-	fRegistry = nullptr;
-
 	delete gr;
 	gr = nullptr;
 }
 
 void Scene::update(double t) {
-	fRegistry->update_forces(t);
+	fRegistry.update_forces(t);
 
 	for (auto& e : gObjs) {
-		if (e)e->update(t);  
+		if (e && e->is_alive()) e->update(t);
 	}
 
 	for (auto ps : gPartSys) {

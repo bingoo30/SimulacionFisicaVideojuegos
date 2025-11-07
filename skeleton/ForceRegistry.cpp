@@ -40,6 +40,14 @@ void ForceRegistry::clear_particle(Particle* particle) {
 
 
 void ForceRegistry::update_forces(double dt) {
+    registries.erase(
+        std::remove_if(registries.begin(), registries.end(),
+            [](const ForceReg& reg) {
+                // quitar una particula está muerta o invalida
+                return reg.particle == nullptr || !reg.particle->is_alive();
+            }),
+        registries.end());
+
     for (auto& reg : registries) {
         if (reg.particle && reg.fg) {
             reg.fg->update_force(reg.particle, dt);
