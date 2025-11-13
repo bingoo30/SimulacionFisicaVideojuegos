@@ -84,6 +84,12 @@
     </ClCompile>
     <ClCompile Include="ProjectCharacterDemo.cpp" />
     <ClCompile Include="Character.cpp" />
+    <ClCompile Include="FireworkParticleSystem.cpp">
+      <Filter>practica 2</Filter>
+    </ClCompile>
+    <ClCompile Include="SparkParticleSystem.cpp">
+      <Filter>practica 2</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Render\Camera.h">
@@ -178,6 +184,12 @@
     </ClInclude>
     <ClInclude Include="ProjectCharacterDemo.h" />
     <ClInclude Include="Character.h" />
+    <ClInclude Include="FireworkParticleSystem.h">
+      <Filter>practica 2</Filter>
+    </ClInclude>
+    <ClInclude Include="SparkParticleSystem.h">
+      <Filter>practica 2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">

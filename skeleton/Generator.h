@@ -10,6 +10,7 @@ class Generator {
 public:
 	Generator(): _mt(std::random_device{}()) {};
 	virtual ~Generator() {};
+    virtual void clear_particles() {};
 
 	virtual Particle_List generate_particles (const Particle_Data& model, const Particle_Deviation_Data& deviation, int n, physx::PxGeometryType::Enum geo) = 0;
 protected:

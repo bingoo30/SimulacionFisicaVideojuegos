@@ -259,6 +259,7 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="ExplosionForceGenerator.cpp" />
     <ClCompile Include="FireParticleSystem.cpp" />
+    <ClCompile Include="FireworkParticleSystem.cpp" />
     <ClCompile Include="ForceRegistry.cpp" />
     <ClCompile Include="GravityForceGenerator.cpp" />
     <ClCompile Include="main.cpp" />
@@ -280,6 +281,7 @@
     <ClCompile Include="Scene3.cpp" />
     <ClCompile Include="Scene4.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SparkParticleSystem.cpp" />
     <ClCompile Include="UniformGenerator.cpp" />
     <ClCompile Include="WhirlwindForceGenerator.cpp" />
     <ClCompile Include="WindForceGenerator.cpp" />
@@ -291,6 +293,7 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="ExplosionForceGenerator.h" />
     <ClInclude Include="FireParticleSystem.h" />
+    <ClInclude Include="FireworkParticleSystem.h" />
     <ClInclude Include="ForceGenerator.h" />
     <ClInclude Include="ForceRegistry.h" />
     <ClInclude Include="Generator.h" />
@@ -313,6 +316,7 @@
     <ClInclude Include="Scene3.h" />
     <ClInclude Include="Scene4.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="SparkParticleSystem.h" />
     <ClInclude Include="StructForEntities.h" />
     <ClInclude Include="UniformGenerator.h" />
     <ClInclude Include="WhirlwindForceGenerator.h" />

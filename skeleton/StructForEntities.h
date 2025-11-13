@@ -146,6 +146,27 @@ struct Rain_Deviation_Data :public Particle_Deviation_Data {
 		r_cant = true; 
 	}
 };
+
+struct Firework_Particle_Data : public Particle_Data {
+	Firework_Particle_Data() {
+		color = physx::PxVec4(1, 0, 0, 1); //color rojo
+		vel = physx::PxVec3(0, 20.0, 0); //hacia arriba
+		mode = IntegrateMode::VERLET;
+		lifetime = 0.75;
+		vol = 0.55;
+		mass = 0.0025;
+	}
+};
+struct Firework_Deviation_Data : public Particle_Deviation_Data {
+	Firework_Deviation_Data() {
+		vel = physx::PxVec3(0.75f, 5.0f, 0.75f);
+		mas = 0.0005;
+		dur = 0.5;
+		r_color = false;
+		r_cant = false;
+
+	}
+};
 #pragma endregion
 
 #pragma region practica 3

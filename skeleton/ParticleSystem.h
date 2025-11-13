@@ -16,7 +16,7 @@ public:
 
 #pragma region metodos publicos
 	void spawn();
-	void update(double dt);
+	virtual void update(double dt);
 	void derregister();
 	void register_particles(); 
 	void add_generator(Generator* gen);
