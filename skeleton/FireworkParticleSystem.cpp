@@ -75,6 +75,11 @@ void FireworkParticleSystem::create_spark()
     }
 }
 
+bool FireworkParticleSystem::check_out_of_limit(Particle* p) const
+{
+    return false;
+}
+
 void FireworkParticleSystem::update(double dt)
 {
 

@@ -130,7 +130,7 @@ struct Rain_Particle_Data : public Particle_Data {
 		color = physx::PxVec4(0.0f, 0.0f, 0.8f, 1.0f); // azul claro tipico de la lluvia
 		vel = physx::PxVec3(0.0f, -5.0f, 0.0f);       // caida rapida hacia abajo
 		mode = IntegrateMode::VERLET;            // integracion estable para velocidad alta
-		lifetime = 3.0;                                    // suficiente para recorrer la zona
+		lifetime = 10.0;                                    // suficiente para recorrer la zona
 		vol = 0.2f;                               // gotas finas
 		mass = 0.00042;                                  // ligera
 		density = 1000.0;

@@ -13,6 +13,7 @@ void Scene5::init()
 	FireworkParticleSystem* fwps = new FireworkParticleSystem(fwpd, fwdd);
 	fwps->init();
 	Explosion_Data ed;
+	Explosion_De
 }
 
 void Scene5::handle_input(unsigned char key)
