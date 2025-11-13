@@ -3,6 +3,7 @@
 #include "Generator.h"
 #include "ForceGenerator.h"
 #include <list>
+#include <vector>
 #include <memory>
 #include "StructForEntities.h"
 #include"ForceRegistry.h"
@@ -12,6 +13,7 @@ public:
 #pragma region constructoras y destructora
 	ParticleSystem(const Particle_Data& pd, const Particle_Deviation_Data& pdd, int n, physx::PxGeometryType::Enum geo);
 	virtual ~ParticleSystem();
+	virtual void init() = 0;
 #pragma endregion
 
 #pragma region metodos publicos
@@ -19,14 +21,13 @@ public:
 	virtual void update(double dt);
 	void derregister();
 	void register_particles(); 
-	void add_generator(Generator* gen);
 	void add_force_generator(ForceGenerator* gen);
 #pragma endregion
 
 protected:
 #pragma region atributos
 	std::list<std::unique_ptr<Particle>> particles_list;
-	std::list<Generator*> generators;
+	std::vector<Generator*> generators;
 	std::list<std::unique_ptr<ForceGenerator>> force_generators;
 	ForceRegistry local_registry;
 
@@ -40,6 +41,7 @@ protected:
 
 	physx::PxGeometryType::Enum geometry;
 #pragma endregion
+	void add_generator(Generator* gen);
 	virtual bool check_out_of_limit(Particle* p) const = 0;
 	virtual void kill_dead_particles();
 };

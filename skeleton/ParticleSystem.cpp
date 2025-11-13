@@ -64,6 +64,10 @@ void ParticleSystem::register_particles()
     }
 }
 
+void ParticleSystem::init()
+{
+}
+
 void ParticleSystem::add_generator(Generator* gen)
 {
     if (gen != nullptr);

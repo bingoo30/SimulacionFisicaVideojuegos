@@ -4,8 +4,12 @@
 
 FireParticleSystem::FireParticleSystem(const Particle_Data& pd, const Particle_Deviation_Data& pdd, int n) : ParticleSystem(pd, pdd, n, physx::PxGeometryType::Enum::eSPHERE)
 {
-	add_generator(new NormalGenerator());
+}
+
+void FireParticleSystem::init()
+{
 	spawn_acu = 0.05;
+	add_generator(new NormalGenerator());
 }
 
 bool FireParticleSystem::check_out_of_limit(Particle* p) const

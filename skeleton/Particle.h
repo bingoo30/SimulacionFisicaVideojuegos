@@ -4,6 +4,9 @@
 class Particle : public Entity
 {
 public:
+    enum Type {
+        DEFAULT, ROCKET, EXPLOSION, SPARK, NUM_TYPE
+    };
     Particle(
         const physx::PxVec3& p, // posición
         const physx::PxVec4& c, // color
@@ -25,6 +28,9 @@ public:
     void add_force(const physx::PxVec3& f);
     void clean_force();
 
+    bool is_type_of(Type t) const;
+    void setType(Type t);
+
 #pragma region getters
     const physx::PxVec3& getPosition() const { return transform.p; };
     const physx::PxVec3& getVelocity() const { return vel; };
@@ -40,6 +46,8 @@ protected:
     //atributos que inicializo con valor predefinido
     physx::PxVec3 acc = physx::PxVec3(0.0);     // aceleración
     physx::PxVec3 force= physx::PxVec3(0.0);;     // acumulador de fuerza
+
+    Type type = DEFAULT;
 
     double realRadius;
     const double density;

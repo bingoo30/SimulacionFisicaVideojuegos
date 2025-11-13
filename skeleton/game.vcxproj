@@ -280,8 +280,8 @@
     <ClCompile Include="Scene2.cpp" />
     <ClCompile Include="Scene3.cpp" />
     <ClCompile Include="Scene4.cpp" />
+    <ClCompile Include="Scene5.cpp" />
     <ClCompile Include="SceneManager.cpp" />
-    <ClCompile Include="SparkParticleSystem.cpp" />
     <ClCompile Include="UniformGenerator.cpp" />
     <ClCompile Include="WhirlwindForceGenerator.cpp" />
     <ClCompile Include="WindForceGenerator.cpp" />
@@ -315,8 +315,8 @@
     <ClInclude Include="Scene2.h" />
     <ClInclude Include="Scene3.h" />
     <ClInclude Include="Scene4.h" />
+    <ClInclude Include="Scene5.h" />
     <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="SparkParticleSystem.h" />
     <ClInclude Include="StructForEntities.h" />
     <ClInclude Include="UniformGenerator.h" />
     <ClInclude Include="WhirlwindForceGenerator.h" />

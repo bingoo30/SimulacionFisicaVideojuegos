@@ -47,6 +47,16 @@ void Particle::clean_force()
 	force = PxVec3(0.0);
 }
 
+bool Particle::is_type_of(Type t) const
+{
+	return type == t;
+}
+
+void Particle::setType(Type t)
+{
+	type = t;
+}
+
 void Particle::update_force()
 {
 	acc = (force * (1.0/ mass));

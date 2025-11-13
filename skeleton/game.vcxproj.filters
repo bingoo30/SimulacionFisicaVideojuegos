@@ -85,10 +85,10 @@
     <ClCompile Include="ProjectCharacterDemo.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="FireworkParticleSystem.cpp">
-      <Filter>practica 2</Filter>
+      <Filter>practica 2\ampliacion practica 2</Filter>
     </ClCompile>
-    <ClCompile Include="SparkParticleSystem.cpp">
-      <Filter>practica 2</Filter>
+    <ClCompile Include="Scene5.cpp">
+      <Filter>practica 2\ampliacion practica 2</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -185,10 +185,10 @@
     <ClInclude Include="ProjectCharacterDemo.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="FireworkParticleSystem.h">
-      <Filter>practica 2</Filter>
+      <Filter>practica 2\ampliacion practica 2</Filter>
     </ClInclude>
-    <ClInclude Include="SparkParticleSystem.h">
-      <Filter>practica 2</Filter>
+    <ClInclude Include="Scene5.h">
+      <Filter>practica 2\ampliacion practica 2</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -209,6 +209,9 @@
     </Filter>
     <Filter Include="Proyecto intermedio">
       <UniqueIdentifier>{117362be-bbe0-437e-b314-03ee9597d1c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="practica 2\ampliacion practica 2">
+      <UniqueIdentifier>{04d3c424-45a7-42bc-818c-eb8d09c0a226}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

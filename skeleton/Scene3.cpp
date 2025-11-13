@@ -16,6 +16,7 @@ void Scene3::init()
 	fdd.vel = physx::PxVec3(0.0, 1.0, 0.0);
 
 	FireParticleSystem* fps = new FireParticleSystem(fpd, fdd, 5);
+	fps->init();
 	fps->add_force_generator(wind);
 	gPartSys.push_back(fps);
 

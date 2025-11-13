@@ -5,6 +5,7 @@ class FireParticleSystem :
 {
 public:
     FireParticleSystem(const Particle_Data& pd, const Particle_Deviation_Data& pdd, int n);
+    void init() override;
 protected:
     bool check_out_of_limit(Particle* p) const override;
 };

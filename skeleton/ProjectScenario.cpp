@@ -42,6 +42,7 @@ void ProjectScenario::init()
 	rdd.ori = physx::PxVec3(fpd.pos.x/2+80, 0, 40);
 
 	RainParticleSystem* rps1 = new RainParticleSystem(rpd, rdd, 20);
+	rps1->init();
 	rps1->add_force_generator(whirlwind);
 	gPartSys.push_back(rps1);
 
@@ -49,6 +50,7 @@ void ProjectScenario::init()
 	rdd.ori.x = 80;
 	rpd.color = physx::PxVec4(1.0, 1.0, 1.0, 1.0);
 	RainParticleSystem* rps2 = new RainParticleSystem(rpd, rdd, 10);
+	rps2->init();
 	rps2->add_force_generator(wind);
 	gPartSys.push_back(rps2);
 }
@@ -91,8 +93,11 @@ void ProjectScenario::create_demo_platforms(Platform_Data& pd, Fire_Particle_Dat
 
 		fpd.pos.x = pd.pos.x - 65;
 
-		if (i < count - 1)
-			add_particle_system(new FireParticleSystem(fpd, fdd, std::max<int>(5, i + 2)));
+		if (i < count - 1) {
+			auto f = new FireParticleSystem(fpd, fdd, 5+i);
+			f->init();
+			add_particle_system(f);
+		}
 
 		// Avanzar al siguiente grupo de color (rojo → verde → morado → rojo)
 		int currentGroup = (fpd.color_offset - baseIndex) / groupSize;

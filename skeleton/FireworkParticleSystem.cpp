@@ -1,13 +1,13 @@
 ﻿#include "FireworkParticleSystem.h"
 #include "Particle.h"
 #include "UniformGenerator.h"
+#include "NormalGenerator.h"
 #include <cmath>
 using namespace physx;
 
-FireworkParticleSystem::FireworkParticleSystem(const Particle_Data& pd)
-    : ParticleSystem(pd, Particle_Deviation_Data(), 1, PxGeometryType::Enum::eSPHERE)
+FireworkParticleSystem::FireworkParticleSystem(const Particle_Data& pd, const Particle_Deviation_Data& pdd)
+    : ParticleSystem(pd, pdd, 1, PxGeometryType::Enum::eSPHERE)
 {
-    spawn_period = 0.0; // sin spawn automatico
 }
 
 FireworkParticleSystem::~FireworkParticleSystem()
@@ -27,26 +27,50 @@ void FireworkParticleSystem::launch_firework()
         model.lifetime, 
         model.vel, 
         model.mode);
+    p->setType(Particle::ROCKET);
     p->create_renderItem();
     particles_list.push_back(std::unique_ptr<Particle>(p));
 
 }
 
-void FireworkParticleSystem::set_up()
+void FireworkParticleSystem::set_spark_data_and_deviation(const Particle_Data& d, const Particle_Deviation_Data& dv)
 {
-    spark_generator = new UniformGenerator();
-    explosion_generator = new UniformGenerator();
-    add_generator(explosion_generator); //generador explosion
-    add_generator(spark_generator); //generador chispa
+    spark_data = d; spark_deviation = dv;
 }
 
-void FireworkParticleSystem::create_explosion_at(const PxVec3& pos, const PxVec4& color)
+void FireworkParticleSystem::set_explosion_data_and_deviation(const Particle_Data& d, const Particle_Deviation_Data& dv)
 {
-    auto expParticles = explosion_generator->generate_particles(explosion_data, explosion_deviation, n_explosion, PxGeometryType::Enum::eSPHERE);
+    explosion_data = d; explosion_deviation = dv;
+}
+
+void FireworkParticleSystem::init()
+{
+    spawn_period = 0.0; // sin spawn automatico
+
+    add_generator(new NormalGenerator()); //generador rocket
+    add_generator(new UniformGenerator()); //generador explosion
+    add_generator(new UniformGenerator()); //generador chispa
+}
+
+void FireworkParticleSystem::create_explosion()
+{
+    auto expParticles = generators[1]->generate_particles(explosion_data, explosion_deviation, n_explosion, PxGeometryType::Enum::eSPHERE);
     for (auto& explosionParticle : expParticles) {
+        explosionParticle->setType(Particle::EXPLOSION);
         particles_list.push_back(std::unique_ptr<Particle>(explosionParticle));
         for (auto& force : force_generators) {
             local_registry.add_registry(explosionParticle, force.get());
+        }
+    }
+}
+
+void FireworkParticleSystem::create_spark()
+{
+    auto sparks = generators[2]->generate_particles(spark_data, spark_deviation, n_sparks, PxGeometryType::Enum::eSPHERE);
+    for (auto& spark : sparks) {
+        particles_list.push_back(std::unique_ptr<Particle>(spark));
+        for (auto& force : force_generators) {
+            local_registry.add_registry(spark, force.get());
         }
     }
 }
@@ -63,30 +87,23 @@ void FireworkParticleSystem::update(double dt)
         p->update(dt);
 
         if (!p->is_alive()) {
-            const PxVec4& color = p->getColor();
-
-            if (color == rocket_color) {
+            if (p->is_type_of(Particle::ROCKET)) {
                 deadRockets.push_back(p.get());
             }
-            else if (color == explosion_color) {
+            else if (p->is_type_of(Particle::EXPLOSION)) {
                 deadRockets.push_back(p.get());
             }
         }
     }
 
     for (auto* rocket : deadRockets) {
-        create_explosion_at(rocket->getPosition(), explosion_color);
+        explosion_data.pos = rocket->getPosition();
+        create_explosion();
     }
 
     for (auto* ex : deadExplosion) {
         spark_data.pos = ex->getPosition();
-        auto sparks = spark_generator->generate_particles(spark_data, spark_deviation, n_sparks, PxGeometryType::Enum::eSPHERE);
-        for (auto& spark : sparks) {
-            particles_list.push_back(std::unique_ptr<Particle>(spark));
-            for (auto& force : force_generators) {
-                local_registry.add_registry(spark, force.get());
-            }
-        }
+        create_spark();
     }
 
     particles_list.remove_if([this](std::unique_ptr<Particle>& p) {

@@ -11,5 +11,6 @@ void Scene1::init()
 	Fire_Deviation_Data fdd;
 
 	FireParticleSystem* fps = new FireParticleSystem(fpd, fdd, 5);
+	fps->init();
 	gPartSys.push_back(fps);
 }

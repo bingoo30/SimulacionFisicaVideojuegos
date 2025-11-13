@@ -10,5 +10,6 @@ void Scene2::init()
 	Rain_Deviation_Data rdd;
 
 	RainParticleSystem* rps = new RainParticleSystem(rpd, rdd, 20);
+	rps->init();
 	gPartSys.push_back(rps);
 }
