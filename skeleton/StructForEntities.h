@@ -157,16 +157,7 @@ struct Firework_Particle_Data : public Particle_Data {
 		mass = 0.0025;
 	}
 };
-struct Firework_Deviation_Data : public Particle_Deviation_Data {
-	Firework_Deviation_Data() {
-		vel = physx::PxVec3(0.75f, 5.0f, 0.75f);
-		mas = 0.0005;
-		dur = 0.5;
-		r_color = false;
-		r_cant = false;
 
-	}
-};
 #pragma endregion
 
 #pragma region practica 3
