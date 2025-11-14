@@ -94,6 +94,9 @@
     <ClCompile Include="ProjectCharacterDemo.cpp">
       <Filter>Proyecto intermedio</Filter>
     </ClCompile>
+    <ClCompile Include="SpringForceGenerator.cpp">
+      <Filter>practica 4</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Render\Camera.h">
@@ -198,6 +201,9 @@
     <ClInclude Include="ProjectCharacterDemo.h">
       <Filter>Proyecto intermedio</Filter>
     </ClInclude>
+    <ClInclude Include="SpringForceGenerator.h">
+      <Filter>practica 4</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">
@@ -220,6 +226,9 @@
     </Filter>
     <Filter Include="practica 2\ampliacion practica 2">
       <UniqueIdentifier>{04d3c424-45a7-42bc-818c-eb8d09c0a226}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="practica 4">
+      <UniqueIdentifier>{bc29a107-96b2-49dd-b071-3d89ffe9300d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
