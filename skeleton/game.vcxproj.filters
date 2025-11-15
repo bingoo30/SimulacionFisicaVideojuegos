@@ -97,6 +97,9 @@
     <ClCompile Include="SpringForceGenerator.cpp">
       <Filter>practica 4</Filter>
     </ClCompile>
+    <ClCompile Include="AnchoredSpringForceGenerator.cpp">
+      <Filter>practica 4</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Render\Camera.h">
@@ -202,6 +205,9 @@
       <Filter>Proyecto intermedio</Filter>
     </ClInclude>
     <ClInclude Include="SpringForceGenerator.h">
+      <Filter>practica 4</Filter>
+    </ClInclude>
+    <ClInclude Include="AnchoredSpringForceGenerator.h">
       <Filter>practica 4</Filter>
     </ClInclude>
   </ItemGroup>
