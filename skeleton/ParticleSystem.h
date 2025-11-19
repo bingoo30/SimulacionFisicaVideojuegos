@@ -22,6 +22,8 @@ public:
 	void derregister();
 	void register_particles(); 
 	void add_force_generator(ForceGenerator* gen);
+	bool is_active() const;
+	void set_Active(bool a);
 #pragma endregion
 
 protected:
@@ -40,6 +42,7 @@ protected:
 	double spawn_period=0.0;
 
 	physx::PxGeometryType::Enum geometry;
+	bool active;
 #pragma endregion
 	void add_generator(Generator* gen);
 	virtual bool check_out_of_limit(Particle* p) const = 0;

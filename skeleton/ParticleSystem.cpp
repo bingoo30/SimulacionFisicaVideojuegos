@@ -32,6 +32,7 @@ void ParticleSystem::spawn()
 }
 
 void ParticleSystem::update(double dt) {
+    if (!active) return;
     // actualiza las fuerzas de este sistema
     local_registry.update_forces(dt);
 
@@ -81,6 +82,14 @@ void ParticleSystem::add_force_generator(ForceGenerator* gen)
             local_registry.add_registry(p.get(), gen);
         }
     }
+}
+bool ParticleSystem::is_active() const
+{
+    return active;
+}
+void ParticleSystem::set_Active(bool a)
+{
+    active = a;
 }
 void ParticleSystem::kill_dead_particles()
 {
