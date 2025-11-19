@@ -26,6 +26,28 @@ void SpringForceGenerator::handle_special_input(int key)
 	setK(newK);
 }
 
+void SpringForceGenerator::handle_input(unsigned char key)
+{
+	switch (key) {
+	case 'F':
+		extra_force_active = true;
+		extra_force_timer = 0.25;
+		break;
+	}
+}
+
+void SpringForceGenerator::update_force(Particle* p, double dt)
+{
+	ForceGenerator::update_force(p, dt);
+	if (extra_force_active)
+	{
+		p->add_force(extra_force_value);
+		extra_force_timer -= dt;
+		if (extra_force_timer <= 0)
+			extra_force_active = false;
+	}
+}
+
 physx::PxVec3 SpringForceGenerator::calculate_force(Particle* p, double dt)
 {
 	PxVec3 relative_pos = other->getPosition() - p->getPosition();
