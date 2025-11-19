@@ -1,18 +1,29 @@
 ﻿#include "SpringForceGenerator.h"
 #include "Particle.h"
+#include <algorithm>
 using namespace physx;
-SpringForceGenerator::SpringForceGenerator(double k, double rl, Particle* p):ForceGenerator(), K(k), resisting_length(rl), other(p)
+SpringForceGenerator::SpringForceGenerator(double k, double rl, Particle* p):ForceGenerator(), K(k), resisting_length(rl), other(p), umbral(5)
 {
 }
 
 void SpringForceGenerator::setK(double newK)
 {
-	K = newK;
+	K = std::min<double>(newK, 0.0); 
 }
 
-void SpringForceGenerator::update_force(Particle* p, double dt)
+void SpringForceGenerator::handle_special_input(int key)
 {
-	p->add_force(calculate_force(p, dt));
+	double newK = K;
+	switch (key)
+	{
+	case GLUT_KEY_UP:
+		newK += umbral;
+		break;
+	case GLUT_KEY_RIGHT:
+		newK -= umbral;
+		break;
+	}
+	setK(newK);
 }
 
 physx::PxVec3 SpringForceGenerator::calculate_force(Particle* p, double dt)

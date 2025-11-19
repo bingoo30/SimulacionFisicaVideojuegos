@@ -261,6 +261,7 @@
     <ClCompile Include="ExplosionForceGenerator.cpp" />
     <ClCompile Include="FireParticleSystem.cpp" />
     <ClCompile Include="FireworkParticleSystem.cpp" />
+    <ClCompile Include="ForceGenerator.cpp" />
     <ClCompile Include="ForceRegistry.cpp" />
     <ClCompile Include="GravityForceGenerator.cpp" />
     <ClCompile Include="main.cpp" />

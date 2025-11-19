@@ -6,7 +6,6 @@ class WindForceGenerator :
 public:
     WindForceGenerator(const physx::PxVec3& pos, const physx::PxVec3& v, double r, double _k1, double d, bool moreRealistic);
     virtual ~WindForceGenerator() = default;
-    void update_force(Particle* p, double dt =0.0) override;
 #pragma region getters y setters
     void setK1(int k) { k1 = k; };
     int getK1() const { return k1; };

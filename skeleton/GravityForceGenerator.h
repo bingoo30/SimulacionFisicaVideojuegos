@@ -8,9 +8,6 @@ public:
     GravityForceGenerator(const physx::PxVec3& g);
     virtual ~GravityForceGenerator() = default;
 #pragma endregion
-#pragma region metodos publicos
-    void update_force(Particle* p, double dt = 0.0) override;
-#pragma endregion
 protected:
 #pragma region atributos
     physx::PxVec3 gravity;

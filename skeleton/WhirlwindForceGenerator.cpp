@@ -7,7 +7,7 @@ void WhirlwindForceGenerator::update_force(Particle* p, double dt)
     const physx::PxVec3 r = p->getPosition() - center;
     vel = k * physx::PxVec3(-r.z, 50 - r.y, r.x);
 
-    WindForceGenerator::update_force(p);
+    WindForceGenerator::update_force(p, dt);
 }
 
 WhirlwindForceGenerator::WhirlwindForceGenerator(const physx::PxVec3& pos, double r, double k1, double d, double K, bool realistic):

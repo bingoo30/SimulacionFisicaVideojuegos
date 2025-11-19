@@ -46,9 +46,3 @@ PxVec3 WindForceGenerator::calculate_force(Particle* p, double dt)
     physx::PxVec3 windF = k1 * dv + k2 * vMag* dv;
     return windF;
 }
-
-void WindForceGenerator::update_force(Particle* p, double dt)
-{
-    if (!p) return;
-    p->add_force(calculate_force(p));
-}

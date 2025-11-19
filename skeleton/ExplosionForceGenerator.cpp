@@ -23,8 +23,7 @@ void ExplosionForceGenerator::update_force(Particle* p, double dt)
     }
 
     // Calcular y aplicar la fuerza
-    PxVec3 f = calculate_force(p, dt);
-    p->add_force(f);
+    ForceGenerator::update_force(p, dt);
 }
 
 void ExplosionForceGenerator::activate(bool a)

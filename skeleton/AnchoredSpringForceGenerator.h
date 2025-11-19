@@ -8,6 +8,6 @@ public:
     virtual ~AnchoredSpringForceGenerator() = default;
 protected:
     physx::PxVec3 calculate_force(Particle* p, double dt) override;
-    PxVec3 anchor;
+    physx::PxVec3 anchor;
 };
 
