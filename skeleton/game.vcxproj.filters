@@ -103,6 +103,9 @@
     <ClCompile Include="ForceGenerator.cpp">
       <Filter>practica 3</Filter>
     </ClCompile>
+    <ClCompile Include="RubberBandForceGenerator.cpp">
+      <Filter>practica 4</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Render\Camera.h">
@@ -211,6 +214,9 @@
       <Filter>practica 4</Filter>
     </ClInclude>
     <ClInclude Include="AnchoredSpringForceGenerator.h">
+      <Filter>practica 4</Filter>
+    </ClInclude>
+    <ClInclude Include="RubberBandForceGenerator.h">
       <Filter>practica 4</Filter>
     </ClInclude>
   </ItemGroup>
