@@ -2,7 +2,7 @@
 #include "Particle.h"
 using namespace physx;
 
-ForceGenerator::ForceGenerator():active(true)
+ForceGenerator::ForceGenerator():alive(true)
 {
 }
 

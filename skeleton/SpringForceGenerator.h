@@ -20,6 +20,6 @@ protected:
 
     bool extra_force_active = false;
     double extra_force_timer = 0.0;
-    PxVec3 extra_force_value = PxVec3(200, 0, 0); // por ejemplo
+    physx::PxVec3 extra_force_value = physx::PxVec3(200, 0, 0); // por ejemplo
 };
 

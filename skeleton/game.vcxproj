@@ -255,6 +255,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AnchoredSpringForceGenerator.cpp" />
+    <ClCompile Include="BouyancyForceGenerator.cpp" />
     <ClCompile Include="callbacks.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="Entity.cpp" />
@@ -284,6 +285,7 @@
     <ClCompile Include="Scene3.cpp" />
     <ClCompile Include="Scene4.cpp" />
     <ClCompile Include="Scene5.cpp" />
+    <ClCompile Include="Scene6.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SpringForceGenerator.cpp" />
     <ClCompile Include="UniformGenerator.cpp" />
@@ -292,6 +294,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnchoredSpringForceGenerator.h" />
+    <ClInclude Include="BouyancyForceGenerator.h" />
     <ClInclude Include="callbacks.hpp" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="core.hpp" />
@@ -322,6 +325,7 @@
     <ClInclude Include="Scene3.h" />
     <ClInclude Include="Scene4.h" />
     <ClInclude Include="Scene5.h" />
+    <ClInclude Include="Scene6.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SpringForceGenerator.h" />
     <ClInclude Include="StructForEntities.h" />

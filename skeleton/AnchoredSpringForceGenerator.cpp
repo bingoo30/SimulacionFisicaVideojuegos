@@ -1,6 +1,5 @@
 ﻿#include "AnchoredSpringForceGenerator.h"
 #include "Particle.h"
-#include "StructForEntities.h"
 using namespace physx;
 AnchoredSpringForceGenerator::AnchoredSpringForceGenerator(double k, double rl, const physx::PxVec3& pos):
 	SpringForceGenerator(k,rl, nullptr), anchor(pos)

@@ -3,6 +3,7 @@
 #include "Scene.h"
 
 enum States {
+    MUELLES,
     INTRO,
     DEMO_SCENARIO,
     DEMO_CHARACTER,

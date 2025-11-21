@@ -218,3 +218,10 @@ struct Platform_Data:public Particle_Data {
 };
 #pragma endregion
 
+#pragma region Practica 4 
+struct SpringData
+{
+	double k;
+	double resisting_length;
+};
+#pragma endregion

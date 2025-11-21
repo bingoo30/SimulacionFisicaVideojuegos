@@ -21,6 +21,7 @@
 #include "Scene2.h"
 #include "Scene3.h"
 #include "Scene4.h"
+#include "Scene6.h"
 #include "SceneManager.h"
 
 #include "ProjectIntro.h"
@@ -108,29 +109,10 @@ void initPhysics(bool interactive)
 
 	//SceneManager::instance().set_initial_scene(0);
 
-
-	//proyecto
-	Scene* intro = new ProjectIntro();
-	intro->init();
-	SceneManager::instance().add(intro);
-
-	Scene* scenario = new ProjectScenario();
-	scenario->init();
-	SceneManager::instance().add(scenario);
-
-	Scene* demo = new ProjectCharacterDemo();
-	demo->init();
-	SceneManager::instance().add(demo);
-
-	Scene* s0 = new Scene0();
-	s0->init();
-	SceneManager::instance().add(s0);
-
-	Scene* s4 = new Scene4();
-	s4->init();
-	SceneManager::instance().add(s4);
-
-	SceneManager::instance().set_initial_scene(States::INTRO);
+	Scene* muelle = new Scene6();
+	muelle->init();
+	SceneManager::instance().add(muelle);
+	SceneManager::instance().set_initial_scene(MUELLES);
 	updateDisplay();
 }
 

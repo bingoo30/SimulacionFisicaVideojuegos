@@ -6,6 +6,8 @@ class ForceGenerator
 public:
 	ForceGenerator();
 	virtual ~ForceGenerator() = default;
+	virtual void register_aux_renders() {};
+	virtual void derregister_aux_renders() {};
 	virtual void update_force(Particle* particle, double dt);
 	virtual void handle_special_input(int key);
 	virtual void handle_input(unsigned char key);
