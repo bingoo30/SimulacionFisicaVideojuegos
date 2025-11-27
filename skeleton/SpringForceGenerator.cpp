@@ -1,14 +1,15 @@
 ﻿#include "SpringForceGenerator.h"
 #include "Particle.h"
 #include <algorithm>
+#include <iostream>
 using namespace physx;
-SpringForceGenerator::SpringForceGenerator(double k, double rl, Particle* p):ForceGenerator(), K(k), resisting_length(rl), other(p), umbral(5)
+SpringForceGenerator::SpringForceGenerator(double k, double rl, Particle* p):ForceGenerator(), K(k), resisting_length(rl), other(p), umbral(0.5)
 {
 }
 
 void SpringForceGenerator::setK(double newK)
 {
-	K = std::min<double>(newK, 0.0); 
+	K = std::max<double>(newK, 0.0); 
 }
 
 void SpringForceGenerator::handle_special_input(int key)
@@ -19,11 +20,12 @@ void SpringForceGenerator::handle_special_input(int key)
 	case GLUT_KEY_UP:
 		newK += umbral;
 		break;
-	case GLUT_KEY_RIGHT:
+	case GLUT_KEY_DOWN:
 		newK -= umbral;
 		break;
 	}
 	setK(newK);
+	std::cout << "nuevo umbral es: " << newK << "\n";
 }
 
 void SpringForceGenerator::handle_input(unsigned char key)

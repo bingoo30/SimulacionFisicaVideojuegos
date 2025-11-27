@@ -90,6 +90,7 @@ Particle* Scene::create_Platform(const Platform_Data& pd)
 
 	//sin gravedad, es estatico
 	gObjs.push_back(part);
+	part->create_renderItem();
 	return part;
 }
 Projectile* Scene::create_projectile(const Projectile_Data& pd, Camera* c)
