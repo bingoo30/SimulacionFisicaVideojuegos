@@ -24,6 +24,9 @@ void Scene::enter() {
 	for (auto ps : gPartSys) {
 		ps->register_particles();
 	}
+	for (auto f : gForcesWithRender) {
+		f->register_aux_renders();
+	}
 }
 
 void Scene::exit()
@@ -33,6 +36,9 @@ void Scene::exit()
 	}
 	for (auto ps : gPartSys) {
 		if (ps)ps->derregister();
+	}
+	for (auto f : gForcesWithRender) {
+		f->derregister_aux_renders();
 	}
 }
 Particle* Scene::create_particle(const Particle_Data& pd)

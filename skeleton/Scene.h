@@ -42,6 +42,8 @@ protected:
 	std::string display;
 
 	ForceRegistry fRegistry;
+	//vector auxiliar para pintar las fuerzas
+	std::vector<ForceGenerator*> gForcesWithRender;
 	GravityForceGenerator* gr;
 };
 

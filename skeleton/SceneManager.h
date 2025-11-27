@@ -21,7 +21,10 @@ public:
     void change_scene(int idx);
     void add(Scene* s);
     Scene* getCurrScene();
-    void set_initial_scene(int idx) { currScene = idx; };
+    void set_initial_scene(int idx) { 
+        currScene = idx; 
+        scenes[currScene]->enter();
+    };
     void clean();
 
 private:

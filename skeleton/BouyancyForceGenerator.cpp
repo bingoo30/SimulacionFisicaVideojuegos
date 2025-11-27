@@ -6,12 +6,17 @@ BouyancyForceGenerator::BouyancyForceGenerator(float h, float v, float d):ForceG
 {
 	Particle_Data pd;
 	pd.pos = PxVec3(0.0);
-
+	pd.density = liquid_density;
+	pd.vol = height*10;
+	pd.color = PxVec4(0, 0, 1, 0.3);
+	pd.lifetime = -1;
+	pd.mass = 0.0;
+	pd.mode = NONE;
 	liquid = new Particle(
 		pd.pos,
 		pd.color,
 		pd.mass,
-		CreateShape(physx::PxBoxGeometry(pd.vol * 0.5, pd.vol * 0.5, pd.vol*0.1)),
+		CreateShape(physx::PxBoxGeometry(10, 4, 5)),
 		pd.vol,
 		pd.lifetime,
 		pd.vel,
@@ -41,17 +46,20 @@ physx::PxVec3 BouyancyForceGenerator::calculate_force(Particle* p, double dt)
 
 	PxVec3 f(0.0f);
 	float immersed = 0.0f;
-	if (h - h0 > height * 0.5) {
-		//todo el cuerpo flotando fuera
+
+	// completamente fuera del agua
+	if (h - h0 >= height * 0.5f) {
 		immersed = 0.0f;
 	}
-	else if (h0 - h > height * 0.5) {
-		//cuerpo totalmente sumergido
-		immersed = 1.0;
+	// completamente sumergido
+	else if (h0 - h >= height * 0.5f) {
+		immersed = 1.0f;
 	}
+	// inmersión parcial
 	else {
-		immersed = (h0 - h) / height * 0.5;
+		immersed = (h0 - h + height * 0.5f) / height;
 	}
+
 	f.y = liquid_density * volume * immersed * -CONST_GRAVITY.y;
 	return f;
 }

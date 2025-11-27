@@ -224,4 +224,11 @@ struct SpringData
 	double k;
 	double resisting_length;
 };
+
+struct LiquidData {
+	//por defecto es el agua
+	double height = 2.0;
+	double volume = 0.1;
+	double density = 1000.0;
+};
 #pragma endregion
