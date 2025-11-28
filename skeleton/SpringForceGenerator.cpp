@@ -30,10 +30,9 @@ void SpringForceGenerator::handle_special_input(int key)
 
 void SpringForceGenerator::handle_input(unsigned char key)
 {
-	switch (key) {
+	switch (toupper(key)) {
 	case 'F':
 		extra_force_active = true;
-		extra_force_timer = 0.25;
 		break;
 	}
 }
@@ -44,9 +43,7 @@ void SpringForceGenerator::update_force(Particle* p, double dt)
 	if (extra_force_active)
 	{
 		p->add_force(extra_force_value);
-		extra_force_timer -= dt;
-		if (extra_force_timer <= 0)
-			extra_force_active = false;
+		extra_force_active = false;
 	}
 }
 

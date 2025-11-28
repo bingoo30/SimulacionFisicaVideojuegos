@@ -31,6 +31,8 @@ public:
     bool is_type_of(Type t) const;
     void setType(Type t);
 
+    void setDamping(double d) { damping = d; }
+
 #pragma region getters
     const physx::PxVec3& getPosition() const { return transform.p; };
     const physx::PxVec3& getVelocity() const { return vel; };

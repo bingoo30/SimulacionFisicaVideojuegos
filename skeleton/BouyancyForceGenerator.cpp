@@ -1,22 +1,22 @@
 ﻿#include "BouyancyForceGenerator.h"
 #include "Particle.h"
-using namespace physx;
 #include "StructForEntities.h"
+#include <iostream>
+using namespace physx;
 BouyancyForceGenerator::BouyancyForceGenerator(float h, float v, float d):ForceGenerator(), height(h), volume(v), liquid_density(d)
 {
 	Particle_Data pd;
-	pd.pos = PxVec3(0.0);
+	pd.pos = PxVec3(0.0, 0.0, 0.0);
 	pd.density = liquid_density;
-	pd.vol = height*10;
 	pd.color = PxVec4(0, 0, 1, 0.3);
 	pd.lifetime = -1;
-	pd.mass = 0.0;
+	pd.mass = volume*liquid_density;
 	pd.mode = NONE;
 	liquid = new Particle(
 		pd.pos,
 		pd.color,
 		pd.mass,
-		CreateShape(physx::PxBoxGeometry(10, 4, 5)),
+		CreateShape(physx::PxBoxGeometry(std::min<double>(height * 10, 10), std::min<double>(height * 4, 10), std::min<double>(height * 5, 10))),
 		pd.vol,
 		pd.lifetime,
 		pd.vel,
@@ -61,5 +61,7 @@ physx::PxVec3 BouyancyForceGenerator::calculate_force(Particle* p, double dt)
 	}
 
 	f.y = liquid_density * volume * immersed * -CONST_GRAVITY.y;
+
+	//std::cout << "pos particula: " << p->getPosition().y<< "\n";
 	return f;
 }
