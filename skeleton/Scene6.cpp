@@ -8,7 +8,7 @@ using namespace physx;
 void Scene6::init()
 {
 	display = "escena 6: muelles";
-	SpringData sd;
+	Spring_Data sd;
 
 	sd.k = 2;
 	sd.resisting_length = 15.0;
@@ -33,7 +33,7 @@ void Scene6::init()
 	fRegistry.add_registry(p, gr);
 	fRegistry.add_registry(p2, muelleSinParticula);
 	fRegistry.add_registry(p2, gr);
-	LiquidData ld;
+	Liquid_Data ld;
 	BouyancyForceGenerator* bg = new BouyancyForceGenerator(ld.height, ld.volume, ld.density);
 	gForcesWithRender.push_back(bg);
 
@@ -72,8 +72,7 @@ void Scene6::handle_input(unsigned char key)
 		fRegistry.add_registry(p1, gr);
 		pd.pos.x = -10;
 		pd.color.x = 1;
-		SpringData sd;
-		sd.k = 1; sd.resisting_length = 2.0;
+		Spring_Data sd;
 
 		RubberBandForceGenerator* rb = new RubberBandForceGenerator(sd.k, sd.resisting_length, p1);
 		Particle* p2 = create_particle(pd);

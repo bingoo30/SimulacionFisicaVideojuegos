@@ -4,6 +4,7 @@
 #include "Particle.h"
 #include "Projectile.h"
 #include "SceneManager.h"
+#include "RubberBandForceGenerator.h"
 #include <cmath>
 using namespace physx;
 Scene::Scene(): gObjs(), gPartSys(), display("escena"), fRegistry(ForceRegistry()), gr(new GravityForceGenerator({ 0.0, -9.8, 0.0 }))
@@ -137,6 +138,34 @@ Projectile* Scene::create_projectile(const Projectile_Data& pd, Camera* c)
 	proj->create_renderItem();
 	gObjs.push_back(proj);
 	return proj;
+}
+
+void Scene::create_slinky(Particle_Data& pd, const Spring_Data& sd)
+{
+	//creo las 6 particulas
+	Particle* p1 = create_particle(pd);
+	RubberBandForceGenerator* rb1 = new RubberBandForceGenerator(sd.k, sd.resisting_length, p1);
+	pd.pos.y -= sd.resisting_length * 1.75;
+	Particle* p2 = create_particle(pd);
+	fRegistry.add_registry(p2, rb1);
+	RubberBandForceGenerator* rb2 = new RubberBandForceGenerator(sd.k, sd.resisting_length, p2);
+	pd.pos.y -= sd.resisting_length * 1.75;
+	Particle* p3 = create_particle(pd);
+	fRegistry.add_registry(p3, rb2);
+	RubberBandForceGenerator* rb3 = new RubberBandForceGenerator(sd.k, sd.resisting_length, p3);
+	pd.pos.y -= sd.resisting_length * 1.75;
+	Particle* p4 = create_particle(pd);
+	fRegistry.add_registry(p4, rb3);
+	RubberBandForceGenerator* rb4 = new RubberBandForceGenerator(sd.k, sd.resisting_length, p4);
+	pd.pos.y -= sd.resisting_length * 1.75;
+	Particle* p5 = create_particle(pd);
+	fRegistry.add_registry(p5, rb4);
+	RubberBandForceGenerator* rb5 = new RubberBandForceGenerator(sd.k, sd.resisting_length, p5);
+	pd.pos.y -= sd.resisting_length * 1.75;
+	Particle* p6 = create_particle(pd);
+	fRegistry.add_registry(p6, rb5);
+
+
 }
 
 void Scene::add_entity_with_renderItem(Entity* e)

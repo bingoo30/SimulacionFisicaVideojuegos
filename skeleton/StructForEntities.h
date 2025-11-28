@@ -219,13 +219,13 @@ struct Platform_Data:public Particle_Data {
 #pragma endregion
 
 #pragma region Practica 4 
-struct SpringData
+struct Spring_Data
 {
-	double k;
-	double resisting_length;
+	double k = 1.0;
+	double resisting_length = 2.0;
 };
 
-struct LiquidData {
+struct Liquid_Data {
 	double height = 1.0;
 	double volume = 1.0;
 	//por defecto es el agua
