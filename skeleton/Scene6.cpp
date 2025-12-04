@@ -11,16 +11,16 @@ void Scene6::init()
 	Spring_Data sd;
 
 	sd.k = 2;
-	sd.resisting_length = 15.0;
-	muelleSinParticula = new AnchoredSpringForceGenerator(sd.k, sd.resisting_length, PxVec3(-30, 50, 0)); 
+	sd.resisting_length = 5.0;
+	//muelleSinParticula = new AnchoredSpringForceGenerator(sd.k, sd.resisting_length, PxVec3(-30, 50, 0)); 
 	
 	Particle_Data pd;
 	pd.pos = PxVec3(3, 30, 0);
 	pd.lifetime = -1;
 	pd.mode = SEMI_IMPLICIT_EULER;
-	Particle* p = create_particle(pd);
+	//Particle* p = create_particle(pd);
 
-	Platform_Data pld;
+	/*Platform_Data pld;
 	pld.volx = pld.voly = pld.volz = 2;
 	pld.pos = PxVec3(0, 30, 0);
 	Particle* p1 = create_Platform(pld);
@@ -47,7 +47,9 @@ void Scene6::init()
 	p3->setDamping(0.3);
 
 	fRegistry.add_registry(p3, gr);
-	fRegistry.add_registry(p3, bg);
+	fRegistry.add_registry(p3, bg);*/
+
+	create_slinky(pd, sd, 6);
 }
 
 void Scene6::handle_special_input(int key)

@@ -6,6 +6,7 @@
 #include "SceneManager.h"
 #include "RubberBandForceGenerator.h"
 #include <cmath>
+#include <algorithm>
 using namespace physx;
 Scene::Scene(): gObjs(), gPartSys(), display("escena"), fRegistry(ForceRegistry()), gr(new GravityForceGenerator({ 0.0, -9.8, 0.0 }))
 {
@@ -140,32 +141,30 @@ Projectile* Scene::create_projectile(const Projectile_Data& pd, Camera* c)
 	return proj;
 }
 
-void Scene::create_slinky(Particle_Data& pd, const Spring_Data& sd)
+void Scene::create_slinky(Particle_Data& pd, const Spring_Data& sd, int N)
 {
-	//creo las 6 particulas
-	Particle* p1 = create_particle(pd);
-	RubberBandForceGenerator* rb1 = new RubberBandForceGenerator(sd.k, sd.resisting_length, p1);
-	pd.pos.y -= sd.resisting_length * 1.75;
-	Particle* p2 = create_particle(pd);
-	fRegistry.add_registry(p2, rb1);
-	RubberBandForceGenerator* rb2 = new RubberBandForceGenerator(sd.k, sd.resisting_length, p2);
-	pd.pos.y -= sd.resisting_length * 1.75;
-	Particle* p3 = create_particle(pd);
-	fRegistry.add_registry(p3, rb2);
-	RubberBandForceGenerator* rb3 = new RubberBandForceGenerator(sd.k, sd.resisting_length, p3);
-	pd.pos.y -= sd.resisting_length * 1.75;
-	Particle* p4 = create_particle(pd);
-	fRegistry.add_registry(p4, rb3);
-	RubberBandForceGenerator* rb4 = new RubberBandForceGenerator(sd.k, sd.resisting_length, p4);
-	pd.pos.y -= sd.resisting_length * 1.75;
-	Particle* p5 = create_particle(pd);
-	fRegistry.add_registry(p5, rb4);
-	RubberBandForceGenerator* rb5 = new RubberBandForceGenerator(sd.k, sd.resisting_length, p5);
-	pd.pos.y -= sd.resisting_length * 1.75;
-	Particle* p6 = create_particle(pd);
-	fRegistry.add_registry(p6, rb5);
+	Particle* prev = create_particle(pd);
 
+	for (int i = 1; i < N; ++i)
+	{
+		double newC = std::max<double>(0.05 * i, 0.0);
+		pd.color.x -= newC;
+		pd.color.y -= newC;
+		pd.color.z -= newC;
+		pd.pos.y -= sd.resisting_length*1.1f;
+		pd.pos.x += 1;
 
+		Particle* p = create_particle(pd);
+
+		// El RubberBand une p (actual) hacia prev (arriba)
+		RubberBandForceGenerator* rb =
+			new RubberBandForceGenerator(sd.k, sd.resisting_length, prev);
+
+		// Registramos solo en p (la que debe sentir la fuerza)
+		fRegistry.add_registry(p, rb);
+
+		prev = p;
+	}
 }
 
 void Scene::add_entity_with_renderItem(Entity* e)
