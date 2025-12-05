@@ -34,8 +34,8 @@ public:
     void setDamping(double d) { damping = d; }
 
 #pragma region getters
-    const physx::PxVec3& getPosition() const { return transform.p; };
-    const physx::PxVec3& getVelocity() const { return vel; };
+    virtual const physx::PxVec3& getPosition() const { return transform.p; };
+    virtual const physx::PxVec3& getVelocity() const { return vel; };
     double getRadius() const { return realRadius; };
 #pragma endregion
 
@@ -56,6 +56,7 @@ protected:
     virtual void update_force();
     void integrate_by_type(double dt);
     void calculate_real_radius();
+ 
 private:
     void int_Euler(double t);
     void int_Euler_Semiimplicit(double t);

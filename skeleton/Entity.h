@@ -27,7 +27,7 @@ public:
 	bool check_death();
 	//comprobar si tenemos un render item valido
 	bool is_valid_renderItem() const;
-	void kill() { alive = false; }
+	virtual void on_death() {};
 #pragma endregion
 #pragma region getters
 	RenderItem* getRenderItem() { return renderItem.get(); };

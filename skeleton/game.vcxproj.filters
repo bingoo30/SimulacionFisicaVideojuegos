@@ -112,6 +112,15 @@
     <ClCompile Include="Scene6.cpp">
       <Filter>practica 4</Filter>
     </ClCompile>
+    <ClCompile Include="RigidBody.cpp">
+      <Filter>practica 5</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticRigidBody.cpp">
+      <Filter>practica 5</Filter>
+    </ClCompile>
+    <ClCompile Include="DynamicRigidBody.cpp">
+      <Filter>practica 5</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Render\Camera.h">
@@ -231,6 +240,15 @@
     <ClInclude Include="Scene6.h">
       <Filter>practica 4</Filter>
     </ClInclude>
+    <ClInclude Include="RigidBody.h">
+      <Filter>practica 5</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticRigidBody.h">
+      <Filter>practica 5</Filter>
+    </ClInclude>
+    <ClInclude Include="DynamicRigidBody.h">
+      <Filter>practica 5</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">
@@ -256,6 +274,9 @@
     </Filter>
     <Filter Include="practica 4">
       <UniqueIdentifier>{bc29a107-96b2-49dd-b071-3d89ffe9300d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="practica 5">
+      <UniqueIdentifier>{4cac6af2-7427-4b3a-80e5-b8dd1ec97b51}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
