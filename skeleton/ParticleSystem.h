@@ -11,7 +11,7 @@ class ParticleSystem
 {
 public:
 #pragma region constructoras y destructora
-	ParticleSystem(const Particle_Data& pd, const Particle_Deviation_Data& pdd, int n, physx::PxGeometryType::Enum geo);
+	ParticleSystem(const Particle_Data& pd, const Particle_Deviation_Data& pdd, int n, physx::PxGeometryType::Enum geo, const physx::PxVec3& md);
 	virtual ~ParticleSystem();
 	virtual void init() = 0;
 #pragma endregion
@@ -43,6 +43,8 @@ protected:
 
 	physx::PxGeometryType::Enum geometry;
 	bool active;
+
+	physx::PxMaterial* mat;
 #pragma endregion
 	void add_generator(Generator* gen);
 	virtual bool check_out_of_limit(Particle* p) const = 0;

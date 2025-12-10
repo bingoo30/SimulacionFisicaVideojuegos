@@ -127,7 +127,9 @@
     <ClCompile Include="UniformGeneratorRB.cpp">
       <Filter>practica 5</Filter>
     </ClCompile>
-    <ClCompile Include="NormalGeneratorRB.cpp" />
+    <ClCompile Include="NormalGeneratorRB.cpp">
+      <Filter>practica 5</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Render\Camera.h">
@@ -262,7 +264,9 @@
     <ClInclude Include="UniformGeneratorRB.h">
       <Filter>practica 5</Filter>
     </ClInclude>
-    <ClInclude Include="NormalGeneratorRB.h" />
+    <ClInclude Include="NormalGeneratorRB.h">
+      <Filter>practica 5</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">

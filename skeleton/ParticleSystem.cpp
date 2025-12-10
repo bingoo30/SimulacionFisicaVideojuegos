@@ -1,7 +1,10 @@
 #include "ParticleSystem.h"
 #include <algorithm>
 using namespace std;
-ParticleSystem::ParticleSystem(const Particle_Data& pd, const Particle_Deviation_Data& pdd, int n, physx::PxGeometryType::Enum geo) :generators(), particles_list(), model(pd), deviation(pdd), num(n), geometry(geo), local_registry(ForceRegistry()), force_generators()
+using namespace physx;
+extern PxPhysics* gPhysics;
+
+ParticleSystem::ParticleSystem(const Particle_Data& pd, const Particle_Deviation_Data& pdd, int n, physx::PxGeometryType::Enum geo, const physx::PxVec3& md) :generators(), particles_list(), model(pd), deviation(pdd), num(n), geometry(geo), local_registry(ForceRegistry()), force_generators(), mat(gPhysics->createMaterial(md.x, md.y, md.z))
 {
 }
 
@@ -18,7 +21,7 @@ ParticleSystem::~ParticleSystem()
 void ParticleSystem::spawn()
 {
     for (auto g : generators) {
-        auto new_particles = g->generate_particles(model, deviation, num, geometry);
+        auto new_particles = g->generate_particles(model, deviation, num, geometry, mat);
         for (auto& new_p : new_particles) {
             // registrar todas las fuerzas locales sobre esta partícula
             for (auto& fg : force_generators) {

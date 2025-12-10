@@ -35,6 +35,7 @@ Particle_List NormalGeneratorRB::generate_particles(const Particle_Data& model, 
 
         PxFilterData f(0, 0, 0, 0);
         RigidBody* rb = nullptr;
+        //el tensor se cambia en el sistema!!!
         //miro si es estatico o dynamico
         if (_static) {
             rb = new StaticRigidBody(model, f, sh, _mat);
