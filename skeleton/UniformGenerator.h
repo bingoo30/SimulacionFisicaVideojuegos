@@ -7,6 +7,6 @@ public:
 	virtual ~UniformGenerator() = default;
 #pragma endregion 
 #pragma region metodos
-	Particle_List generate_particles(const Particle_Data& model, const Particle_Deviation_Data& deviation, int n, physx::PxGeometryType::Enum geo) override; 
+	Particle_List generate_particles(const Particle_Data& model, const Particle_Deviation_Data& deviation, int n, physx::PxGeometryType::Enum geo, physx::PxMaterial* _mat = nullptr) override;
 #pragma endregion
 };

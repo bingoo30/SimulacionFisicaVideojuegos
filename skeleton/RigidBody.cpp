@@ -1,7 +1,7 @@
 #include "RigidBody.h"
 using namespace physx;
 
-RigidBody::RigidBody(Particle_Data& pd, bool _static, PxShape* shape, PxMaterial* material) :
+RigidBody::RigidBody(const Particle_Data& pd, bool _static, PxShape* shape, PxMaterial* material) :
 	Particle(pd.pos, pd.color, pd.mass, shape, pd.vol, pd.lifetime, pd.vel, pd.mode, pd.density), is_static(_static)
 {
 }

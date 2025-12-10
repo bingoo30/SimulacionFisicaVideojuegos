@@ -4,7 +4,7 @@
 using namespace std;
 using namespace physx;
 
-Particle_List NormalGenerator::generate_particles(const Particle_Data& model, const Particle_Deviation_Data& deviation, int n, physx::PxGeometryType::Enum geo) {
+Particle_List NormalGenerator::generate_particles(const Particle_Data& model, const Particle_Deviation_Data& deviation, int n, physx::PxGeometryType::Enum geo, physx::PxMaterial* _mat) {
     Particle_List particles;
 
     int count = n;
@@ -12,22 +12,14 @@ Particle_List NormalGenerator::generate_particles(const Particle_Data& model, co
 
     for (int i = 0; i < count; ++i) {
         //posicion con desviacion normal
-        PxVec3 pos = model.pos + PxVec3(
-            normal_dev(deviation.ori.x),
-            normal_dev(deviation.ori.y),
-            normal_dev(deviation.ori.z)
-        );
+        PxVec3 pos = give_a_new_vec3(model.pos, deviation.ori, false);
 
         //velocidad con desviacion normal
-        PxVec3 vel = model.vel + PxVec3(
-            normal_dev(deviation.vel.x),
-            normal_dev(deviation.vel.y),
-            normal_dev(deviation.vel.z)
-        );
+        PxVec3 vel = give_a_new_vec3(model.vel, deviation.vel, false);
 
         //masa y duracion
-        double mass = model.mass + normal_dev(deviation.mas);
-        double life = model.lifetime + normal_dev(deviation.dur);
+        double mass = give_a_new_double(model.mass, deviation.mas, false);
+        double life = give_a_new_double(model.lifetime, deviation.dur, false);
 
         //color aleatorio
         PxVec4 color = deviation.r_color ? colors[random_color_index(model.color_offset, model.color_offset + model.color_tam)] : model.color;

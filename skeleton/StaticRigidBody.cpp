@@ -3,7 +3,7 @@ using namespace physx;
 
 extern PxPhysics* gPhysics;
 extern PxScene* gScene;
-StaticRigidBody::StaticRigidBody(Particle_Data& pd, physx::PxFilterData filter, physx::PxShape* shape, physx::PxMaterial* material):
+StaticRigidBody::StaticRigidBody(const Particle_Data& pd, physx::PxFilterData filter, physx::PxShape* shape, physx::PxMaterial* material):
 	RigidBody(pd, true, shape, material)
 {
 	shape->setSimulationFilterData(filter);
@@ -13,14 +13,12 @@ StaticRigidBody::StaticRigidBody(Particle_Data& pd, physx::PxFilterData filter, 
 }
 StaticRigidBody::~StaticRigidBody()
 {
-	if (body != nullptr) body->release();
-}
-const physx::PxVec3& StaticRigidBody::getPosition() const
-{
-	return body->getGlobalPose().p;
+	if (body != nullptr) 
+		body->release();
 }
 
-void StaticRigidBody::setPosition(const physx::PxVec3& p)
+physx::PxActor* StaticRigidBody::getActor()
 {
-	body->setGlobalPose(PxTransform(p));
-};
+	return body;
+}
+;

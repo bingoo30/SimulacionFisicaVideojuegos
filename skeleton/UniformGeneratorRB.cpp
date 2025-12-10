@@ -1,12 +1,16 @@
-#include "UniformGenerator.h"
-#include "SceneManager.h"
-using namespace std;
+#include "UniformGeneratorRB.h"
+#include "StaticRigidBody.h"
+#include "DynamicRigidBody.h"
+#include "RigidBody.h"
 using namespace physx;
 
-Particle_List UniformGenerator::generate_particles(const Particle_Data& model, const Particle_Deviation_Data& deviation,int n, physx::PxGeometryType::Enum geo, physx::PxMaterial* _mat) {
-    Particle_List particles;
+UniformGeneratorRB::UniformGeneratorRB(bool s) : _static(s) {}
 
-    //decidir si queremos generar exactamente n particulas nuevas
+Particle_List UniformGeneratorRB::generate_particles(const Particle_Data& model, const Particle_Deviation_Data& deviation, int n, physx::PxGeometryType::Enum geo, physx::PxMaterial* _mat)
+{
+    Particle_List rbs;
+
+    //decidir si queremos generar exactamente n cuerpos nuevos
     int count = n;
     if (deviation.r_cant) count = (int)(round(n * random_fraction()));
 
@@ -27,10 +31,15 @@ Particle_List UniformGenerator::generate_particles(const Particle_Data& model, c
         //crear particula y insertar a la lista
         auto g = create_geometry(geo, PxVec3(model.vol, model.vol, model.vol));
         PxShape* sh = CreateShape(*g);
-        Particle* p = new Particle(pos, color, mass, CreateShape(physx::PxSphereGeometry(model.vol)), model.vol, life, vel, SEMI_IMPLICIT_EULER, model.density);
-        p->create_renderItem();
-        particles.push_back(p);
-    }
+        
+        PxFilterData f(0, 0, 0, 0);
+        RigidBody* rb = nullptr;
+        //miro si es estatico o dynamico
+        if (_static) {
+            rb = new StaticRigidBody(model, f, sh, _mat);
+        }
+        else rb = new DynamicRigidBody(model, f, sh, _mat);
 
-    return particles;
+        rb->create_renderItem();
+        rbs.push_back(rb);
 }

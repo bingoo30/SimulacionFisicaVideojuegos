@@ -17,7 +17,7 @@ public:
 #pragma endregion
 
 #pragma region metodos publicos
-	void spawn();
+	virtual void spawn();
 	virtual void update(double dt);
 	void derregister();
 	void register_particles(); 

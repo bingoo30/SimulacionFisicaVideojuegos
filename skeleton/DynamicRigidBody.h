@@ -4,17 +4,22 @@
 
 class DynamicRigidBody : public RigidBody {
 public:
-	DynamicRigidBody(Particle_Data& pd, const physx::PxVec3& t= physx::PxVec3(-1), physx::PxFilterData filter = filterDataOther);PxMaterial* mat = nullptr);
+	DynamicRigidBody(const Particle_Data& prop,
+		physx::PxFilterData& _filter,
+		physx::PxShape* shape,
+		physx::PxMaterial* _material = nullptr);
 	virtual ~DynamicRigidBody();
-
-#pragma region getters
-	const physx::PxVec3& getPosition() const override;
-	const physx::PxVec3& getVelocity() const override;
-	physx::PxActor* getActor() { return body; }
-#pragma endregion
-
-	void setPosition(const physx::PxVec3& p) override;
-	void setVelocity(const physx::PxVec3& p) override;
+	#pragma region getters
+		inline const physx::PxVec3& getPosition() const override { return body->getGlobalPose().p; };
+		inline const physx::PxVec3& getVelocity() const override { return body->getLinearVelocity(); };
+		inline physx::PxActor* getActor() override { return body; }
+	#pragma endregion
+	#pragma region setters
+		inline void setPosition(const physx::PxVec3& p) override { body->setGlobalPose(PxTransform(p)); };
+		inline void setVelocity(const physx::PxVec3& v) override { body->setLinearVelocity(v); };
+		inline void setTensor(Vector3 t) { body->setMassSpaceInertiaTensor(t); };
+	#pragma endregion
+		void add_force(const physx::PxVec3& f) override;
 protected:
 	physx::PxRigidDynamic* body;
 	physx::PxMaterial* material;

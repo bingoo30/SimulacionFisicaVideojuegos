@@ -25,7 +25,7 @@ public:
     void integrate(double t) override;
     void update(double dt) override;
 
-    void add_force(const physx::PxVec3& f);
+    virtual void add_force(const physx::PxVec3& f);
     void clean_force();
 
     bool is_type_of(Type t) const;

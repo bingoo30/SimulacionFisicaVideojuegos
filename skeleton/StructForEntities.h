@@ -16,6 +16,9 @@ struct Particle_Data
 	int color_offset = 0;
 	int color_tam =8;
 	double density = 1.225;
+	double damping = 0.95;
+
+	physx::PxVec3 tensor = physx::PxVec3(-1);
 
 };
 

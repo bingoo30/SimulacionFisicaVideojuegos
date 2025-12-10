@@ -12,7 +12,7 @@ public:
 	virtual ~Generator() {};
     virtual void clear_particles() {};
 
-	virtual Particle_List generate_particles (const Particle_Data& model, const Particle_Deviation_Data& deviation, int n, physx::PxGeometryType::Enum geo) = 0;
+	virtual Particle_List generate_particles (const Particle_Data& model, const Particle_Deviation_Data& deviation, int n, physx::PxGeometryType::Enum geo, physx::PxMaterial* _mat = nullptr) = 0;
 protected:
 	std::mt19937 _mt;
 #pragma region metodos auxiliares de calculo
@@ -53,5 +53,17 @@ protected:
         }
     }
 
+    const physx::PxVec3& give_a_new_vec3(const physx::PxVec3& x, const physx::PxVec3& y, bool uniform = true) {
+        physx::PxVec3 p;
+        if (uniform) p = x + PxVec3(uniform_dev(y.x), uniform_dev(y.y), uniform_dev(y.z));
+        else p = x+ PxVec3(normal_dev(y.x), normal_dev(y.y), normal_dev(y.z));
+        return p;
+    }
+    double give_a_new_double(double x, double y, bool uniform = true) {
+        double z;
+        if (uniform) z = x + uniform_dev(y);
+        else z = x + normal_dev(y);
+        return z;
+    }
 #pragma endregion
 };

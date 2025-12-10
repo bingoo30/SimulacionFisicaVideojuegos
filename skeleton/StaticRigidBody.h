@@ -4,10 +4,15 @@
 
 class StaticRigidBody : public RigidBody {
 public:
-	StaticRigidBody(Particle_Data& pd, physx::PxFilterData filter, physx::PxShape* shape, physx::PxMaterial* material = nullptr);
+	StaticRigidBody(const Particle_Data& pd, physx::PxFilterData filter, physx::PxShape* shape, physx::PxMaterial* material = nullptr);
 	virtual ~StaticRigidBody();
-	const physx::PxVec3& getPosition() const override;
-	void setPosition(const physx::PxVec3& p) override;
+    #pragma region getters
+	inline const physx::PxVec3& getPosition() const override { return body->getGlobalPose().p; };
+	inline physx::PxActor* getActor() override { return body; };
+#pragma endregion
+    #pragma region setters
+	inline void setPosition(const physx::PxVec3& p) override { body->setGlobalPose(PxTransform(p)); };
+#pragma endregion
 protected:
 	physx::PxRigidStatic* body;
 };
