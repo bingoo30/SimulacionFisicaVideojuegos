@@ -17,8 +17,3 @@ StaticRigidBody::~StaticRigidBody()
 		body->release();
 }
 
-physx::PxActor* StaticRigidBody::getActor()
-{
-	return body;
-}
-;

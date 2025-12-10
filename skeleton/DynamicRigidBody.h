@@ -15,11 +15,11 @@ public:
 		inline physx::PxActor* getActor() override { return body; }
 	#pragma endregion
 	#pragma region setters
-		inline void setPosition(const physx::PxVec3& p) override { body->setGlobalPose(PxTransform(p)); };
+		inline void setPosition(const physx::PxVec3& p) override { body->setGlobalPose(physx::PxTransform(p)); };
 		inline void setVelocity(const physx::PxVec3& v) override { body->setLinearVelocity(v); };
 		inline void setTensor(const physx::PxVec3& t) { body->setMassSpaceInertiaTensor(t); };
 	#pragma endregion
-		void add_force(const physx::PxVec3& f) override;
+		void update(double dt) override;
 protected:
 	physx::PxRigidDynamic* body;
 	physx::PxMaterial* material;

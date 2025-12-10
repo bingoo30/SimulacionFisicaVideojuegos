@@ -1,4 +1,5 @@
-#include "ParticleSystem.h"
+ï»¿#include "ParticleSystem.h"
+#include "SceneManager.h"
 #include <algorithm>
 using namespace std;
 using namespace physx;
@@ -23,11 +24,11 @@ void ParticleSystem::spawn()
     for (auto g : generators) {
         auto new_particles = g->generate_particles(model, deviation, num, geometry, mat);
         for (auto& new_p : new_particles) {
-            // registrar todas las fuerzas locales sobre esta partícula
+            // registrar todas las fuerzas locales sobre esta partÃ­cula
             for (auto& fg : force_generators) {
                 local_registry.add_registry(new_p, fg.get());
             }
-
+            local_registry.add_registry(new_p, SceneManager::instance().getCurrScene()->getGravityGenerator());
             particles_list.push_back(std::unique_ptr<Particle>(new_p));
         }
         new_particles.clear();
@@ -36,18 +37,19 @@ void ParticleSystem::spawn()
 
 void ParticleSystem::update(double dt) {
     if (!active ) return;
+
     // actualiza las fuerzas de este sistema
     local_registry.update_forces(dt);
 
-    // actualiza el movimiento de las partículas
+    // actualiza el movimiento de las partÃ­culas
     for (auto& p : particles_list)
-        p->update(dt);
+        if (p) p->update(dt);
 
     kill_dead_particles();
 
     //para los sistemas que no generan por el tiempo, lo controlo con este if
     if (spawn_acu < 0) return;
-    // re-generar partículas si toca
+    // re-generar partÃ­culas si toca
     spawn_acu += dt;
     if (spawn_acu >= spawn_period) {
         spawn();
@@ -99,7 +101,18 @@ void ParticleSystem::set_Active(bool a)
 void ParticleSystem::kill_dead_particles()
 {
     particles_list.remove_if([this](std::unique_ptr<Particle>& p) {
-        return  !p->is_alive() || check_out_of_limit(p.get());
+
+        // si la partÃ­cula debe morir
+        if (!p->is_alive() || check_out_of_limit(p.get())) {
+
+            //eliminarla del ForceRegistry
+            local_registry.clear_particle(p.get());
+
+            //devolver true para que remove_if la borre de particles_list
+            return true;
+        }
+        return false;
         });
 }
+
 

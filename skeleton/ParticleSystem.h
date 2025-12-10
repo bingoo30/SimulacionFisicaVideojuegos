@@ -11,7 +11,7 @@ class ParticleSystem
 {
 public:
 #pragma region constructoras y destructora
-	ParticleSystem(const Particle_Data& pd, const Particle_Deviation_Data& pdd, int n, physx::PxGeometryType::Enum geo, const physx::PxVec3& md);
+	ParticleSystem(const Particle_Data& pd, const Particle_Deviation_Data& pdd, int n, physx::PxGeometryType::Enum geo, const physx::PxVec3& md = physx::PxVec3(0));
 	virtual ~ParticleSystem();
 	virtual void init() = 0;
 #pragma endregion

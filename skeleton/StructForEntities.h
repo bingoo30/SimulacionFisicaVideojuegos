@@ -246,7 +246,7 @@ struct Football_Data : public Particle_Data {
 		vel = physx::PxVec3(0, -20.0, 0); //hacia arriba
 		mode = IntegrateMode::VERLET;
 		lifetime = 0;
-		vol = 0.55;
+		vol = 1.5;
 		mass = 0.43;
 		density = 77.0;
 		//puede ser cualquier color que he puesto

@@ -14,34 +14,41 @@ Particle_List NormalGeneratorRB::generate_particles(const Particle_Data& model, 
     //decidir si queremos generar exactamente n cuerpos nuevos
     int count = n;
     if (deviation.r_cant) count = (int)(round(n * random_fraction()));
-
+    Particle_Data newModel = model;
     for (int i = 0; i < count; ++i) {
         //posicion con desviacion uniforme
-        PxVec3 pos = give_a_new_vec3(model.pos, deviation.ori, false);
+        newModel.pos = give_a_new_vec3(model.pos, deviation.ori, false);
 
         //velocidad con desviacion uniforme
-        PxVec3 vel = give_a_new_vec3(model.vel, deviation.vel, false);
+        newModel.vel = give_a_new_vec3(model.vel, deviation.vel, false);
 
         //masa y duracion
-        double mass = give_a_new_double(model.mass, deviation.mas, false);
-        double life = give_a_new_double(model.lifetime, deviation.dur, false);
+        newModel.mass = give_a_new_double(model.mass, deviation.mas, false);
+        newModel.lifetime = give_a_new_double(model.lifetime, deviation.dur, false);
 
         //color aleatorio
-        PxVec4 color = deviation.r_color ? colors[model.color_offset, model.color_offset + model.color_tam] : model.color;
+        newModel.color = deviation.r_color ? colors[model.color_offset, model.color_offset + model.color_tam] : model.color;
+
 
         //crear particula y insertar a la lista
         auto g = create_geometry(geo, PxVec3(model.vol, model.vol, model.vol));
         PxShape* sh = CreateShape(*g);
 
         PxFilterData f(0, 0, 0, 0);
+
+
         RigidBody* rb = nullptr;
         //el tensor se cambia en el sistema!!!
         //miro si es estatico o dynamico
         if (_static) {
-            rb = new StaticRigidBody(model, f, sh, _mat);
+            rb = new StaticRigidBody(newModel, f, sh, _mat);
         }
-        else rb = new DynamicRigidBody(model, f, sh, _mat);
+        else {
+            rb = new DynamicRigidBody(newModel, f, sh, _mat);
+        }
 
         rb->create_renderItem();
         rbs.push_back(rb);
+    }
+    return rbs;
 }

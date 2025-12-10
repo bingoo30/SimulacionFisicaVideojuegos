@@ -234,6 +234,10 @@ void Scene::update(double t) {
 		if (ps)ps->update(t); // cada sistema aplica sus propias fuerzas
 	}
 
+	for (auto ps : gRBSys) {
+		if (ps)ps->update(t); // cada sistema aplica sus propias fuerzas
+	}
+
 	for (auto it = gObjs.begin(); it != gObjs.end(); ) {
 		if (!(*it)->is_alive()) {
 			delete* it;

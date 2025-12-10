@@ -22,6 +22,7 @@
 #include "Scene3.h"
 #include "Scene4.h"
 #include "Scene6.h"
+#include "Scene7.h"
 #include "SceneManager.h"
 
 #include "ProjectIntro.h"
@@ -94,9 +95,9 @@ void initPhysics(bool interactive)
 	//Scene* s0 = new Scene0();
 	//s0->init();
 	//SceneManager::instance().add(s0);
-	//Scene* s1 = new Scene1();
-	//s1->init();
-	//SceneManager::instance().add(s1);
+	Scene* s1 = new Scene1();
+	s1->init();
+	SceneManager::instance().add(s1);
 	//Scene* s2 = new Scene2();
 	//s2->init();
 	//SceneManager::instance().add(s2);
@@ -109,10 +110,14 @@ void initPhysics(bool interactive)
 
 	//SceneManager::instance().set_initial_scene(0);
 
-	Scene* muelle = new Scene6();
+	/*Scene* muelle = new Scene6();
 	muelle->init();
-	SceneManager::instance().add(muelle);
-	SceneManager::instance().set_initial_scene(MUELLES);
+	SceneManager::instance().add(muelle);*/
+
+	Scene* s7 = new Scene7();
+	s7->init();
+	SceneManager::instance().add(s7);
+	SceneManager::instance().set_initial_scene(0);
 	updateDisplay();
 }
 
@@ -124,10 +129,10 @@ void stepPhysics(bool interactive, double t)
 {
 	PX_UNUSED(interactive);
 
+	SceneManager::instance().getCurrScene()->update(t);
+
 	gScene->simulate(t);
 	gScene->fetchResults(true);
-
-	SceneManager::instance().getCurrScene()->update(t);
 	updateDisplay();
 	std::this_thread::sleep_for(std::chrono::microseconds(10));
 }
@@ -166,11 +171,8 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	default:
 		if (key >= '0' && key <= '9') {
 			int newScene = key - '0';  // conversión de char a int ('0'→0, '1'→1, ...)
-			//estas 2 escenas estan reservadas para el proyecto
-			if (newScene != 1 && newScene != 2) {
-				SceneManager::instance().change_scene(newScene);
-				updateDisplay();
-			}
+			SceneManager::instance().change_scene(newScene);
+			updateDisplay();
 		}
 		break;
 	}

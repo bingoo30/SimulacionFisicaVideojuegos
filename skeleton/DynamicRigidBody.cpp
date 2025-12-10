@@ -1,4 +1,4 @@
-#include "DynamicRigidBody.h"
+﻿#include "DynamicRigidBody.h"
 using namespace physx;
 extern PxPhysics* gPhysics;
 extern PxScene* gScene;
@@ -18,7 +18,7 @@ body(nullptr), material(_material), filter(_filter), tensor(prop.tensor)
 
 	// Si le paso un tensor calculado manualmente, se lo asigno
 	if (tensor != PxVec3(-1)) setTensor(tensor);
-	// Si no, PhysX lo calcula autom�ticamente seg�n la geometr�a y masa
+	// Si no, PhysX lo calcula automáticamente según la geometría y masa
 	else PxRigidBodyExt::setMassAndUpdateInertia(*body, prop.mass);
 }
 DynamicRigidBody::~DynamicRigidBody()
@@ -29,7 +29,25 @@ DynamicRigidBody::~DynamicRigidBody()
 	}
 }
 
-void DynamicRigidBody::add_force(const physx::PxVec3& f)
+void DynamicRigidBody::update(double dt)
 {
-	body->addForce(f);
+    //Actualizar tiempo de vida
+    update_lifetime(dt);
+
+    //Si está muerto, no hacer nada
+    if (!check_death()) return;
+
+    //Aplicar fuerzas acumuladas
+
+	//physx siempre usa el integrador semi-implicito
+    if (force != physx::PxVec3(0.0f)) {
+		body->wakeUp(); // asegurar que no esté dormido
+		body->addForce(force, PxForceMode::eFORCE, true);
+        force = physx::PxVec3(0.0f); // limpiar fuerza
+    }
+
+	// Sincronizar posición y rotación para render
+	PxTransform t = body->getGlobalPose();
+	transform.p = PxVec3(t.p.x, t.p.y, t.p.z);
+	transform.q = PxQuat(t.q.x, t.q.y, t.q.z, t.q.w);
 }

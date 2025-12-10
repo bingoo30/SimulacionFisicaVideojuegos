@@ -8,6 +8,7 @@ ForceGenerator::ForceGenerator():alive(true)
 
 void ForceGenerator::update_force(Particle* particle, double dt)
 {
+
 	//si no esta activo, dejo de actualizar las fuerzas
 	if (!alive) return;
 	//por si acaso verificar que existe esa particula

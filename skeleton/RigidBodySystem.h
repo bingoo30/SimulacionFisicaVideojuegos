@@ -14,7 +14,6 @@ public:
         bool _static, 
         const physx::PxVec3& md);
     virtual ~RigidBodySystem() = default;
-
     //los futuros sistemas que heredan de esta clase tienen que hacer el override
     //virtual void init() override;
     //tambien el check out of limit

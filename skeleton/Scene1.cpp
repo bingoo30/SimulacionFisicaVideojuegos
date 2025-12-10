@@ -12,5 +12,5 @@ void Scene1::init()
 
 	FireParticleSystem* fps = new FireParticleSystem(fpd, fdd, 5);
 	fps->init();
-	gPartSys.push_back(fps);
+	add_particle_system(fps);
 }

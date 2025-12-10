@@ -11,7 +11,7 @@ public:
 	inline physx::PxActor* getActor() override { return body; };
 #pragma endregion
     #pragma region setters
-	inline void setPosition(const physx::PxVec3& p) override { body->setGlobalPose(PxTransform(p)); };
+	inline void setPosition(const physx::PxVec3& p) override { body->setGlobalPose(physx::PxTransform(p)); };
 #pragma endregion
 protected:
 	physx::PxRigidStatic* body;
