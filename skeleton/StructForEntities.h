@@ -254,6 +254,17 @@ struct Football_Data : public Particle_Data {
 		color_tam = 20;
 	}
 };
+
+struct Football_Deviation_Data :public Particle_Deviation_Data {
+	Football_Deviation_Data() {
+		ori = physx::PxVec3(0.0f, 3.0f, 0.0f);
+		vel = physx::PxVec3(0.0f, 2.0f, 0.0f);
+		mas = 0.0;
+		r_color = true;
+		r_cant = false;
+	}
+};
+
 struct Player_Data : public Particle_Data {
 	Player_Data() {
 		// Color del jugador 

@@ -263,6 +263,7 @@
     <ClCompile Include="ExplosionForceGenerator.cpp" />
     <ClCompile Include="FireParticleSystem.cpp" />
     <ClCompile Include="FireworkParticleSystem.cpp" />
+    <ClCompile Include="FootBallSystem.cpp" />
     <ClCompile Include="ForceGenerator.cpp" />
     <ClCompile Include="ForceRegistry.cpp" />
     <ClCompile Include="GravityForceGenerator.cpp" />
@@ -290,6 +291,7 @@
     <ClCompile Include="Scene4.cpp" />
     <ClCompile Include="Scene5.cpp" />
     <ClCompile Include="Scene6.cpp" />
+    <ClCompile Include="Scene7.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SpringForceGenerator.cpp" />
     <ClCompile Include="StaticRigidBody.cpp" />
@@ -309,6 +311,7 @@
     <ClInclude Include="ExplosionForceGenerator.h" />
     <ClInclude Include="FireParticleSystem.h" />
     <ClInclude Include="FireworkParticleSystem.h" />
+    <ClInclude Include="FootBallSystem.h" />
     <ClInclude Include="ForceGenerator.h" />
     <ClInclude Include="ForceRegistry.h" />
     <ClInclude Include="Generator.h" />
@@ -336,6 +339,7 @@
     <ClInclude Include="Scene4.h" />
     <ClInclude Include="Scene5.h" />
     <ClInclude Include="Scene6.h" />
+    <ClInclude Include="Scene7.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SpringForceGenerator.h" />
     <ClInclude Include="StaticRigidBody.h" />

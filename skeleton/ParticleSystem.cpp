@@ -35,7 +35,7 @@ void ParticleSystem::spawn()
 }
 
 void ParticleSystem::update(double dt) {
-    if (!active) return;
+    if (!active ) return;
     // actualiza las fuerzas de este sistema
     local_registry.update_forces(dt);
 
@@ -45,6 +45,8 @@ void ParticleSystem::update(double dt) {
 
     kill_dead_particles();
 
+    //para los sistemas que no generan por el tiempo, lo controlo con este if
+    if (spawn_acu < 0) return;
     // re-generar partículas si toca
     spawn_acu += dt;
     if (spawn_acu >= spawn_period) {

@@ -8,7 +8,7 @@
 #include <cmath>
 #include <algorithm>
 using namespace physx;
-Scene::Scene(): gObjs(), gPartSys(), display("escena"), fRegistry(ForceRegistry()), gr(new GravityForceGenerator({ 0.0, -9.8, 0.0 }))
+Scene::Scene(): gObjs(), gPartSys(), display("escena"), fRegistry(ForceRegistry()), gr(new GravityForceGenerator({ 0.0, -9.8, 0.0 })), gRBSys()
 {
 }
 
@@ -26,6 +26,9 @@ void Scene::enter() {
 	for (auto ps : gPartSys) {
 		ps->register_particles();
 	}
+	for (auto rb : gRBSys) {
+		rb->register_particles();
+	}
 	for (auto f : gForcesWithRender) {
 		f->register_aux_renders();
 	}
@@ -38,6 +41,9 @@ void Scene::exit()
 	}
 	for (auto ps : gPartSys) {
 		if (ps)ps->derregister();
+	}
+	for (auto rb : gRBSys) {
+		if (rb)rb->derregister();
 	}
 	for (auto f : gForcesWithRender) {
 		f->derregister_aux_renders();
@@ -181,6 +187,12 @@ void Scene::add_particle_system(ParticleSystem* ps)
 		gPartSys.push_back(ps);
 	}
 }
+void Scene::add_RB_system(RigidBodySystem* rbs)
+{
+	if (rbs != nullptr) {
+		gRBSys.push_back(rbs);
+	}
+}
 //
 //void Scene::add_gravity_force_to(Particle* p)
 //{
@@ -201,6 +213,11 @@ void Scene::clean()
 		ps = nullptr;
 	}
 	gPartSys.clear();
+
+	for (auto rb : gRBSys) {
+		delete rb;
+		rb = nullptr;
+	}
 
 	delete gr;
 	gr = nullptr;

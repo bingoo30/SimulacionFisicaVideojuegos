@@ -4,6 +4,7 @@
 #include <string>
 #include "Entity.h"
 #include "ParticleSystem.h"
+#include "RigidBodySystem.h"
 #include "ForceRegistry.h"
 #include "GravityForceGenerator.h"
 #include "StructForEntities.h"
@@ -32,7 +33,7 @@ public:
 
 	virtual void add_entity_with_renderItem(Entity* e);
 	virtual void add_particle_system(ParticleSystem* ps);
-
+	virtual void add_RB_system(RigidBodySystem* rbs);
 	//void add_gravity_force_to(Particle* p);
 	GravityForceGenerator* getGravityGenerator() { return gr; };
 
@@ -46,5 +47,7 @@ protected:
 	//vector auxiliar para pintar las fuerzas
 	std::vector<ForceGenerator*> gForcesWithRender;
 	GravityForceGenerator* gr;
+
+	std::vector<RigidBodySystem*> gRBSys;
 };
 
