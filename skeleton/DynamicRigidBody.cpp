@@ -16,7 +16,9 @@ body(nullptr), material(_material), filter(_filter), tensor(prop.tensor)
 	body->attachShape(*shape);
 	gScene->addActor(*body);
 
+	// Si le paso un tensor calculado manualmente, se lo asigno
 	if (tensor != PxVec3(-1)) setTensor(tensor);
+	// Si no, PhysX lo calcula automáticamente según la geometría y masa
 	else PxRigidBodyExt::setMassAndUpdateInertia(*body, prop.mass);
 }
 DynamicRigidBody::~DynamicRigidBody()

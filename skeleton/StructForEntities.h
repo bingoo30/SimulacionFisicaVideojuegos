@@ -19,7 +19,6 @@ struct Particle_Data
 	double damping = 0.95;
 
 	physx::PxVec3 tensor = physx::PxVec3(-1);
-
 };
 
 struct Projectile_Data {
@@ -233,5 +232,53 @@ struct Liquid_Data {
 	double volume = 1.0;
 	//por defecto es el agua
 	double density = 1000.0;
+};
+#pragma endregion
+
+#pragma region Practica 5
+// static friction, dynamic friction, restitution (elasticidad))
+inline const physx::PxVec3 dirtMaterial(0.8f, 0.6f, 0.2f);
+inline const physx::PxVec3 heroMaterial(0.3f, 0.2f, 0.0f);
+inline const physx::PxVec3 footballMaterial(0.4f, 0.3f, 0.7f);
+
+struct Football_Data : public Particle_Data {
+	Football_Data() {
+		vel = physx::PxVec3(0, -20.0, 0); //hacia arriba
+		mode = IntegrateMode::VERLET;
+		lifetime = 0;
+		vol = 0.55;
+		mass = 0.43;
+		density = 77.0;
+		//puede ser cualquier color que he puesto
+		color_offset = 0;
+		color_tam = 20;
+	}
+};
+struct Player_Data : public Particle_Data {
+	Player_Data() {
+		// Color del jugador 
+		color_offset = 0;
+		color_tam = 4; 
+		// Propiedades físicas
+		mode = IntegrateMode::SEMI_IMPLICIT_EULER;
+		mass = 60.0; //60kg
+		lifetime = 0;
+		density = 985.0; // densidad aproximada humano
+	}
+
+	// Dimensiones de la cápsula
+	double radius = 0.3;     // radio
+	double height = 1.8;     // altura
+
+	/* mi player es un cilindro
+	double m = 60.0;   // kg
+	double r = 0.3;    // radio
+	double h = 1.8;    // altura
+
+	como serian los calculos del tensor manualmente
+	PxVec3 tensor;
+	tensor.x = tensor.y = (1.0 / 12.0) * m * (3 * r * r + h * h);
+	tensor.z = (1.0/2.0) * m * r* r;
+	*/
 };
 #pragma endregion

@@ -17,7 +17,7 @@ public:
 	#pragma region setters
 		inline void setPosition(const physx::PxVec3& p) override { body->setGlobalPose(PxTransform(p)); };
 		inline void setVelocity(const physx::PxVec3& v) override { body->setLinearVelocity(v); };
-		inline void setTensor(Vector3 t) { body->setMassSpaceInertiaTensor(t); };
+		inline void setTensor(const physx::PxVec3& t) { body->setMassSpaceInertiaTensor(t); };
 	#pragma endregion
 		void add_force(const physx::PxVec3& f) override;
 protected:
