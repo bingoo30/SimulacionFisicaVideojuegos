@@ -19,15 +19,18 @@ void RigidBodySystem::pause_all_rb(bool pause)
 {
     for (auto& p : particles_list)
     {
-        // Intentar convertir a rigid body dinámico
-        if (auto* rb = dynamic_cast<DynamicRigidBody*>(p.get()))
-        {
-            auto dyn = static_cast<physx::PxRigidDynamic*>(rb->getActor());
-            if (pause)
-                dyn->putToSleep();
-            else
-                dyn->wakeUp();
+        if (p) {
+            if (auto* rb = dynamic_cast<DynamicRigidBody*>(p.get())) {
+                physx::PxRigidActor* actor = rb->getActor();
+                if (actor) {
+                    physx::PxRigidDynamic* dyn = actor->is<physx::PxRigidDynamic>();
+                    if (dyn) {
+                        if (pause) dyn->putToSleep();
+                        else dyn->wakeUp();
+                    }
+                }
+            }
         }
     }
-
 }
+

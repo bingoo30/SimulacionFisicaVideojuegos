@@ -20,7 +20,7 @@ public:
         double d = 0.95 // damping
     );
 
-    ~Particle()=default;
+    virtual ~Particle()=default;
 
     void integrate(double t) override;
     void update(double dt) override;
