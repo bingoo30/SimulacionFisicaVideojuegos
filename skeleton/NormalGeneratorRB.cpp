@@ -47,7 +47,7 @@ Particle_List NormalGeneratorRB::generate_particles(const Particle_Data& model, 
             rb = new DynamicRigidBody(newModel, f, sh, _mat);
         }
 
-        rb->create_renderItem();
+        rb->create_renderItem(rb->getActor());
         rbs.push_back(rb);
     }
     return rbs;

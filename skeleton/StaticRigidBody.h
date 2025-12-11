@@ -8,7 +8,7 @@ public:
 	virtual ~StaticRigidBody();
     #pragma region getters
 	inline const physx::PxVec3& getPosition() const override { return body->getGlobalPose().p; };
-	inline physx::PxActor* getActor() override { return body; };
+	inline physx::PxRigidActor* getActor() override { return body; };
 #pragma endregion
     #pragma region setters
 	inline void setPosition(const physx::PxVec3& p) override { body->setGlobalPose(physx::PxTransform(p)); };

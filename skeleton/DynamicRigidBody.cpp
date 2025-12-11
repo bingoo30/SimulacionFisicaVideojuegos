@@ -29,25 +29,12 @@ DynamicRigidBody::~DynamicRigidBody()
 	}
 }
 
-void DynamicRigidBody::update(double dt)
+void DynamicRigidBody::add_force(const physx::PxVec3& f)
 {
-    //Actualizar tiempo de vida
-    update_lifetime(dt);
+	body->addForce(f);
+}
 
-    //Si está muerto, no hacer nada
-    if (!check_death()) return;
-
-    //Aplicar fuerzas acumuladas
-
-	//physx siempre usa el integrador semi-implicito
-    if (force != physx::PxVec3(0.0f)) {
-		body->wakeUp(); // asegurar que no esté dormido
-		body->addForce(force, PxForceMode::eFORCE, true);
-        force = physx::PxVec3(0.0f); // limpiar fuerza
-    }
-
-	// Sincronizar posición y rotación para render
-	PxTransform t = body->getGlobalPose();
-	transform.p = PxVec3(t.p.x, t.p.y, t.p.z);
-	transform.q = PxQuat(t.q.x, t.q.y, t.q.z, t.q.w);
+void DynamicRigidBody::add_torque(const physx::PxVec3& t)
+{
+	body->addTorque(t);
 }

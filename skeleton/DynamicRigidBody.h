@@ -12,14 +12,17 @@ public:
 	#pragma region getters
 		inline const physx::PxVec3& getPosition() const override { return body->getGlobalPose().p; };
 		inline const physx::PxVec3& getVelocity() const override { return body->getLinearVelocity(); };
-		inline physx::PxActor* getActor() override { return body; }
+		inline physx::PxRigidActor* getActor() override { return body; }
+		inline double getMass() const override { return body->getMass(); };
 	#pragma endregion
 	#pragma region setters
 		inline void setPosition(const physx::PxVec3& p) override { body->setGlobalPose(physx::PxTransform(p)); };
 		inline void setVelocity(const physx::PxVec3& v) override { body->setLinearVelocity(v); };
 		inline void setTensor(const physx::PxVec3& t) { body->setMassSpaceInertiaTensor(t); };
 	#pragma endregion
-		void update(double dt) override;
+		void add_force(const physx::PxVec3& f) override;
+		void add_torque(const physx::PxVec3& t);
+
 protected:
 	physx::PxRigidDynamic* body;
 	physx::PxMaterial* material;

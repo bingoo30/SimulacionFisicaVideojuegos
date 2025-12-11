@@ -21,6 +21,9 @@ public:
 	void derregister_renderItem();
 	//crear un render item nuevo. Si ya existe, elimina el anterior
 	void create_renderItem();
+
+	//crear un render item nuevo con actor. Si ya existe, elimina el anterior
+	void create_renderItem(const physx::PxRigidActor* actor);
 	//update
 	virtual void update(double dt) =0;
 	//comprueba si una entidad se ha pasado de su tiempo de vida((devuelve true), en caso contrario, devuelve false)
@@ -33,12 +36,13 @@ public:
 	RenderItem* getRenderItem() { return renderItem.get(); };
 	const physx::PxTransform getTransform() const { return transform; };
 	const physx::PxVec4& getColor() const { return color; };
-	double getMass() const { return mass; };
+	virtual double getMass() const { return mass; };
 	physx::PxShape* getShape() const { return shape; };
 	double getVol() const { return volume; };
 	double getLifeTime() const { return lifetime; };
 	bool is_alive() const { return alive; };
 #pragma endregion
+	void setColor(const physx::PxVec4& c);
 protected:
 #pragma region atributos protegidos
 	//atributos que inicializo

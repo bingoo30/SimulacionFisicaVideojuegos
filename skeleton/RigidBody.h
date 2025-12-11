@@ -11,7 +11,7 @@ public:
 	void update(double dt) override;
 	virtual void setPosition(const physx::PxVec3& p) = 0;
 	virtual void setVelocity(const physx::PxVec3& v) {};
-	virtual physx::PxActor* getActor() = 0; 
+	virtual physx::PxRigidActor* getActor() = 0;
 protected:
 	bool is_static;
 };
