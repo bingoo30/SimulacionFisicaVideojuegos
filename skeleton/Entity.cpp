@@ -17,19 +17,7 @@ void Entity::derregister_renderItem()
 		renderItemRegisted = false;
 	}
 }
-void Entity::create_renderItem()
-{
-	derregister_renderItem();
 
-	renderItem = std::make_unique<RenderItem>(shape, &transform, color);
-	renderItemRegisted = true;
-}
-void Entity::create_renderItem(const physx::PxRigidActor* actor)
-{
-	derregister_renderItem();
-	renderItem = std::make_unique<RenderItem>(shape, actor, color);
-	renderItemRegisted = true;
-}
 bool Entity::check_death() {
 	//esta vivo si no tiene tiempo de vida o cuando ya se acabo su tiempo
 	alive = lifetime == -1.0 || !(lifetime > 0.0 && age >= lifetime);

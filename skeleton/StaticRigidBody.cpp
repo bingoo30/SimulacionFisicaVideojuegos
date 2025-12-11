@@ -11,6 +11,14 @@ StaticRigidBody::StaticRigidBody(const Particle_Data& pd, physx::PxFilterData fi
 	body->attachShape(*shape);
 	gScene->addActor(*body);
 }
+
+void StaticRigidBody::create_renderItem()
+{
+	derregister_renderItem();
+	renderItem = std::make_unique<RenderItem>(shape, body, color);
+	renderItemRegisted = true;
+}
+
 StaticRigidBody::~StaticRigidBody()
 {
 	if (body != nullptr) 

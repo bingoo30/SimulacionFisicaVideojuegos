@@ -20,10 +20,7 @@ public:
 	//derregistrar el render item actual, si existe
 	void derregister_renderItem();
 	//crear un render item nuevo. Si ya existe, elimina el anterior
-	void create_renderItem();
-
-	//crear un render item nuevo con actor. Si ya existe, elimina el anterior
-	void create_renderItem(const physx::PxRigidActor* actor);
+	virtual void create_renderItem() = 0;
 	//update
 	virtual void update(double dt) =0;
 	//comprueba si una entidad se ha pasado de su tiempo de vida((devuelve true), en caso contrario, devuelve false)
@@ -77,7 +74,6 @@ protected:
 	//actualizacion del timer
 	void update_lifetime(double t);
 #pragma endregion
-private:
 #pragma region atributos privados
 	//flag para saber si una entidad tiene render item o no
 	bool renderItemRegisted = false;

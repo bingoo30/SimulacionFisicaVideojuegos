@@ -1,5 +1,7 @@
 ﻿#include "DynamicRigidBody.h"
+#include <iostream>
 using namespace physx;
+
 extern PxPhysics* gPhysics;
 extern PxScene* gScene;
 
@@ -29,6 +31,13 @@ DynamicRigidBody::~DynamicRigidBody()
 	}
 }
 
+void DynamicRigidBody::create_renderItem()
+{
+	derregister_renderItem();
+	renderItem = std::make_unique<RenderItem>(shape, body, color);
+	renderItemRegisted = true;
+}
+
 void DynamicRigidBody::add_force(const physx::PxVec3& f)
 {
 	body->addForce(f);
@@ -37,4 +46,10 @@ void DynamicRigidBody::add_force(const physx::PxVec3& f)
 void DynamicRigidBody::add_torque(const physx::PxVec3& t)
 {
 	body->addTorque(t);
+}
+
+void DynamicRigidBody::update(double dt)
+{
+	RigidBody::update(dt);
+	std::cout << "posicion: " << getPosition().x <<" " << getPosition().y << " " << getPosition().z << "\n";
 }

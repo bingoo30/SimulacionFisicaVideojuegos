@@ -129,10 +129,13 @@ void stepPhysics(bool interactive, double t)
 {
 	PX_UNUSED(interactive);
 
-	SceneManager::instance().getCurrScene()->update(t);
-
 	gScene->simulate(t);
 	gScene->fetchResults(true);
+
+	Scene* curr = SceneManager::instance().getCurrScene();
+	if (curr)
+		curr->update(t);  // Solo actualizamos la escena actual
+
 	updateDisplay();
 	std::this_thread::sleep_for(std::chrono::microseconds(10));
 }

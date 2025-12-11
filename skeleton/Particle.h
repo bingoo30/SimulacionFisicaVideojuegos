@@ -28,6 +28,8 @@ public:
     virtual void add_force(const physx::PxVec3& f);
     void clean_force();
 
+    void create_renderItem() override;
+
     bool is_type_of(Type t) const;
     void setType(Type t);
 

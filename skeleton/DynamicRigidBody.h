@@ -9,6 +9,7 @@ public:
 		physx::PxShape* shape,
 		physx::PxMaterial* _material = nullptr);
 	virtual ~DynamicRigidBody();
+	void create_renderItem() override;
 	#pragma region getters
 		inline const physx::PxVec3& getPosition() const override { return body->getGlobalPose().p; };
 		inline const physx::PxVec3& getVelocity() const override { return body->getLinearVelocity(); };
@@ -22,6 +23,8 @@ public:
 	#pragma endregion
 		void add_force(const physx::PxVec3& f) override;
 		void add_torque(const physx::PxVec3& t);
+
+		void update(double dt) override;
 
 protected:
 	physx::PxRigidDynamic* body;

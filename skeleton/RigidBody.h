@@ -12,6 +12,8 @@ public:
 	virtual void setPosition(const physx::PxVec3& p) = 0;
 	virtual void setVelocity(const physx::PxVec3& v) {};
 	virtual physx::PxRigidActor* getActor() = 0;
+	// activar/desactivar física
+	void setActive(bool a); 
 protected:
 	bool is_static;
 };

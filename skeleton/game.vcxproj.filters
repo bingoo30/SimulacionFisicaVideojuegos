@@ -130,8 +130,12 @@
     <ClCompile Include="NormalGeneratorRB.cpp">
       <Filter>practica 5</Filter>
     </ClCompile>
-    <ClCompile Include="Scene7.cpp" />
-    <ClCompile Include="FootBallSystem.cpp" />
+    <ClCompile Include="FootBallSystem.cpp">
+      <Filter>practica 5</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene7.cpp">
+      <Filter>practica 5</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Render\Camera.h">
@@ -269,8 +273,12 @@
     <ClInclude Include="NormalGeneratorRB.h">
       <Filter>practica 5</Filter>
     </ClInclude>
-    <ClInclude Include="Scene7.h" />
-    <ClInclude Include="FootBallSystem.h" />
+    <ClInclude Include="FootBallSystem.h">
+      <Filter>practica 5</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene7.h">
+      <Filter>practica 5</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">

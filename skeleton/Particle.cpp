@@ -47,6 +47,14 @@ void Particle::clean_force()
 	force = PxVec3(0.0);
 }
 
+void Particle::create_renderItem()
+{
+	derregister_renderItem();
+
+	renderItem = std::make_unique<RenderItem>(shape, &transform, color);
+	renderItemRegisted = true;
+}
+
 bool Particle::is_type_of(Type t) const
 {
 	return type == t;

@@ -11,3 +11,4 @@ void RigidBody::update(double dt)
 	update_lifetime(dt);
 	if (!check_death()) return;
 }
+

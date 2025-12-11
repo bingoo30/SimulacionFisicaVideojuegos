@@ -6,6 +6,7 @@ class StaticRigidBody : public RigidBody {
 public:
 	StaticRigidBody(const Particle_Data& pd, physx::PxFilterData filter, physx::PxShape* shape, physx::PxMaterial* material = nullptr);
 	virtual ~StaticRigidBody();
+	void create_renderItem()override;
     #pragma region getters
 	inline const physx::PxVec3& getPosition() const override { return body->getGlobalPose().p; };
 	inline physx::PxRigidActor* getActor() override { return body; };
