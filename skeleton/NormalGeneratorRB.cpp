@@ -2,6 +2,7 @@
 #include "RigidBody.h"
 #include "StaticRigidBody.h"
 #include "DynamicRigidBody.h"
+#include <iostream>
 using namespace physx;
 NormalGeneratorRB::NormalGeneratorRB(bool s): _static(s)
 {
@@ -27,8 +28,7 @@ Particle_List NormalGeneratorRB::generate_particles(const Particle_Data& model, 
         newModel.lifetime = give_a_new_double(model.lifetime, deviation.dur, false);
 
         //color aleatorio
-        newModel.color = deviation.r_color ? colors[model.color_offset, model.color_offset + model.color_tam] : model.color;
-
+        newModel.color = deviation.r_color ? colors[random_color_index(model.color_offset, model.color_offset + model.color_tam)] : model.color;
 
         //crear particula y insertar a la lista
         auto g = create_geometry(geo, PxVec3(model.vol, model.vol, model.vol));
@@ -47,6 +47,9 @@ Particle_List NormalGeneratorRB::generate_particles(const Particle_Data& model, 
             rb = new DynamicRigidBody(newModel, f, sh, _mat);
         }
 
+        std::cout << "shape que le paso= " << sh << ", body creado = " << rb->getActor() << std::endl;
+
+        rb->create_renderItem();
         rbs.push_back(rb);
     }
     return rbs;

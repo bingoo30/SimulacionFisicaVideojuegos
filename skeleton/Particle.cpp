@@ -55,6 +55,8 @@ void Particle::create_renderItem()
 	renderItemRegisted = true;
 }
 
+ 
+
 bool Particle::is_type_of(Type t) const
 {
 	return type == t;

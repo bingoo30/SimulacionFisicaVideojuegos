@@ -28,6 +28,7 @@ void Scene::enter() {
 	}
 	for (auto rb : gRBSys) {
 		rb->register_particles();
+		rb->pause_all_rb(false);
 	}
 	for (auto f : gForcesWithRender) {
 		f->register_aux_renders();
@@ -37,13 +38,19 @@ void Scene::enter() {
 void Scene::exit()
 {
 	for (auto e : gObjs) {
-		if (e) e->derregister_renderItem();
+		if (e) {
+			e->derregister_renderItem();
+		}
 	}
 	for (auto ps : gPartSys) {
 		if (ps)ps->derregister();
 	}
 	for (auto rb : gRBSys) {
-		if (rb)rb->derregister();
+		if (rb) {
+			rb->derregister();
+			rb->pause_all_rb(true);
+		}
+
 	}
 	for (auto f : gForcesWithRender) {
 		f->derregister_aux_renders();

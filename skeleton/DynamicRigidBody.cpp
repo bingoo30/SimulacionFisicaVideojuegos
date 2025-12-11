@@ -51,5 +51,6 @@ void DynamicRigidBody::add_torque(const physx::PxVec3& t)
 void DynamicRigidBody::update(double dt)
 {
 	RigidBody::update(dt);
+
 	std::cout << "posicion: " << getPosition().x <<" " << getPosition().y << " " << getPosition().z << "\n";
 }
