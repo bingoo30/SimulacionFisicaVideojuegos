@@ -243,7 +243,7 @@ struct Liquid_Data {
 #pragma region Practica 5
 // static friction, dynamic friction, restitution (elasticidad))
 inline const physx::PxVec3 groundMaterial(0.8f, 0.6f, 0.2f);
-inline const physx::PxVec3 heroMaterial(0.3f, 0.2f, 0.0f);
+inline const physx::PxVec3 characterMaterial(0.3f, 0.2f, 0.0f);
 inline const physx::PxVec3 footballMaterial(0.4f, 0.3f, 0.7f);
 
 struct Football_Data : public Particle_Data {
@@ -281,23 +281,12 @@ struct Player_Data : public Particle_Data {
 		mass = 60.0; //60kg
 		lifetime = 0;
 		density = 985.0; // densidad aproximada humano
-		scale = physx::PxVec3(0.3, 1.8, 0.3);
+		scale = physx::PxVec3(0.5, 1.2, 0.3);
 	}
 
 	// Dimensiones de la cápsula
 	double radius = 0.3;     // radio
 	double height = 1.8;     // altura
-
-	/* mi player es un cilindro
-	double m = 60.0;   // kg
-	double r = 0.3;    // radio
-	double h = 1.8;    // altura
-
-	como serian los calculos del tensor manualmente
-	PxVec3 tensor;
-	tensor.x = tensor.y = (1.0 / 12.0) * m * (3 * r * r + h * h);
-	tensor.z = (1.0/2.0) * m * r* r;
-	*/
 };
 
 struct Ground_Data :public Particle_Data {

@@ -15,6 +15,7 @@ body(nullptr), material(_material), filter(_filter), tensor(prop.tensor)
 	body->setLinearVelocity(prop.vel);
 	body->setLinearDamping(prop.damping);
 	body->setAngularVelocity(PxVec3(0));
+	body->setAngularDamping(prop.damping);
 	body->attachShape(*shape);
 	gScene->addActor(*body);
 
@@ -46,4 +47,12 @@ void DynamicRigidBody::add_force(const physx::PxVec3& f)
 void DynamicRigidBody::add_torque(const physx::PxVec3& t)
 {
 	body->addTorque(t);
+}
+
+void DynamicRigidBody::add_initial_rotation(const physx::PxQuat& q)
+{
+	PxTransform tr = body->getGlobalPose();
+	tr.q = tr.q * q;
+
+	body->setGlobalPose(tr);
 }

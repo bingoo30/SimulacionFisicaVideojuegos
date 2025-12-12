@@ -258,6 +258,7 @@
     <ClCompile Include="BouyancyForceGenerator.cpp" />
     <ClCompile Include="callbacks.cpp" />
     <ClCompile Include="Character.cpp" />
+    <ClCompile Include="CharacterRBSystem.cpp" />
     <ClCompile Include="DynamicRigidBody.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="ExplosionForceGenerator.cpp" />
@@ -306,6 +307,7 @@
     <ClInclude Include="BouyancyForceGenerator.h" />
     <ClInclude Include="callbacks.hpp" />
     <ClInclude Include="Character.h" />
+    <ClInclude Include="CharacterRBSystem.h" />
     <ClInclude Include="core.hpp" />
     <ClInclude Include="DynamicRigidBody.h" />
     <ClInclude Include="Entity.h" />

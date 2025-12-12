@@ -23,6 +23,7 @@ public:
 	#pragma endregion
 		void add_force(const physx::PxVec3& f) override;
 		void add_torque(const physx::PxVec3& t);
+		void add_initial_rotation(const physx::PxQuat& q);
 protected:
 	physx::PxRigidDynamic* body;
 	physx::PxMaterial* material;

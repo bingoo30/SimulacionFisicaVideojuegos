@@ -16,6 +16,7 @@ public:
     virtual ~RigidBodySystem() = default;
 
     void pause_all_rb(bool pause);
+    void spawn(bool withRender = true) override;
 
     //los futuros sistemas que heredan de esta clase tienen que hacer el override
     //virtual void init() override;

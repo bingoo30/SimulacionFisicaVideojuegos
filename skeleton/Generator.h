@@ -45,7 +45,7 @@ protected:
         case physx::PxGeometryType::eSPHERE:
             return std::make_unique<physx::PxSphereGeometry>(size.x);
         case physx::PxGeometryType::eCAPSULE:
-            return std::make_unique<physx::PxCapsuleGeometry>(size.x*0.5, size.y*0.25);
+            return std::make_unique<physx::PxCapsuleGeometry>(size.x, size.y*0.5);
         case physx::PxGeometryType::eBOX:
             return std::make_unique<physx::PxBoxGeometry>(size.x, size.y, size.z);
         default:

@@ -136,7 +136,10 @@
     <ClCompile Include="Scene7.cpp">
       <Filter>practica 5</Filter>
     </ClCompile>
-    <ClCompile Include="GroundSystem.cpp" />
+    <ClCompile Include="GroundSystem.cpp">
+      <Filter>practica 5</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterRBSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Render\Camera.h">
@@ -280,7 +283,10 @@
     <ClInclude Include="Scene7.h">
       <Filter>practica 5</Filter>
     </ClInclude>
-    <ClInclude Include="GroundSystem.h" />
+    <ClInclude Include="GroundSystem.h">
+      <Filter>practica 5</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterRBSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">

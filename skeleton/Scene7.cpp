@@ -2,6 +2,7 @@
 #include "FootBallSystem.h"
 #include "GroundSystem.h"
 #include "WindForceGenerator.h"
+#include "CharacterRBSystem.h"
 #include <iostream>
 using namespace physx;
 
@@ -18,8 +19,14 @@ void Scene7::init()
 	system->init();
 	add_RB_system(system);
 
+	Player_Data player_model;
+	player_model.pos.y = 50;
+	player_model.scale *= 5;
+	CharacterRBSystem* ch = new CharacterRBSystem(player_model, characterMaterial);
+	ch->init();
+	add_RB_system(ch);
+
 	Ground_Data gd;
-	gd.pos.y = 20;
 	GroundSystem* g = new GroundSystem(gd, 1, groundMaterial);
 	g->init();
 	g->spawn(false);
@@ -27,8 +34,8 @@ void Scene7::init()
 
 	//probar si le afecta la fuerza
 	Wind_Data wd;
-	wd.vel.x = 20;
-	auto wind = new WindForceGenerator(physx::PxVec3(0, 20, 0), wd.vel, wd.area, wd.k1, wd.dragCoef, false);
+	wd.vel.x = 50;
+	auto wind = new WindForceGenerator(physx::PxVec3(0, 30, 0), wd.vel, wd.area, wd.k1, wd.dragCoef, false);
 	system->add_force_generator(wind);
 	//probar
 	/*auto g = std::make_unique<physx::PxSphereGeometry>(3);
@@ -48,6 +55,10 @@ void Scene7::handle_input(unsigned char key)
 		break;
 	case 'P':
 		gRBSys[0]->spawn();
+		//std::cout << "creados!\n";
+		break;
+	case 'E':
+		gRBSys[1]->spawn();
 		//std::cout << "creados!\n";
 		break;
 	}

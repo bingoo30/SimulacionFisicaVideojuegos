@@ -38,7 +38,10 @@ Particle_List UniformGeneratorRB::generate_particles(const Particle_Data& model,
         if (_static) {
             rb = new StaticRigidBody(newModel, f, sh, _mat);
         }
-        else rb = new DynamicRigidBody(newModel, f, sh, _mat);
+        else {
+            rb = new DynamicRigidBody(newModel, f, sh, _mat);
+            //if (geo == PxGeometryType::eCAPSULE) static_cast<DynamicRigidBody*>(rb)->add_initial_rotation(PxQuat(cos(45), sin(45),0, 0));
+        }
         if (withRender) rb->create_renderItem();
         rbs.push_back(rb);
     }
