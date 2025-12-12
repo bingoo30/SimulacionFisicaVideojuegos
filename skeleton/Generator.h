@@ -12,7 +12,7 @@ public:
 	virtual ~Generator() {};
     virtual void clear_particles() {};
 
-	virtual Particle_List generate_particles (const Particle_Data& model, const Particle_Deviation_Data& deviation, int n, physx::PxGeometryType::Enum geo, physx::PxMaterial* _mat = nullptr) = 0;
+	virtual Particle_List generate_particles (const Particle_Data& model, const Particle_Deviation_Data& deviation, int n, physx::PxGeometryType::Enum geo, physx::PxMaterial* _mat = nullptr, bool withRender = true) = 0;
 protected:
 	std::mt19937 _mt;
 #pragma region metodos auxiliares de calculo
@@ -47,7 +47,7 @@ protected:
         case physx::PxGeometryType::eCAPSULE:
             return std::make_unique<physx::PxCapsuleGeometry>(size.x*0.5, size.y*0.25);
         case physx::PxGeometryType::eBOX:
-            return std::make_unique<physx::PxBoxGeometry>(size.x * 0.5f, size.y * 0.5f, size.z * 0.5f);
+            return std::make_unique<physx::PxBoxGeometry>(size.x, size.y, size.z);
         default:
             return std::make_unique<physx::PxSphereGeometry>(0.1f);
         }

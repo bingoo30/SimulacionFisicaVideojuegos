@@ -136,6 +136,7 @@
     <ClCompile Include="Scene7.cpp">
       <Filter>practica 5</Filter>
     </ClCompile>
+    <ClCompile Include="GroundSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Render\Camera.h">
@@ -279,6 +280,7 @@
     <ClInclude Include="Scene7.h">
       <Filter>practica 5</Filter>
     </ClInclude>
+    <ClInclude Include="GroundSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">

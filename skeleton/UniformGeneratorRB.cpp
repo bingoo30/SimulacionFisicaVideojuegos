@@ -6,7 +6,7 @@ using namespace physx;
 
 UniformGeneratorRB::UniformGeneratorRB(bool s) : _static(s) {}
 
-Particle_List UniformGeneratorRB::generate_particles(const Particle_Data& model, const Particle_Deviation_Data& deviation, int n, physx::PxGeometryType::Enum geo, physx::PxMaterial* _mat)
+Particle_List UniformGeneratorRB::generate_particles(const Particle_Data& model, const Particle_Deviation_Data& deviation, int n, physx::PxGeometryType::Enum geo, physx::PxMaterial* _mat, bool withRender)
 {
     Particle_List rbs;
 
@@ -29,7 +29,7 @@ Particle_List UniformGeneratorRB::generate_particles(const Particle_Data& model,
         newModel.color = deviation.r_color ? colors[model.color_offset, model.color_offset + model.color_tam] : model.color;
 
         //crear particula y insertar a la lista
-        auto g = create_geometry(geo, PxVec3(model.vol, model.vol, model.vol));
+        auto g = create_geometry(geo, model.scale);
         PxShape* sh = CreateShape(*g);
 
         PxFilterData f(0, 0, 0, 0);
@@ -39,7 +39,7 @@ Particle_List UniformGeneratorRB::generate_particles(const Particle_Data& model,
             rb = new StaticRigidBody(newModel, f, sh, _mat);
         }
         else rb = new DynamicRigidBody(newModel, f, sh, _mat);
-        rb->create_renderItem();
+        if (withRender) rb->create_renderItem();
         rbs.push_back(rb);
     }
     return rbs;

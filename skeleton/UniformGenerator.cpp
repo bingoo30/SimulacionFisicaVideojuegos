@@ -3,7 +3,7 @@
 using namespace std;
 using namespace physx;
 
-Particle_List UniformGenerator::generate_particles(const Particle_Data& model, const Particle_Deviation_Data& deviation,int n, physx::PxGeometryType::Enum geo, physx::PxMaterial* _mat) {
+Particle_List UniformGenerator::generate_particles(const Particle_Data& model, const Particle_Deviation_Data& deviation,int n, physx::PxGeometryType::Enum geo, physx::PxMaterial* _mat, bool withRender) {
     Particle_List particles;
 
     //decidir si queremos generar exactamente n particulas nuevas
@@ -25,10 +25,10 @@ Particle_List UniformGenerator::generate_particles(const Particle_Data& model, c
         PxVec4 color = deviation.r_color ? colors[model.color_offset, model.color_offset + model.color_tam] : model.color;
 
         //crear particula y insertar a la lista
-        auto g = create_geometry(geo, PxVec3(model.vol, model.vol, model.vol));
+        auto g = create_geometry(geo, model.scale);
         PxShape* sh = CreateShape(*g);
         Particle* p = new Particle(pos, color, mass, sh, model.vol, life, vel, SEMI_IMPLICIT_EULER, model.density);
-        p->create_renderItem();
+        if (withRender)p->create_renderItem();
         particles.push_back(p);
     }
 

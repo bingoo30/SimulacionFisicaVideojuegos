@@ -13,6 +13,7 @@ struct Particle_Data
 	double mass = 0.1;
 	double lifetime = 5.0;
 	double vol = 1.0;
+	physx::PxVec3 scale = physx::PxVec3(1);
 	int color_offset = 0;
 	int color_tam =8;
 	double density = 1.225;
@@ -91,12 +92,13 @@ inline const physx::PxVec4 colors[20] = {
 	physx::PxVec4(0.8f, 0.5f, 1.0f, 1.0f)   // violeta claro (pastel)
 };
 
+//por defecto no tiene desviacion
 struct Particle_Deviation_Data {
-	physx::PxVec3 ori;
-	physx::PxVec3 vel;
-	double mas;
-	double dur;
-	physx::PxVec3 valid_box;
+	physx::PxVec3 ori = physx::PxVec3(0.0f, 0.0f, 0.0f);
+	physx::PxVec3 vel = physx::PxVec3(0.0f, 0.0f, 0.0f);
+	double mas = 0;
+	double dur = 0;
+	physx::PxVec3 valid_box = physx::PxVec3(0.0f, 0.0f, 0.0f);
 	bool r_color = false;
 	bool r_cant = false;
 };
@@ -112,6 +114,7 @@ struct Fire_Particle_Data:public Particle_Data {
 		color_tam = 4;
 		density = 0.75; //datos reales
 		mass = 0.0025;
+		scale = physx::PxVec3(0.55);
 	}
 };
 struct Fire_Deviation_Data : public Particle_Deviation_Data {
@@ -136,6 +139,7 @@ struct Rain_Particle_Data : public Particle_Data {
 		vol = 0.2f;                               // gotas finas
 		mass = 0.00042;                                  // ligera
 		density = 1000.0;
+		scale = physx::PxVec3(0.2);
 	}
 };
 struct Rain_Deviation_Data :public Particle_Deviation_Data {
@@ -157,6 +161,7 @@ struct Firework_Particle_Data : public Particle_Data {
 		lifetime = 0.75;
 		vol = 0.55;
 		mass = 0.0025;
+		scale = physx::PxVec3(0.55);
 	}
 };
 struct Firework_Deviation_Data :public Particle_Deviation_Data {
@@ -237,7 +242,7 @@ struct Liquid_Data {
 
 #pragma region Practica 5
 // static friction, dynamic friction, restitution (elasticidad))
-inline const physx::PxVec3 dirtMaterial(0.8f, 0.6f, 0.2f);
+inline const physx::PxVec3 groundMaterial(0.8f, 0.6f, 0.2f);
 inline const physx::PxVec3 heroMaterial(0.3f, 0.2f, 0.0f);
 inline const physx::PxVec3 footballMaterial(0.4f, 0.3f, 0.7f);
 
@@ -252,6 +257,7 @@ struct Football_Data : public Particle_Data {
 		//puede ser cualquier color que he puesto
 		color_offset = 0;
 		color_tam = 20;
+		scale = physx::PxVec3(1.5);
 	}
 };
 
@@ -275,6 +281,7 @@ struct Player_Data : public Particle_Data {
 		mass = 60.0; //60kg
 		lifetime = 0;
 		density = 985.0; // densidad aproximada humano
+		scale = physx::PxVec3(0.3, 1.8, 0.3);
 	}
 
 	// Dimensiones de la cápsula
@@ -291,5 +298,18 @@ struct Player_Data : public Particle_Data {
 	tensor.x = tensor.y = (1.0 / 12.0) * m * (3 * r * r + h * h);
 	tensor.z = (1.0/2.0) * m * r* r;
 	*/
+};
+
+struct Ground_Data :public Particle_Data {
+	Ground_Data() {
+		color_offset = 12;
+		color = physx::PxVec4(0.5f, 1.0f, 0.0f, 1.0f);
+		mode = IntegrateMode::NONE;
+		mass = 10.0;
+		lifetime = -1;
+		color_tam = 4;
+		density = 1.225;
+		scale = physx::PxVec3(20, 5, 10);
+	}
 };
 #pragma endregion

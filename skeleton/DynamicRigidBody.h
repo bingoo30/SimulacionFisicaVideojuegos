@@ -23,9 +23,6 @@ public:
 	#pragma endregion
 		void add_force(const physx::PxVec3& f) override;
 		void add_torque(const physx::PxVec3& t);
-
-		void update(double dt) override;
-
 protected:
 	physx::PxRigidDynamic* body;
 	physx::PxMaterial* material;

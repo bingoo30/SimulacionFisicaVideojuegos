@@ -14,7 +14,8 @@ void FootBallSystem::init()
 
 bool FootBallSystem::check_out_of_limit(Particle* p) const
 {
-	auto rb = static_cast<DynamicRigidBody*>(p);
+	//auto rb = static_cast<DynamicRigidBody*>(p);
 
-	return rb->getPosition().y < 0;
+	//return rb->getPosition().y < 0;
+	return false;
 }

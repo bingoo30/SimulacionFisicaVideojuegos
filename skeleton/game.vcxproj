@@ -267,6 +267,7 @@
     <ClCompile Include="ForceGenerator.cpp" />
     <ClCompile Include="ForceRegistry.cpp" />
     <ClCompile Include="GravityForceGenerator.cpp" />
+    <ClCompile Include="GroundSystem.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NormalGenerator.cpp" />
     <ClCompile Include="NormalGeneratorRB.cpp" />
@@ -316,6 +317,7 @@
     <ClInclude Include="ForceRegistry.h" />
     <ClInclude Include="Generator.h" />
     <ClInclude Include="GravityForceGenerator.h" />
+    <ClInclude Include="GroundSystem.h" />
     <ClInclude Include="NormalGenerator.h" />
     <ClInclude Include="NormalGeneratorRB.h" />
     <ClInclude Include="Particle.h" />
