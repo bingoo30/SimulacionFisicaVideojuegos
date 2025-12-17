@@ -104,12 +104,12 @@ void ContactReportCallback::onContact(const physx::PxContactPairHeader& pairHead
 
         // Verificar tipo de evento
         if (cp.events & PxPairFlag::eNOTIFY_TOUCH_FOUND) {
-            std::cout << "CONTACTO INICIADO: " << type1 << " - " << type2 << std::endl;
+            //std::cout << "CONTACTO INICIADO: " << type1 << " - " << type2 << std::endl;
 
             // Caso específico: jugador con fuego
             if ((type1 == "JUGADOR" && type2 == "FUEGO") ||
                 (type1 == "FUEGO" && type2 == "JUGADOR")) {
-                std::cout << "¡¡¡JUGADOR TOCA FUEGO!!! (DAÑO)" << std::endl;
+                //std::cout << "¡¡¡JUGADOR TOCA FUEGO!!!" << std::endl;
 
                 // Aquí puedes:
                 // 1. Reducir vida del jugador
@@ -120,11 +120,11 @@ void ContactReportCallback::onContact(const physx::PxContactPairHeader& pairHead
             // Caso: jugador con suelo
             if ((type1 == "JUGADOR" && type2 == "SUELO") ||
                 (type1 == "SUELO" && type2 == "JUGADOR")) {
-                std::cout << "Jugador en suelo" << std::endl;
+                //std::cout << "Jugador en suelo" << std::endl;
             }
         }
         else if (cp.events & PxPairFlag::eNOTIFY_TOUCH_LOST) {
-            std::cout << "CONTACTO TERMINADO: " << type1 << " - " << type2 << std::endl;
+           // std::cout << "CONTACTO TERMINADO: " << type1 << " - " << type2 << std::endl;
         }
         else if (cp.events & PxPairFlag::eNOTIFY_TOUCH_PERSISTS) {
             // Contacto persistente (cada frame)

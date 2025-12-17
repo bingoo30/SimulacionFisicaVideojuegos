@@ -118,8 +118,23 @@ void Level::init()
 
 void Level::handle_special_input(int key)
 {
+    switch (key)
+    {
+    case GLUT_KEY_LEFT:
+        character->moveLeft();
+        break;
+    case GLUT_KEY_RIGHT:
+        character->moveRight();
+        break;
+    }
 }
 
 void Level::handle_input(unsigned char key)
 {
+}
+
+void Level::update(double dt)
+{
+    Scene::update(dt);
+    character->update(dt);
 }

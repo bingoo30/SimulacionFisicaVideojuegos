@@ -16,6 +16,7 @@ public:
 #pragma region metodos publicos
 	void handle_special_input(int key) override;
 	void handle_input(unsigned char key) override;
+	void update(double dt) override;
 #pragma endregion
 protected:
 #pragma region atributos
