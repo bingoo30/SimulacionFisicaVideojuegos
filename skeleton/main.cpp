@@ -25,7 +25,7 @@
 #include "Scene7.h"
 #include "SceneManager.h"
 
-#include "ProjectIntro.h"
+#include "Intro.h"
 #include "ProjectScenario.h"
 #include "ProjectCharacterDemo.h"
 std::string display_text = "";
@@ -95,9 +95,9 @@ void initPhysics(bool interactive)
 	//Scene* s0 = new Scene0();
 	//s0->init();
 	//SceneManager::instance().add(s0);
-	Scene* s1 = new Scene1();
-	s1->init();
-	SceneManager::instance().add(s1);
+	//Scene* s1 = new Scene1();
+	//s1->init();
+	//SceneManager::instance().add(s1);
 	//Scene* s2 = new Scene2();
 	//s2->init();
 	//SceneManager::instance().add(s2);
@@ -114,10 +114,10 @@ void initPhysics(bool interactive)
 	muelle->init();
 	SceneManager::instance().add(muelle);*/
 
-	Scene* s7 = new Scene7();
+	/*Scene* s7 = new Scene7();
 	s7->init();
 	SceneManager::instance().add(s7);
-	SceneManager::instance().set_initial_scene(0);
+	SceneManager::instance().set_initial_scene(0);*/
 	updateDisplay();
 }
 

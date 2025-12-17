@@ -305,3 +305,9 @@ struct Ground_Data :public Particle_Data {
 	}
 };
 #pragma endregion
+
+struct Button_Data : public Particle_Data {
+	Button_Data() {
+		scale = physx::PxVec3(1.5);
+	}
+};

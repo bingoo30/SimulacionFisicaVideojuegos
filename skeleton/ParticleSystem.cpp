@@ -19,16 +19,18 @@ ParticleSystem::~ParticleSystem()
     generators.clear();
 }
 
-void ParticleSystem::spawn(bool withRender) 
+void ParticleSystem::spawn(bool withRender, bool isStatic) 
 {
     for (auto g : generators) {
         auto new_particles = g->generate_particles(model, deviation, num, geometry, mat, withRender);
         for (auto& new_p : new_particles) {
             // registrar todas las fuerzas locales sobre esta partícula
-            for (auto& fg : force_generators) {
-                local_registry.add_registry(new_p, fg.get());
+            if (!isStatic) {
+                for (auto& fg : force_generators) {
+                    local_registry.add_registry(new_p, fg.get());
+                }
+                local_registry.add_registry(new_p, SceneManager::instance().getCurrScene()->getGravityGenerator());
             }
-            local_registry.add_registry(new_p, SceneManager::instance().getCurrScene()->getGravityGenerator());
             particles_list.push_back(std::unique_ptr<Particle>(new_p));
         }
         new_particles.clear();
@@ -36,7 +38,7 @@ void ParticleSystem::spawn(bool withRender)
 }
 
 void ParticleSystem::update(double dt) {
-    if (!active ) return;
+    if (!active) return;
 
     // actualiza las fuerzas de este sistema
     local_registry.update_forces(dt);

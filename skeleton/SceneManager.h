@@ -3,12 +3,12 @@
 #include "Scene.h"
 
 enum States {
-    MUELLES,
-    INTRO,
-    DEMO_SCENARIO,
-    DEMO_CHARACTER,
-    PARTICULAS_Y_PROYECTILES,
-    GENERADORES_FUERZA,
+    INTRO, 
+    SELECTION, 
+    LEVEL1,
+    LEVEL2,
+    VICTORY,
+    DEFEAT,
     LAST_STATE,
 };
 class SceneManager
@@ -21,6 +21,7 @@ public:
     void change_scene(int idx);
     void add(Scene* s);
     Scene* getCurrScene();
+    void create_project_levels();
     void set_initial_scene(int idx) { 
         currScene = idx; 
         scenes[currScene]->enter();

@@ -17,7 +17,7 @@ public:
 #pragma endregion
 
 #pragma region metodos publicos
-	virtual void spawn(bool withRender = true);
+	virtual void spawn(bool withRender = true, bool isStatic= false);
 	virtual void update(double dt);
 	void derregister();
 	void register_particles(); 

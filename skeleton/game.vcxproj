@@ -256,6 +256,7 @@
   <ItemGroup>
     <ClCompile Include="AnchoredSpringForceGenerator.cpp" />
     <ClCompile Include="BouyancyForceGenerator.cpp" />
+    <ClCompile Include="ButtonSystem.cpp" />
     <ClCompile Include="callbacks.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="CharacterRBSystem.cpp" />
@@ -277,7 +278,7 @@
     <ClCompile Include="RigidBody.cpp" />
     <ClCompile Include="ProjectCharacterDemo.cpp" />
     <ClCompile Include="Projectile.cpp" />
-    <ClCompile Include="ProjectIntro.cpp" />
+    <ClCompile Include="Intro.cpp" />
     <ClCompile Include="ProjectScenario.cpp" />
     <ClCompile Include="RainParticleSystem.cpp" />
     <ClCompile Include="RenderUtils.cpp" />
@@ -295,6 +296,7 @@
     <ClCompile Include="Scene6.cpp" />
     <ClCompile Include="Scene7.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SelectionLevel.cpp" />
     <ClCompile Include="SpringForceGenerator.cpp" />
     <ClCompile Include="StaticRigidBody.cpp" />
     <ClCompile Include="UniformGenerator.cpp" />
@@ -305,6 +307,7 @@
   <ItemGroup>
     <ClInclude Include="AnchoredSpringForceGenerator.h" />
     <ClInclude Include="BouyancyForceGenerator.h" />
+    <ClInclude Include="ButtonSystem.h" />
     <ClInclude Include="callbacks.hpp" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="CharacterRBSystem.h" />
@@ -327,7 +330,7 @@
     <ClInclude Include="RigidBody.h" />
     <ClInclude Include="ProjectCharacterDemo.h" />
     <ClInclude Include="Projectile.h" />
-    <ClInclude Include="ProjectIntro.h" />
+    <ClInclude Include="Intro.h" />
     <ClInclude Include="ProjectScenario.h" />
     <ClInclude Include="RainParticleSystem.h" />
     <ClInclude Include="RenderUtils.hpp" />
@@ -345,6 +348,7 @@
     <ClInclude Include="Scene6.h" />
     <ClInclude Include="Scene7.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="SelectionLevel.h" />
     <ClInclude Include="SpringForceGenerator.h" />
     <ClInclude Include="StaticRigidBody.h" />
     <ClInclude Include="StructForEntities.h" />

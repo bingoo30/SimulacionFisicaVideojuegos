@@ -1,4 +1,6 @@
 #include "SceneManager.h"
+#include "Intro.h"
+#include "SelectionLevel.h"
 
 SceneManager::SceneManager() : scenes(), currScene(0) {}
 
@@ -37,6 +39,19 @@ Scene* SceneManager::getCurrScene()
 {
     if (scenes.empty()) return nullptr;
     return scenes[currScene];
+}
+
+void SceneManager::create_project_levels()
+{
+    Scene* intro = new Intro();
+    intro->init();
+    add(intro);
+
+    Scene* selection = new SelectionLevel();
+    selection->init();
+    add(selection);
+
+    set_initial_scene(INTRO);
 }
 
 void SceneManager::clean()
