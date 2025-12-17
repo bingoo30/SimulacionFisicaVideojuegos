@@ -100,6 +100,10 @@ void ParticleSystem::set_Active(bool a)
 {
     active = a;
 }
+Particle_Data& ParticleSystem::getModel()
+{
+    return model;
+}
 void ParticleSystem::kill_dead_particles()
 {
     particles_list.remove_if([this](std::unique_ptr<Particle>& p) {

@@ -4,7 +4,7 @@
 #include <fstream>
 using namespace physx;
 using namespace std;
-ButtonSystem::ButtonSystem(const Particle_Data& pd, const std::string& f):ParticleSystem(pd, Particle_Deviation_Data(), 1, PxGeometryType::eBOX), file(f) {
+ButtonSystem::ButtonSystem(const Particle_Data& pd, const std::string& f):ParticleSystem(pd, Particle_Deviation_Data(), 1, PxGeometryType::eSPHERE), file(f) {
 
 }
 void ButtonSystem::init()

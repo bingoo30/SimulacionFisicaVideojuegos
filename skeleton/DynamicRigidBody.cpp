@@ -9,7 +9,8 @@ DynamicRigidBody::DynamicRigidBody(const Particle_Data& prop, physx::PxFilterDat
 :RigidBody(prop, false, shape, _material),
 body(nullptr), material(_material), filter(_filter), tensor(prop.tensor)
 {
-	shape->setSimulationFilterData(filter); 
+	shape->setSimulationFilterData(filter);
+
 	body = gPhysics->createRigidDynamic(PxTransform(prop.pos)); 
 
 	body->setLinearVelocity(prop.vel); 

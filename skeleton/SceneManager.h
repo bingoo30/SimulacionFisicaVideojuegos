@@ -21,10 +21,12 @@ public:
     void change_scene(int idx);
     void add(Scene* s);
     Scene* getCurrScene();
-    void create_project_levels();
+    void create_project();
     void set_initial_scene(int idx) { 
         currScene = idx; 
         scenes[currScene]->enter();
+        //hago esto para parar los rbs
+        for (int i = 0; i < scenes.size(); ++i) if (i != idx) scenes[i]->exit();
     };
     void clean();
 

@@ -1,6 +1,7 @@
 #include "SceneManager.h"
 #include "Intro.h"
 #include "SelectionLevel.h"
+#include "Level.h"
 
 SceneManager::SceneManager() : scenes(), currScene(0) {}
 
@@ -41,7 +42,7 @@ Scene* SceneManager::getCurrScene()
     return scenes[currScene];
 }
 
-void SceneManager::create_project_levels()
+void SceneManager::create_project()
 {
     Scene* intro = new Intro();
     intro->init();
@@ -50,6 +51,12 @@ void SceneManager::create_project_levels()
     Scene* selection = new SelectionLevel();
     selection->init();
     add(selection);
+
+    for (int i = 0; i < 1; ++i) {
+        Scene* level_i = new Level(i+1);
+        level_i->init();
+        add(level_i);
+    }
 
     set_initial_scene(INTRO);
 }

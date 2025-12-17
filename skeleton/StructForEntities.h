@@ -66,7 +66,7 @@ inline physx::PxVec3 CONST_GRAVITY = physx::PxVec3(0.0f, -10.0f, 0.0f);
 
 #pragma region practica 2
 //array de colores
-inline const physx::PxVec4 colors[20] = {
+inline const physx::PxVec4 colors[23] = {
 	physx::PxVec4(1, 0, 0, 1), // rojo
 	physx::PxVec4(0, 1, 0, 1), // verde
 	physx::PxVec4(0, 0, 1, 1), // azul
@@ -89,7 +89,11 @@ inline const physx::PxVec4 colors[20] = {
 	physx::PxVec4(0.2f, 0.0f, 0.3f, 1.0f),   // púrpura oscuro (violeta profundo)
 	physx::PxVec4(0.4f, 0.0f, 0.6f, 1.0f),   // morado intenso
 	physx::PxVec4(0.6f, 0.2f, 0.8f, 1.0f),   // lavanda brillante
-	physx::PxVec4(0.8f, 0.5f, 1.0f, 1.0f)   // violeta claro (pastel)
+	physx::PxVec4(0.8f, 0.5f, 1.0f, 1.0f),   // violeta claro (pastel)
+	//a partir de aqui son los colores del suelo
+	physx::PxVec4(0.545f, 0.271f, 0.075f, 1.0f), //marron
+	physx::PxVec4(0.5f, 0.5f, 0.5f, 1.0f), //gris
+	physx::PxVec4(0.678f, 0.847f, 0.902f, 1.0f) //azul tipo hielo
 };
 
 //por defecto no tiene desviacion
@@ -106,7 +110,7 @@ struct Particle_Deviation_Data {
 struct Fire_Particle_Data:public Particle_Data {
 	Fire_Particle_Data() {
 		color = physx::PxVec4(1, 0, 0, 1); //color rojo
-		vel = physx::PxVec3(0, 20.0, 0); //hacia arriba
+		vel = physx::PxVec3(0, 10.0, 0); //hacia arriba
 		mode = IntegrateMode::SEMI_IMPLICIT_EULER;
 		lifetime = 0.75;
 		vol = 0.55;
@@ -242,9 +246,9 @@ struct Liquid_Data {
 
 #pragma region Practica 5
 // static friction, dynamic friction, restitution (elasticidad))
-inline const physx::PxVec3 groundMaterial(0.8f, 0.6f, 0.2f);
 inline const physx::PxVec3 characterMaterial(0.3f, 0.2f, 0.0f);
 inline const physx::PxVec3 footballMaterial(0.4f, 0.3f, 0.7f);
+inline const physx::PxVec3 nullMaterial(0.0f, 0.0f, 0.0f);
 
 struct Football_Data : public Particle_Data {
 	Football_Data() {
@@ -274,7 +278,7 @@ struct Football_Deviation_Data :public Particle_Deviation_Data {
 struct Player_Data : public Particle_Data {
 	Player_Data() {
 		// Color del jugador
-		vel = physx::PxVec3(0, -10.0, 0);
+		vel = physx::PxVec3(0, -50.0, 0);
 		color_offset = 0;
 		color_tam = 4; 
 		// Propiedades físicas
@@ -283,7 +287,7 @@ struct Player_Data : public Particle_Data {
 		lifetime = 0;
 		density = 985.0; // densidad aproximada humano
 		//scale = physx::PxVec3(0.5, 1.2, 0.3);
-		scale = physx::PxVec3(0.5, 0.5, 0.5);
+		scale = physx::PxVec3(3, 3, 3);
 		damping = 0.75;
 	}
 
@@ -308,6 +312,19 @@ struct Ground_Data :public Particle_Data {
 
 struct Button_Data : public Particle_Data {
 	Button_Data() {
-		scale = physx::PxVec3(1.5);
+		scale = physx::PxVec3(5.0);
 	}
+};
+inline const physx::PxVec3 materials[4] = {
+	physx::PxVec3(0.9f, 0.8f, 0.0f), //suelo rigido
+	physx::PxVec3(0.5f, 0.4f, 0.2f), // suelo liso
+	physx::PxVec3(0.05f, 0.02f, 0.05f), // hielo
+	physx::PxVec3(0.4f, 0.3f, 0.7f) // futbol
+};
+
+enum CollisionLayer : uint32_t
+{
+	LAYER_PLAYER = 1,  // 0001
+	LAYER_FIRE = 2,  // 0010
+	LAYER_GROUND = 4   // 0100
 };

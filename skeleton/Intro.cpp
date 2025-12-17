@@ -26,7 +26,7 @@ void Intro::handle_input(unsigned char key)
 	case ' ':
 		break;
 	case '\r': //tecla intro
-		SceneManager::instance().change_scene(States::DEMO_SCENARIO);
+		SceneManager::instance().change_scene(States::SELECTION);
 		break;
 	}
 }

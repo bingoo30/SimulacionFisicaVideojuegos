@@ -73,7 +73,7 @@ void ProjectScenario::handle_input(unsigned char key)
 	case ' ':
 		break;
 	case '\r': //tecla intro
-		SceneManager::instance().change_scene(States::DEMO_CHARACTER);
+		//SceneManager::instance().change_scene(States::DEMO_CHARACTER);
 		break;
 	case 'Q': //tecla Q
 		SceneManager::instance().change_scene(States::INTRO);

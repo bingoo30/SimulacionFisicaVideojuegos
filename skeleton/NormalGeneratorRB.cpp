@@ -8,6 +8,16 @@ NormalGeneratorRB::NormalGeneratorRB(bool s): _static(s)
 {
 }
 
+void NormalGeneratorRB::setFilter(const PxFilterData& f)
+{
+    filter = f;
+}
+
+void NormalGeneratorRB::setTrigger(bool t)
+{
+    _isTrigger = t;
+}
+
 Particle_List NormalGeneratorRB::generate_particles(const Particle_Data& model, const Particle_Deviation_Data& deviation, int n, physx::PxGeometryType::Enum geo, physx::PxMaterial* _mat, bool withRender)
 {
     Particle_List rbs;
@@ -32,19 +42,21 @@ Particle_List NormalGeneratorRB::generate_particles(const Particle_Data& model, 
 
         //crear particula y insertar a la lista
         auto g = create_geometry(geo, model.scale);
-        PxShape* sh = CreateShape(*g);
+        PxShape* sh = CreateShape(*g, _mat);
 
-        PxFilterData f(0, 0, 0, 0);
-
+        if (_isTrigger) {
+            sh->setFlag(PxShapeFlag::eSIMULATION_SHAPE, false);
+            sh->setFlag(PxShapeFlag::eTRIGGER_SHAPE, true);
+        }
 
         RigidBody* rb = nullptr;
         //el tensor se cambia en el sistema!!!
         //miro si es estatico o dynamico
         if (_static) {
-            rb = new StaticRigidBody(newModel, f, sh, _mat);
+            rb = new StaticRigidBody(newModel, filter, sh, _mat);
         }
         else {
-            rb = new DynamicRigidBody(newModel, f, sh, _mat);
+            rb = new DynamicRigidBody(newModel, filter, sh, _mat);
         }
 
         if (withRender) rb->create_renderItem();

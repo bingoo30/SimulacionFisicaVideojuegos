@@ -264,12 +264,14 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="ExplosionForceGenerator.cpp" />
     <ClCompile Include="FireParticleSystem.cpp" />
+    <ClCompile Include="FireRBSystem.cpp" />
     <ClCompile Include="FireworkParticleSystem.cpp" />
     <ClCompile Include="FootBallSystem.cpp" />
     <ClCompile Include="ForceGenerator.cpp" />
     <ClCompile Include="ForceRegistry.cpp" />
     <ClCompile Include="GravityForceGenerator.cpp" />
     <ClCompile Include="GroundSystem.cpp" />
+    <ClCompile Include="Level.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NormalGenerator.cpp" />
     <ClCompile Include="NormalGeneratorRB.cpp" />
@@ -316,6 +318,7 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="ExplosionForceGenerator.h" />
     <ClInclude Include="FireParticleSystem.h" />
+    <ClInclude Include="FireRBSystem.h" />
     <ClInclude Include="FireworkParticleSystem.h" />
     <ClInclude Include="FootBallSystem.h" />
     <ClInclude Include="ForceGenerator.h" />
@@ -323,6 +326,7 @@
     <ClInclude Include="Generator.h" />
     <ClInclude Include="GravityForceGenerator.h" />
     <ClInclude Include="GroundSystem.h" />
+    <ClInclude Include="Level.h" />
     <ClInclude Include="NormalGenerator.h" />
     <ClInclude Include="NormalGeneratorRB.h" />
     <ClInclude Include="Particle.h" />
@@ -356,6 +360,10 @@
     <ClInclude Include="UniformGeneratorRB.h" />
     <ClInclude Include="WhirlwindForceGenerator.h" />
     <ClInclude Include="WindForceGenerator.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="txt\level1.txt" />
+    <Text Include="txt\selectionButtons.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

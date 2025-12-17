@@ -145,7 +145,13 @@
     <ClCompile Include="SelectionLevel.cpp">
       <Filter>Proyecto final</Filter>
     </ClCompile>
-    <ClCompile Include="ButtonSystem.cpp" />
+    <ClCompile Include="ButtonSystem.cpp">
+      <Filter>Proyecto final</Filter>
+    </ClCompile>
+    <ClCompile Include="Level.cpp">
+      <Filter>Proyecto final</Filter>
+    </ClCompile>
+    <ClCompile Include="FireRBSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Render\Camera.h">
@@ -298,7 +304,13 @@
     <ClInclude Include="SelectionLevel.h">
       <Filter>Proyecto final</Filter>
     </ClInclude>
-    <ClInclude Include="ButtonSystem.h" />
+    <ClInclude Include="ButtonSystem.h">
+      <Filter>Proyecto final</Filter>
+    </ClInclude>
+    <ClInclude Include="Level.h">
+      <Filter>Proyecto final</Filter>
+    </ClInclude>
+    <ClInclude Include="FireRBSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">
@@ -331,5 +343,9 @@
     <Filter Include="Proyecto final">
       <UniqueIdentifier>{76554e33-33a8-4ff6-b989-b4ad5f0320db}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="txt\level1.txt" />
+    <Text Include="txt\selectionButtons.txt" />
   </ItemGroup>
 </Project>

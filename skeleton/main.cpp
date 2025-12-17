@@ -118,6 +118,8 @@ void initPhysics(bool interactive)
 	s7->init();
 	SceneManager::instance().add(s7);
 	SceneManager::instance().set_initial_scene(0);*/
+
+	SceneManager::instance().create_project();
 	updateDisplay();
 }
 

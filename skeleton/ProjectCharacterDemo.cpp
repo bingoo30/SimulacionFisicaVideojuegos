@@ -34,7 +34,7 @@ void ProjectCharacterDemo::handle_input(unsigned char key)
 		SceneManager::instance().change_scene(States::INTRO);
 		break;
 	case 'Q': //tecla Q
-		SceneManager::instance().change_scene(States::DEMO_SCENARIO);
+		//SceneManager::instance().change_scene(States::DEMO_SCENARIO);
 		break;
 	}
 }

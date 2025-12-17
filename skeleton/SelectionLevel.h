@@ -1,8 +1,10 @@
 #pragma once
 #include "Scene.h"
+#include "StructForEntities.h"
 class SelectionLevel :
     public Scene
 {
+public:
 #pragma region constructora e inicializacion
 	SelectionLevel() = default;
 	void init() override;
@@ -16,9 +18,7 @@ protected:
 #pragma region atributos
 	std::string title;
 	std::string subtitle;
-	int firstLevel = States::LEVEL1;
-	int lastLevel = States::LEVEL2;
-	int selectedLevel = States::LEVEL1;
+	int selectedLevel = 0;
 #pragma endregion
 };
 

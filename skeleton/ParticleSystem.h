@@ -24,6 +24,7 @@ public:
 	void add_force_generator(ForceGenerator* gen);
 	bool is_active() const;
 	void set_Active(bool a);
+	Particle_Data& getModel();
 #pragma endregion
 
 protected:
