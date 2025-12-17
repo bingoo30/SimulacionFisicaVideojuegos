@@ -9,15 +9,15 @@ DynamicRigidBody::DynamicRigidBody(const Particle_Data& prop, physx::PxFilterDat
 :RigidBody(prop, false, shape, _material),
 body(nullptr), material(_material), filter(_filter), tensor(prop.tensor)
 {
-	shape->setSimulationFilterData(filter);
-	body = gPhysics->createRigidDynamic(PxTransform(prop.pos));
+	shape->setSimulationFilterData(filter); 
+	body = gPhysics->createRigidDynamic(PxTransform(prop.pos)); 
 
-	body->setLinearVelocity(prop.vel);
-	body->setLinearDamping(prop.damping);
-	body->setAngularVelocity(PxVec3(0));
-	body->setAngularDamping(prop.damping);
-	body->attachShape(*shape);
-	gScene->addActor(*body);
+	body->setLinearVelocity(prop.vel); 
+	body->setLinearDamping(prop.damping); 
+	body->setAngularVelocity(PxVec3(0)); 
+	body->setAngularDamping(prop.damping); 
+	body->attachShape(*shape); 
+	gScene->addActor(*body); 
 
 	// Si le paso un tensor calculado manualmente, se lo asigno
 	if (tensor != PxVec3(-1)) setTensor(tensor);
@@ -52,7 +52,7 @@ void DynamicRigidBody::add_torque(const physx::PxVec3& t)
 void DynamicRigidBody::add_initial_rotation(const physx::PxQuat& q)
 {
 	PxTransform tr = body->getGlobalPose();
-	tr.q = tr.q * q;
+	tr.q = q * tr.q;
 
 	body->setGlobalPose(tr);
 }

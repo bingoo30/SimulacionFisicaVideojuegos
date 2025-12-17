@@ -248,7 +248,7 @@ inline const physx::PxVec3 footballMaterial(0.4f, 0.3f, 0.7f);
 
 struct Football_Data : public Particle_Data {
 	Football_Data() {
-		vel = physx::PxVec3(0, -20.0, 0); //hacia arriba
+		vel = physx::PxVec3(0, -20.0, 0); //hacia abajo
 		mode = IntegrateMode::VERLET;
 		lifetime = 0;
 		vol = 1.5;
@@ -273,7 +273,8 @@ struct Football_Deviation_Data :public Particle_Deviation_Data {
 
 struct Player_Data : public Particle_Data {
 	Player_Data() {
-		// Color del jugador 
+		// Color del jugador
+		vel = physx::PxVec3(0, -10.0, 0);
 		color_offset = 0;
 		color_tam = 4; 
 		// Propiedades físicas
@@ -281,7 +282,9 @@ struct Player_Data : public Particle_Data {
 		mass = 60.0; //60kg
 		lifetime = 0;
 		density = 985.0; // densidad aproximada humano
-		scale = physx::PxVec3(0.5, 1.2, 0.3);
+		//scale = physx::PxVec3(0.5, 1.2, 0.3);
+		scale = physx::PxVec3(0.5, 0.5, 0.5);
+		damping = 0.75;
 	}
 
 	// Dimensiones de la cápsula

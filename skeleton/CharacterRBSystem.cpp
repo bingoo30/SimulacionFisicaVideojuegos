@@ -2,7 +2,7 @@
 #include "UniformGeneratorRB.h"
 #include "SceneManager.h"
 using namespace physx;
-CharacterRBSystem::CharacterRBSystem(const Player_Data& pd, const physx::PxVec3& md): RigidBodySystem(pd, Particle_Deviation_Data(), 1, PxGeometryType::eCAPSULE, false, md)
+CharacterRBSystem::CharacterRBSystem(const Player_Data& pd, const physx::PxVec3& md): RigidBodySystem(pd, Particle_Deviation_Data(), 1, PxGeometryType::eBOX, false, md)
 {
 }
 
@@ -21,7 +21,16 @@ void CharacterRBSystem::spawn(bool withRender)
             for (auto& fg : force_generators) {
                 local_registry.add_registry(new_p, fg.get());
             }
-            static_cast<DynamicRigidBody*>(new_p)->add_initial_rotation((PxQuat(cos(45), sin(45), 0, 0)));
+            auto p = static_cast<DynamicRigidBody*>(new_p);
+            PxRigidDynamic* dyn = static_cast<PxRigidDynamic*>(p->getActor());
+            dyn->setAngularDamping(4.0f);
+            dyn->setRigidDynamicLockFlags(
+                PxRigidDynamicLockFlag::eLOCK_ANGULAR_X |
+                PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z
+            );
+
+            PxQuat q(PxPi / 2.0f, PxVec3(0, 0, 1));
+            p->add_initial_rotation(q);
             particles_list.push_back(std::unique_ptr<Particle>(new_p));
         }
         new_particles.clear();
