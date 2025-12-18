@@ -21,8 +21,10 @@ void RigidBodySystem::pause_all_rb(bool pause)
     for (auto& p : particles_list)
     {
         if (p) {
+            physx::PxRigidActor* actor = nullptr;
+            //es dinamico
             if (auto* rb = dynamic_cast<DynamicRigidBody*>(p.get())) {
-                physx::PxRigidActor* actor = rb->getActor();
+                actor = rb->getActor();
                 if (actor) {
                     physx::PxRigidDynamic* dyn = actor->is<physx::PxRigidDynamic>();
                     if (dyn) {
@@ -31,6 +33,17 @@ void RigidBodySystem::pause_all_rb(bool pause)
                     }
                 }
             }
+            else if (auto* rb2 = dynamic_cast<StaticRigidBody*>(p.get())) {
+                actor = rb2->getActor();
+            }
+
+            //los dos hacen esto
+            //Desactivar/activar colisiones
+           /* PxShape* shape = p->getShape();
+            if (shape) {
+                shape->setFlag(PxShapeFlag::eSIMULATION_SHAPE, !pause);
+                shape->setFlag(PxShapeFlag::eSCENE_QUERY_SHAPE, !pause);
+            }*/
         }
     }
 }

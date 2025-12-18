@@ -27,6 +27,8 @@ private:
     float groundCorrectionY;
     bool needsVelocityResetY;
     bool wasGroundedLastFrame;
+    float accumulatedTime = 0.0f;
+    float groundTimer = 0.0f;
 
 public:
     CharacterRBSystem(const Player_Data& pd, const physx::PxVec3& material,

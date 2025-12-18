@@ -1,12 +1,28 @@
 #include "GameOver.h"
 #include "SceneManager.h"
 #include "Render/Render.h"
+#include "StructForEntities.h"
+#include "WhirlwindForceGenerator.h"
+#include "FootBallSystem.h"
+
+using namespace physx;
 void GameOver::init()
 {
 	title = "YOU LOSE...";
 	subtitle1 = "Pulsa ENTER para volver a intentarlo...";
 	subtitle2 = "Pulsa ESC para salir";
 	display = "Escena GameOver";
+
+	Whirlwind_Data wd; 
+
+	wd.area = 50.0;
+
+	whirlwind = new WhirlwindForceGenerator(wd.center, wd.area, wd.k1, wd.dragCoef, wd.K, false);
+
+	Football_Data fd; Football_Deviation_Data fdd;
+	fd.lifetime = 0.5; fdd.valid_box = { 100, 100, 100 };
+	FootBallSystem* foot = new FootBallSystem(fd, fdd, 3, footballMaterial);
+	foot->add_force_generator(whirlwind);
 }
 
 void GameOver::render_interface()

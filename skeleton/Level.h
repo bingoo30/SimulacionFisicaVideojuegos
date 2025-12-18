@@ -25,6 +25,7 @@ public:
 	void handle_contact(const physx::PxContactPairHeader& pairHeader, const physx::PxContactPair* pairs, physx::PxU32 nbPairs) override;
 	void update(double dt) override;
 
+	void enter() override;
 	void exit() override;
 #pragma endregion
 protected:
@@ -39,6 +40,7 @@ protected:
 	physx::PxFilterData doorFilterData;
 
 	SpringForceGenerator* muelle = nullptr;
+	float x;
 #pragma endregion
 };
 

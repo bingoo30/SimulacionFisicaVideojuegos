@@ -151,7 +151,9 @@
     <ClCompile Include="KeyRBSystem.cpp">
       <Filter>Proyecto final</Filter>
     </ClCompile>
-    <ClCompile Include="Victory.cpp" />
+    <ClCompile Include="Victory.cpp">
+      <Filter>Proyecto final</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Render\Camera.h">
@@ -310,7 +312,9 @@
     <ClInclude Include="KeyRBSystem.h">
       <Filter>Proyecto final</Filter>
     </ClInclude>
-    <ClInclude Include="Victory.h" />
+    <ClInclude Include="Victory.h">
+      <Filter>Proyecto final</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">
@@ -344,5 +348,6 @@
   <ItemGroup>
     <Text Include="txt\level1.txt" />
     <Text Include="txt\selectionButtons.txt" />
+    <Text Include="txt\level2.txt" />
   </ItemGroup>
 </Project>

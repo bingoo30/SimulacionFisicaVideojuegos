@@ -2,6 +2,8 @@
 #include "Intro.h"
 #include "SelectionLevel.h"
 #include "Level.h"
+#include "GameOver.h"
+#include "Victory.h"
 
 SceneManager::SceneManager() : scenes(), currScene(0) {}
 
@@ -20,14 +22,13 @@ SceneManager& SceneManager::instance()
 
 void SceneManager::change_scene(int idx)
 {
-    if (idx < 0 || idx >= scenes.size() || idx == currScene)
+    if (idx == -1)
+        idx = currScene;
+    if (idx < 0 || idx >= scenes.size())
         return;
-
     scenes[currScene]->exit();
     currScene = idx;
     scenes[currScene]->enter();
-    auto c = GetCamera();
-    c->resetCamera();
 }
 
 void SceneManager::add(Scene* s)
@@ -52,11 +53,18 @@ void SceneManager::create_project()
     selection->init();
     add(selection);
 
-    for (int i = 0; i < 1; ++i) {
+    for (int i = 0; i < 2; ++i) {
         Scene* level_i = new Level(i+1);
         level_i->init();
         add(level_i);
     }
+    Scene* victory = new Victory();
+    victory->init();
+    add(victory);
+
+    Scene* gameover = new GameOver();
+    gameover->init();
+    add(gameover);
 
     set_initial_scene(INTRO);
 }

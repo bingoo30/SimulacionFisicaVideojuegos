@@ -363,6 +363,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="txt\level1.txt" />
+    <Text Include="txt\level2.txt" />
     <Text Include="txt\selectionButtons.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

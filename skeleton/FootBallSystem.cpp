@@ -15,8 +15,10 @@ void FootBallSystem::init()
 
 bool FootBallSystem::check_out_of_limit(Particle* p) const
 {
-	//auto rb = static_cast<DynamicRigidBody*>(p);
+	auto rb = static_cast<DynamicRigidBody*>(p);
 
-	//return rb->getPosition().y < 0;
-	return false;
+	const physx::PxVec3& pos = rb->getPosition();
+	return pos.y <= 0.0 || pos.y > model.pos.y + deviation.valid_box.y
+		|| std::abs(pos.x) > model.pos.x + deviation.valid_box.x
+		|| std::abs(pos.z) > model.pos.z + deviation.valid_box.z;
 }

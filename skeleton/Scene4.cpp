@@ -3,6 +3,7 @@
 #include "FireParticleSystem.h"
 #include "RainParticleSystem.h"
 #include "StructForEntities.h"
+#include "FootBallSystem.h"
 using namespace physx;
 void Scene4::init()
 {

@@ -1,5 +1,6 @@
 #pragma once
 #include "Scene.h"
+class WhirlwindForceGenerator;
 class GameOver : public Scene {
 public:
 #pragma region constructora e inicializacion
@@ -15,6 +16,7 @@ protected:
 	std::string title;
 	std::string subtitle1;
 	std::string subtitle2;
+	WhirlwindForceGenerator* whirlwind = nullptr;
 #pragma endregion
 };
 

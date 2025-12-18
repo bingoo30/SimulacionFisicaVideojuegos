@@ -49,15 +49,8 @@ public:
 	physx::PxVec3		getDir()	const;
 	void resetCamera(); //creado por mi
 	physx::PxTransform	getTransform() const;
+	void setCamera(float x);
 
-	// ============ NUEVOS MÉTODOS PARA SEGUIR PERSONAJE ============
-	void                setFollowTarget(Particle* target);
-	void                updateFollow(float dt);
-	void                setFollowOffset(const physx::PxVec3& offset);
-	void                setFollowDistance(float distance);
-	void                setFollowHeight(float height);
-	void                setFollowEnabled(bool enabled);
-	// ==============================================================
 
 private:
 	physx::PxVec3	mEye;

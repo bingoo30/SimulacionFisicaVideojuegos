@@ -18,7 +18,7 @@ public:
     static SceneManager& instance();
 
     //metodos públicos
-    void change_scene(int idx);
+    void change_scene(int idx = -1);
     void add(Scene* s);
     Scene* getCurrScene();
     void create_project();

@@ -9,6 +9,7 @@
 #include "SpringForceGenerator.h"
 #include "KeyRBSystem.h"
 #include "RubberBandForceGenerator.h"
+#include "RainParticleSystem.h"
 #include "SceneManager.h"
 /*
 * Estructura fichero nivel: <char> <x> <y> <color_index> <scale_x> <scale_y> <scale_z>
@@ -85,7 +86,17 @@ void Level::init()
     Key_Data kd;
     Spring_Data sd;
     Wind_Data wd;
+    f >> x;
 
+    Rain_Particle_Data rpd; 
+    rpd.pos = { x, 80, -10 };
+    Rain_Deviation_Data rdd; rdd.ori.x = rdd.ori.y = 100;
+
+    Rain_Particle_Data spd = rpd; 
+    spd.color = { 1.0,1.0,1.0,0.7 };
+    Rain_Deviation_Data sdd = rdd;
+
+    rpd.scale = {0.1, 0.1, 0.1};
     auto g = new GroundSystem(gd, 1, groundFilterData);
     g->init();
     auto& _gd = g->getModel();
@@ -111,6 +122,8 @@ void Level::init()
     int index;
     FireRBSystem* fr = nullptr;
     WindForceGenerator* wind = nullptr;
+    RainParticleSystem* rain = nullptr;
+    RainParticleSystem* snow = nullptr;
     while (f >> c) {
         switch (tolower(c))
         {
@@ -186,7 +199,32 @@ void Level::init()
             f >> wd.k1;
             wind = new WindForceGenerator(wd.center, wd.vel, wd.area, wd.k1, wd.dragCoef, false);
             //solo a los que quiero aplicarles
-            character->add_force_generator(wind);
+            f >> c;
+            if (c == 'p')
+                character->add_force_generator(wind);
+            else if (c == 'k')
+                key->add_force_generator(wind);
+            break;
+        case 'x':
+            f >> c;
+            int n;
+            f >> n;
+            switch (c)
+            {
+            case 's':
+                snow = new RainParticleSystem(spd, sdd, n);
+                snow->init();
+                add_particle_system(snow);
+                break;
+            case 'r':
+                rain = new RainParticleSystem(rpd, rdd, n);
+                rain->init();
+                add_particle_system(rain);
+                break;
+            default:
+
+                break;
+            }
             break;
         default:
             break;
@@ -291,7 +329,7 @@ void Level::handle_contact(const physx::PxContactPairHeader& pairHeader,
                 if (character) {
                     character->onFireContact();
                 }
-                SceneManager::instance().change_scene(VICTORY);
+                SceneManager::instance().change_scene(DEFEAT);
             }
 
             // JUGADOR - SUELO
@@ -322,7 +360,7 @@ void Level::handle_contact(const physx::PxContactPairHeader& pairHeader,
             // LLAVE - PUERTA
             else if ((isKey1 && isDoor2) || (isKey2 && isDoor1)) {
                 std::cout << "Llave toca puerta" << std::endl;
-                SceneManager::instance().change_scene(DEFEAT);
+                SceneManager::instance().change_scene(VICTORY);
             }
         }
 
@@ -344,10 +382,19 @@ void Level::update(double dt)
     character->update(dt);
 }
 
+void Level::enter()
+{
+    Scene::enter();
+    Camera* c = GetCamera();
+    c->setCamera(x);
+}
+
 void Level::exit()
 {
     Scene::exit();
     character->reset();
     key->reset();
     muelle->set_alive(true);
+    Camera* c = GetCamera();
+    c->resetCamera();
 }
