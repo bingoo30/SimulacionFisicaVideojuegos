@@ -66,7 +66,7 @@ void SceneManager::create_project()
     gameover->init();
     add(gameover);
 
-    set_initial_scene(DEFEAT);
+    set_initial_scene(INTRO);
 }
 
 void SceneManager::clean()
