@@ -3,7 +3,8 @@
 #include "Render/Render.h"
 #include "StructForEntities.h"
 #include "WhirlwindForceGenerator.h"
-#include "FootBallSystem.h"
+#include "FireParticleSystem.h"
+#include "RainParticleSystem.h"
 
 using namespace physx;
 void GameOver::init()
@@ -15,14 +16,39 @@ void GameOver::init()
 
 	Whirlwind_Data wd; 
 
-	wd.area = 50.0;
-
+	wd.area = 150.0;
+	wd.center.x = -35;
+	wd.center.y = 20;
 	whirlwind = new WhirlwindForceGenerator(wd.center, wd.area, wd.k1, wd.dragCoef, wd.K, false);
 
-	Football_Data fd; Football_Deviation_Data fdd;
-	fd.lifetime = 0.5; fdd.valid_box = { 100, 100, 100 };
-	FootBallSystem* foot = new FootBallSystem(fd, fdd, 3, footballMaterial);
-	foot->add_force_generator(whirlwind);
+	Firework_Particle_Data fd; Firework_Deviation_Data fdd;
+	fd.color_offset = 12;
+	fd.color_tam = 4;
+	fd.lifetime = 3.5;
+	fdd.r_color = true;
+	fd.mass = 12.5;
+	fd.pos.x = -60.0;
+	fdd.valid_box = { 1000, 1000, 1000 };
+	FireParticleSystem* fire = new FireParticleSystem(fd, fdd, 2);
+	fire->init();
+	add_particle_system(fire);
+	
+	fd.pos.x = 55;
+	fd.color_offset = 16;
+	FireParticleSystem* fire2 = new FireParticleSystem(fd, fdd, 1);
+	fire2->init();
+	add_particle_system(fire2);
+
+	Rain_Particle_Data rpd; Rain_Deviation_Data rdd;
+	rpd.pos.y = 30;
+	rpd.mass = 1;
+	rpd.color_offset = 4;
+	rpd.color_tam = 16;
+	rdd.r_color = true;
+	RainParticleSystem* rain = new RainParticleSystem(rpd, rdd, 5);
+	rain->init();
+	gPartSys.push_back(rain);
+	rain->add_force_generator(whirlwind);
 }
 
 void GameOver::render_interface()
