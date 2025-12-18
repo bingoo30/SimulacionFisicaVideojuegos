@@ -26,8 +26,6 @@
 #include "SceneManager.h"
 
 #include "Intro.h"
-#include "ProjectScenario.h"
-#include "ProjectCharacterDemo.h"
 std::string display_text = "";
 
 
@@ -191,6 +189,10 @@ void keyUp(unsigned char key)
 void specialKeyPress(int key)
 {
 	SceneManager::instance().getCurrScene()->handle_special_input(key);
+}
+void specialKeyUp(int key)
+{
+	SceneManager::instance().getCurrScene()->handle_special_key_up(key);
 }
 void onCollision(physx::PxActor* actor1, physx::PxActor* actor2)
 {

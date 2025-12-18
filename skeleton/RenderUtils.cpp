@@ -14,6 +14,7 @@ extern void cleanupPhysics(bool interactive);
 extern void keyPress(unsigned char key, const PxTransform& camera);
 extern void keyUp(unsigned char key);
 extern void specialKeyPress(int key);
+extern void specialKeyUp(int key);
 extern PxPhysics* gPhysics;
 extern PxMaterial* gMaterial;
 
@@ -69,7 +70,12 @@ void specialKeyCallback(int key, int x, int y)
 	PX_UNUSED(y);
 	specialKeyPress(key);
 }
-
+void specialKeyUpCallback(int key, int x, int y)
+{
+	PX_UNUSED(x);
+	PX_UNUSED(y);
+	specialKeyUp(key);
+}
 // Teclas normales al soltar
 void keyboardUpCallback(unsigned char key, int x, int y)
 {
@@ -168,6 +174,7 @@ void renderLoop()
 	glutKeyboardFunc(keyboardCallback);          // teclas normales
 	glutKeyboardUpFunc(keyboardUpCallback);           // teclas normales al soltar
 	glutSpecialFunc(specialKeyCallback);    // teclas especiales (flechas, F1–F12, etc.)
+	glutSpecialUpFunc(specialKeyUpCallback); 
 	glutMouseFunc(mouseCallback);
 	glutMotionFunc(motionCallback);
 	motionCallback(0,0);

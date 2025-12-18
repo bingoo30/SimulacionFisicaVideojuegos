@@ -1,18 +1,27 @@
-#include "CharacterRBSystem.h"
+Ôªø#include "CharacterRBSystem.h"
 #include "UniformGeneratorRB.h"
 #include "SceneManager.h"
 #include <iostream>
+#include <algorithm>
 
 using namespace physx;
 
 extern PxPhysics* gPhysics;
 extern PxScene* gScene;
 
-
 CharacterRBSystem::CharacterRBSystem(const Player_Data& pd, const PxVec3& material, const PxFilterData& filter)
     : RigidBodySystem(pd, Particle_Deviation_Data(), 1, PxGeometryType::eBOX, false, material, filter),
-    moveDirection(0.0f), moveSpeed(10.0f), jumpForce(8.0f), isGrounded(false)
+    moveDirection(0), moveForce(500.0f), jumpForce(800.0f),
+    jumpChargeRate(500.0f), maxJumpCharge(2000.0f), currentJumpCharge(0.0f),
+    isChargingJump(false), isGrounded(false),
+    lastJumpTime(0.0f), jumpCooldown(0.3f), currentMoveForce(0.0f),
+    needsGroundCorrection(false), groundCorrectionY(0.0f),
+    needsVelocityResetY(false), wasGroundedLastFrame(false)
 {
+    // Registrar este sistema como callback de colisi√≥n
+    if (gScene) {
+        gScene->setSimulationEventCallback(this);
+    }
 }
 
 void CharacterRBSystem::init()
@@ -36,17 +45,17 @@ void CharacterRBSystem::spawn(bool withRender, bool isStatic)
             auto p = static_cast<DynamicRigidBody*>(new_p);
             PxRigidDynamic* dyn = static_cast<PxRigidDynamic*>(p->getActor());
 
-            // ConfiguraciÛn fÌsica mejorada
-            dyn->setMass(1.0f);
-            dyn->setLinearDamping(0.8f);  // Para frenado m·s r·pido
-            dyn->setAngularDamping(10.0f);
+            // Configurar para recibir notificaciones de contacto
+            dyn->setActorFlag(PxActorFlag::eSEND_SLEEP_NOTIFIES, true);
+            dyn->setName("PlayerCharacter");
+            dyn->setAngularDamping(5.0f);
 
             // Bloquear rotaciones y movimiento en Z
             dyn->setRigidDynamicLockFlags(
                 PxRigidDynamicLockFlag::eLOCK_ANGULAR_X |
                 PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y |
                 PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z |
-                PxRigidDynamicLockFlag::eLOCK_LINEAR_Z    // Solo movimiento en X
+                PxRigidDynamicLockFlag::eLOCK_LINEAR_Z
             );
 
             particles_list.push_back(std::unique_ptr<Particle>(new_p));
@@ -55,81 +64,191 @@ void CharacterRBSystem::spawn(bool withRender, bool isStatic)
     }
 }
 
-// MÈtodos de control
-void CharacterRBSystem::moveLeft()
+// Callback de contacto de PhysX - SOLO LECTURA
+void CharacterRBSystem::onContact(const PxContactPairHeader& pairHeader,
+    const PxContactPair* pairs, PxU32 nbPairs)
 {
+    // Verificar si nuestro personaje est√° involucrado en esta colisi√≥n
+    if (particles_list.empty()) return;
+
+    auto* playerRB = static_cast<DynamicRigidBody*>(particles_list.front().get());
+    PxRigidDynamic* ourPlayer = static_cast<PxRigidDynamic*>(playerRB->getActor());
+
+    if (!ourPlayer) return;
+
+    // Identificar cu√°l actor es nuestro personaje
+    PxRigidDynamic* playerActor = nullptr;
+    PxRigidActor* otherActor = nullptr;
+
+    if (pairHeader.actors[0] == ourPlayer) {
+        playerActor = static_cast<PxRigidDynamic*>(pairHeader.actors[0]);
+        otherActor = pairHeader.actors[1];
+    }
+    else if (pairHeader.actors[1] == ourPlayer) {
+        playerActor = static_cast<PxRigidDynamic*>(pairHeader.actors[1]);
+        otherActor = pairHeader.actors[0];
+    }
+    else {
+        return; // No es nuestro personaje
+    }
+
+    // Solo lectura - obtener posici√≥n actual
+    PxTransform currentPose = playerActor->getGlobalPose();  // ‚úÖ Permitido: solo lectura
+    PxVec3 currentVelocity = playerActor->getLinearVelocity();  // ‚úÖ Permitido: solo lectura
+
+    // Procesar cada par de contacto
+    for (PxU32 i = 0; i < nbPairs; i++) {
+        const PxContactPair& contactPair = pairs[i];
+
+        // Contacto comienza o persiste
+        if (contactPair.events & (PxPairFlag::eNOTIFY_TOUCH_FOUND | PxPairFlag::eNOTIFY_TOUCH_PERSISTS)) {
+
+            // Extraer puntos de contacto
+            PxContactPairPoint contactPoints[32];
+            PxU32 numContacts = contactPair.extractContacts(contactPoints, 32);
+
+            for (PxU32 j = 0; j < numContacts; j++) {
+                const PxContactPairPoint& point = contactPoints[j];
+
+                // Solo verificar si es contacto con suelo
+                if (point.normal.y > 0.7f && currentVelocity.y <= 0.5f) {
+                    // Registrar contacto (solo almacenar puntero - permitido)
+                    groundContacts.insert(otherActor);
+
+                    // Verificar si necesita correcci√≥n (solo c√°lculo, sin modificar)
+                    if (point.separation < -0.05f) {
+                        needsGroundCorrection = true;
+                        groundCorrectionY = currentPose.p.y - point.separation;
+
+                        if (currentVelocity.y < 0) {
+                            needsVelocityResetY = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Contacto termina
+        if (contactPair.events & PxPairFlag::eNOTIFY_TOUCH_LOST) {
+            groundContacts.erase(otherActor);
+        }
+    }
+}
+
+void CharacterRBSystem::checkGroundFromContacts()
+{
+    wasGroundedLastFrame = isGrounded;
+    isGrounded = !groundContacts.empty();
+}
+
+void CharacterRBSystem::processGroundCorrections()
+{
+    if (particles_list.empty()) return;
+
+    auto* playerRB = static_cast<DynamicRigidBody*>(particles_list.front().get());
+    PxRigidDynamic* actor = static_cast<PxRigidDynamic*>(playerRB->getActor());
+
+    if (!actor) return;
+
+    // Aplicar correcci√≥n de posici√≥n si es necesario
+    if (needsGroundCorrection) {
+        PxTransform pose = actor->getGlobalPose();
+        pose.p.y = groundCorrectionY;
+        actor->setGlobalPose(pose);  // ‚úÖ Ahora s√≠ permitido (fuera del callback)
+        needsGroundCorrection = false;
+    }
+
+    // Aplicar reset de velocidad vertical si es necesario
+    if (needsVelocityResetY) {
+        PxVec3 vel = actor->getLinearVelocity();
+        vel.y = 0.0f;
+        actor->setLinearVelocity(vel);  // ‚úÖ Ahora s√≠ permitido (fuera del callback)
+        needsVelocityResetY = false;
+    }
+}
+
+// M√©todos de control
+void CharacterRBSystem::moveLeft() {
     moveDirection = -1;
 }
 
-void CharacterRBSystem::moveRight()
-{
+void CharacterRBSystem::moveRight() {
     moveDirection = 1;
+}
+
+void CharacterRBSystem::stopMoving() {
+    moveDirection = 0;
+    currentMoveForce = 0.0f;
+}
+
+void CharacterRBSystem::startChargingJump()
+{
+    if (isGrounded) {
+        isChargingJump = true;
+    }
+}
+
+void CharacterRBSystem::stopChargingJump()
+{
+    isChargingJump = false;
 }
 
 void CharacterRBSystem::jump()
 {
     if (particles_list.empty() || !isGrounded) return;
 
+    static float currentTime = 0.0f;
+    if (lastJumpTime > 0 && (currentTime - lastJumpTime) < jumpCooldown) {
+        return;
+    }
+
     auto* playerRB = static_cast<DynamicRigidBody*>(particles_list.front().get());
     PxRigidDynamic* actor = static_cast<PxRigidDynamic*>(playerRB->getActor());
 
     if (!actor) return;
 
-    // Aplicar impulso vertical
-    PxVec3 velocity = actor->getLinearVelocity();
-    velocity.y = jumpForce;
-    actor->setLinearVelocity(velocity);
+    float finalJumpForce = jumpForce + currentJumpCharge;
 
+    // Limpiar contactos de suelo al saltar
+    groundContacts.clear();
+
+    // Aplicar impulso de salto
+    actor->addForce(PxVec3(0.0f, finalJumpForce, 0.0f), PxForceMode::eIMPULSE);
+
+    currentJumpCharge = 0.0f;
+    isChargingJump = false;
     isGrounded = false;
-    std::cout << "SALTO!" << std::endl;
+    lastJumpTime = currentTime;
+
+    std::cout << "SALTO! Fuerza: " << finalJumpForce << " N" << std::endl;
 }
 
 void CharacterRBSystem::update(float dt)
 {
+    static float currentTime = 0.0f;
+    currentTime += dt;
+
     if (particles_list.empty()) return;
 
-    checkGround();
+    // Actualizar carga de salto
+    updateJumpCharge(dt);
+
+    // Verificar suelo desde contactos
+    checkGroundFromContacts();
+
+    // Procesar correcciones de suelo (FUERA del callback)
+    processGroundCorrections();
+
+    // Aplicar movimiento
     applyMovement(dt);
+    applyLateralDamping(dt);
     applyBounds();
 }
 
-void CharacterRBSystem::checkGround()
+void CharacterRBSystem::updateJumpCharge(float dt)
 {
-    if (particles_list.empty()) return;
-
-    auto* playerRB = static_cast<DynamicRigidBody*>(particles_list.front().get());
-    PxRigidDynamic* actor = static_cast<PxRigidDynamic*>(playerRB->getActor());
-
-    if (!actor) return;
-
-    // Raycast hacia abajo para detectar suelo
-    PxVec3 position = actor->getGlobalPose().p;
-    PxReal rayLength = 0.6f;  // Un poco m·s de la mitad de la altura
-
-    PxRaycastBuffer hit;
-    PxVec3 rayStart = position + PxVec3(0, 0.1f, 0);  // PequeÒo offset
-    PxVec3 rayDir(0.0f, -1.0f, 0.0f);
-
-    PxQueryFilterData filterData;
-    filterData.flags |= PxQueryFlag::eSTATIC;  // Solo detectar est·ticos
-
-    bool hasHit = gScene->raycast(rayStart, rayDir, rayLength, hit,
-        PxHitFlag::eDEFAULT, filterData);
-
-    PxVec3 velocity = actor->getLinearVelocity();
-
-    if (hasHit && velocity.y <= 0.1f) {
-        isGrounded = true;
-
-        // Ajustar posiciÛn para evitar hundimiento
-        if (hit.block.distance < 0.55f) {
-            PxTransform pose = actor->getGlobalPose();
-            pose.p.y += (0.55f - hit.block.distance);
-            actor->setGlobalPose(pose);
-        }
-    }
-    else {
-        isGrounded = false;
+    if (isChargingJump && isGrounded) {
+        currentJumpCharge = std::min<float>(currentJumpCharge + jumpChargeRate * dt, maxJumpCharge);
     }
 }
 
@@ -142,37 +261,81 @@ void CharacterRBSystem::applyMovement(float dt)
 
     if (!actor) return;
 
-    // Obtener velocidad actual
+    // Obtener velocidad actual y masa
     PxVec3 currentVelocity = actor->getLinearVelocity();
+    float mass = actor->getMass();
 
-    // Calcular velocidad objetivo en X
-    float targetVelocityX = moveDirection * moveSpeed;
+    // Si hay input de movimiento
+    if (moveDirection != 0) {
+        // Fuerza objetivo en Newtons
+        float targetForce = moveDirection * moveForce;
 
-    // Suavizar el movimiento
-    float acceleration = 20.0f;
-    float newVelocityX;
+        // Suavizado de la fuerza aplicada
+        float acceleration = 15.0f;
+        float forceDelta = targetForce - currentMoveForce;
+        currentMoveForce += forceDelta * std::min<float>(acceleration * dt, 1.0f);
 
-    if (moveDirection != 0.0f) {
-        // AceleraciÛn cuando hay input
-        newVelocityX = currentVelocity.x + (targetVelocityX - currentVelocity.x) *
-            PxMin(acceleration * dt, 1.0f);
+        // Aplicar fuerza horizontal
+        PxVec3 movementForce(currentMoveForce, 0.0f, 0.0f);
+        actor->addForce(movementForce, PxForceMode::eFORCE);
+
+        // Limitar velocidad m√°xima horizontal
+        float maxHorizontalSpeed = 15.0f;
+        if (std::abs(currentVelocity.x) > maxHorizontalSpeed) {
+            currentVelocity.x = (currentVelocity.x > 0) ? maxHorizontalSpeed : -maxHorizontalSpeed;
+            actor->setLinearVelocity(currentVelocity);
+        }
     }
     else {
-        // Frenado m·s r·pido cuando no hay input
-        float brakeAcceleration = 30.0f;
-        newVelocityX = currentVelocity.x * (1.0f - PxMin(brakeAcceleration * dt, 1.0f));
-        if (fabs(newVelocityX) < 0.1f) newVelocityX = 0.0f;
-    }
+        // Cuando no hay input, reducir fuerza acumulada gradualmente
+        float deceleration = 8.0f;
+        currentMoveForce *= (1.0f - std::min<float>(deceleration * dt, 1.0f));
 
-    // Limitar velocidad m·xima
-    float maxSpeed = 15.0f;
-    if (fabs(newVelocityX) > maxSpeed) {
-        newVelocityX = (newVelocityX > 0) ? maxSpeed : -maxSpeed;
-    }
+        // Resetear si es muy peque√±a
+        if (std::abs(currentMoveForce) < 0.5f) {
+            currentMoveForce = 0.0f;
+        }
 
-    // Aplicar nueva velocidad
-    PxVec3 newVelocity(newVelocityX, currentVelocity.y, 0.0f);
-    actor->setLinearVelocity(newVelocity);
+        //// Frenado natural (solo en suelo)
+        //if (isGrounded && std::abs(currentVelocity.x) > 0.1f) {
+        //    float frictionForce = -currentVelocity.x * mass * 5.0f;
+        //    actor->addForce(PxVec3(frictionForce, 0.0f, 0.0f), PxForceMode::eFORCE);
+
+        //    // Detener completamente si la velocidad es muy baja
+        //    if (std::abs(currentVelocity.x) < 0.2f) {
+        //        currentVelocity.x = 0.0f;
+        //        actor->setLinearVelocity(currentVelocity);
+        //    }
+        //}
+    }
+}
+
+void CharacterRBSystem::applyLateralDamping(float dt)
+{
+    if (particles_list.empty()) return;
+
+    auto* playerRB = static_cast<DynamicRigidBody*>(particles_list.front().get());
+    PxRigidDynamic* actor = static_cast<PxRigidDynamic*>(playerRB->getActor());
+
+    if (!actor) return;
+
+    PxVec3 velocity = actor->getLinearVelocity();
+    float mass = actor->getMass();
+
+    // Control a√©reo reducido
+    if (!isGrounded) {
+        float airControlFactor = 0.3f;
+
+        if (moveDirection != 0 && std::abs(velocity.x) < 8.0f) {
+            float airForce = moveDirection * moveForce * airControlFactor;
+            actor->addForce(PxVec3(airForce, 0.0f, 0.0f), PxForceMode::eFORCE);
+        }
+        else if (std::abs(velocity.x) > 0.01f) {
+            float airDamping = 1.5f;
+            float dampingForce = -velocity.x * mass * airDamping * airControlFactor;
+            actor->addForce(PxVec3(dampingForce, 0.0f, 0.0f), PxForceMode::eFORCE);
+        }
+    }
 }
 
 void CharacterRBSystem::applyBounds()
@@ -185,39 +348,20 @@ void CharacterRBSystem::applyBounds()
     if (!actor) return;
 
     PxTransform pose = actor->getGlobalPose();
+    PxVec3 velocity = actor->getLinearVelocity();
 
-    // LÌmites en X (ajusta seg˙n tu nivel)
-    float minX = -50.0f;
-    float maxX = 50.0f;
-
-    if (pose.p.x < minX) {
-        pose.p.x = minX;
-        actor->setGlobalPose(pose);
-
-        PxVec3 vel = actor->getLinearVelocity();
-        vel.x = 0;
-        actor->setLinearVelocity(vel);
-    }
-    else if (pose.p.x > maxX) {
-        pose.p.x = maxX;
-        actor->setGlobalPose(pose);
-
-        PxVec3 vel = actor->getLinearVelocity();
-        vel.x = 0;
-        actor->setLinearVelocity(vel);
-    }
-
-    // Respawn si cae
-    if (pose.p.y < -20.0f) {
-        pose.p = PxVec3(0, 5, 0);
-        actor->setGlobalPose(pose);
-        actor->setLinearVelocity(PxVec3(0));
-        std::cout << "RESPAWN!" << std::endl;
+    // L√≠mite superior
+    float maxHeight = 200.0f;
+    if (pose.p.y > maxHeight) {
+        velocity.y = -5.0f;
+        velocity.x *= 0.7f;
+        velocity.z *= 0.7f;
+        actor->setLinearVelocity(velocity);
     }
 }
 
 bool CharacterRBSystem::check_out_of_limit(Particle* p) const
 {
     auto rb = static_cast<DynamicRigidBody*>(p);
-    return rb->getPosition().y < -10;
+    return rb->getPosition().y < -10.0f;
 }

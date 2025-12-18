@@ -76,20 +76,11 @@
     <ClCompile Include="ExplosionForceGenerator.cpp">
       <Filter>practica 3</Filter>
     </ClCompile>
-    <ClCompile Include="ProjectScenario.cpp">
-      <Filter>Proyecto intermedio</Filter>
-    </ClCompile>
     <ClCompile Include="FireworkParticleSystem.cpp">
       <Filter>practica 2\ampliacion practica 2</Filter>
     </ClCompile>
     <ClCompile Include="Scene5.cpp">
       <Filter>practica 2\ampliacion practica 2</Filter>
-    </ClCompile>
-    <ClCompile Include="Character.cpp">
-      <Filter>Proyecto intermedio</Filter>
-    </ClCompile>
-    <ClCompile Include="ProjectCharacterDemo.cpp">
-      <Filter>Proyecto intermedio</Filter>
     </ClCompile>
     <ClCompile Include="SpringForceGenerator.cpp">
       <Filter>practica 4</Filter>
@@ -238,20 +229,11 @@
     <ClInclude Include="ExplosionForceGenerator.h">
       <Filter>practica 3</Filter>
     </ClInclude>
-    <ClInclude Include="ProjectScenario.h">
-      <Filter>Proyecto intermedio</Filter>
-    </ClInclude>
     <ClInclude Include="FireworkParticleSystem.h">
       <Filter>practica 2\ampliacion practica 2</Filter>
     </ClInclude>
     <ClInclude Include="Scene5.h">
       <Filter>practica 2\ampliacion practica 2</Filter>
-    </ClInclude>
-    <ClInclude Include="Character.h">
-      <Filter>Proyecto intermedio</Filter>
-    </ClInclude>
-    <ClInclude Include="ProjectCharacterDemo.h">
-      <Filter>Proyecto intermedio</Filter>
     </ClInclude>
     <ClInclude Include="SpringForceGenerator.h">
       <Filter>practica 4</Filter>
@@ -327,9 +309,6 @@
     </Filter>
     <Filter Include="practica 3">
       <UniqueIdentifier>{d0cbfbef-6796-4f5c-b449-7c3e26beebe4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Proyecto intermedio">
-      <UniqueIdentifier>{117362be-bbe0-437e-b314-03ee9597d1c5}</UniqueIdentifier>
     </Filter>
     <Filter Include="practica 2\ampliacion practica 2">
       <UniqueIdentifier>{04d3c424-45a7-42bc-818c-eb8d09c0a226}</UniqueIdentifier>

@@ -129,10 +129,44 @@ void Level::handle_special_input(int key)
     }
 }
 
-void Level::handle_input(unsigned char key)
+void Level::handle_special_key_up(int key)
 {
+    // Manejar liberación de teclas especiales
+    switch (key)
+    {
+    case GLUT_KEY_LEFT:
+        // Si se suelta flecha izquierda
+        if (character)
+            character->stopMoving();  // O lógica específica
+        break;
+
+    case GLUT_KEY_RIGHT:
+        // Si se suelta flecha derecha
+        if (character)
+            character->stopMoving();  // O lógica específica
+        break;
+    }
 }
 
+void Level::handle_input(unsigned char key)
+{
+    switch (toupper(key))
+    {
+    case ' ':
+        if (character)
+            character->startChargingJump();
+        break;
+    }
+}
+void Level::handle_key_up(unsigned char key)
+{
+    if (key == ' ' && character)
+    {
+        // Salto
+        character->startChargingJump();
+        character->jump();
+    }
+}
 void Level::update(double dt)
 {
     Scene::update(dt);

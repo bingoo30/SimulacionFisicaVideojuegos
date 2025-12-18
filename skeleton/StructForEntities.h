@@ -288,7 +288,7 @@ struct Player_Data : public Particle_Data {
 		density = 985.0; // densidad aproximada humano
 		//scale = physx::PxVec3(0.5, 1.2, 0.3);
 		scale = physx::PxVec3(3, 3, 3);
-		damping = 0.75;
+		damping = 0.5;
 	}
 
 	// Dimensiones de la cápsula

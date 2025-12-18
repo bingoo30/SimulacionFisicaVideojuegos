@@ -22,9 +22,9 @@ void Scene7::init()
 	Player_Data player_model;
 	player_model.pos.y = 50;
 	player_model.scale *= 5;
-	CharacterRBSystem* ch = new CharacterRBSystem(player_model, characterMaterial, PxFilterData(0,0,0,0));
-	ch->init();
-	add_RB_system(ch);
+	//CharacterRBSystem* ch = new CharacterRBSystem(player_model, characterMaterial, PxFilterData(0,0,0,0));
+	//ch->init();
+	//add_RB_system(ch);
 
 	Ground_Data gd;
 	GroundSystem* g = new GroundSystem(gd, 1);

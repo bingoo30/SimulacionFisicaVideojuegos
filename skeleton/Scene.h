@@ -30,6 +30,7 @@ public:
 	virtual void handle_input(unsigned char key) {};
 	virtual void handle_special_input(int key) {};
 	virtual void handle_key_up(unsigned char key) {};
+	virtual void handle_special_key_up(int key) {};
 
 	virtual void add_entity_with_renderItem(Entity* e);
 	virtual void add_particle_system(ParticleSystem* ps);
