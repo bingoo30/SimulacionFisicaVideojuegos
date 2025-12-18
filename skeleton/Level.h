@@ -28,6 +28,8 @@ protected:
 	physx::PxFilterData groundFilterData;
 	physx::PxFilterData trampFilterData;
 	physx::PxFilterData playerFilterData;
+	physx::PxFilterData keyFilterData;
+	physx::PxFilterData doorFilterData;
 #pragma endregion
 };
 

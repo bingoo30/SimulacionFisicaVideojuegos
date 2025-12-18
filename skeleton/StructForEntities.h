@@ -66,7 +66,7 @@ inline physx::PxVec3 CONST_GRAVITY = physx::PxVec3(0.0f, -10.0f, 0.0f);
 
 #pragma region practica 2
 //array de colores
-inline const physx::PxVec4 colors[23] = {
+inline const physx::PxVec4 colors[24] = {
 	physx::PxVec4(1, 0, 0, 1), // rojo
 	physx::PxVec4(0, 1, 0, 1), // verde
 	physx::PxVec4(0, 0, 1, 1), // azul
@@ -93,7 +93,9 @@ inline const physx::PxVec4 colors[23] = {
 	//a partir de aqui son los colores del suelo
 	physx::PxVec4(0.545f, 0.271f, 0.075f, 1.0f), //marron
 	physx::PxVec4(0.5f, 0.5f, 0.5f, 1.0f), //gris
-	physx::PxVec4(0.678f, 0.847f, 0.902f, 1.0f) //azul tipo hielo
+	physx::PxVec4(0.678f, 0.847f, 0.902f, 1.0f), //azul tipo hielo
+	//color de la llave
+	physx::PxVec4(0.83f, 0.69f, 0.22f, 1.0f)
 };
 
 //por defecto no tiene desviacion
@@ -212,23 +214,6 @@ struct Explosion_Data {
 };
 #pragma endregion
 
-#pragma region proyecto
-struct Platform_Data:public Particle_Data {
-	Platform_Data() {
-		color_offset = 12;
-		color = physx::PxVec4(0.5f, 1.0f, 0.0f, 1.0f);
-		mode = IntegrateMode::NONE;
-		mass = 10.0;
-		lifetime = -1;
-		color_tam = 4;
-		density = 1.225;
-	}
-	double volx =1.0;
-	double voly=1.0;
-	double volz=1.0;
-};
-#pragma endregion
-
 #pragma region Practica 4 
 struct Spring_Data
 {
@@ -249,6 +234,7 @@ struct Liquid_Data {
 inline const physx::PxVec3 characterMaterial(0.3f, 0.2f, 0.0f);
 inline const physx::PxVec3 footballMaterial(0.4f, 0.3f, 0.7f);
 inline const physx::PxVec3 nullMaterial(0.0f, 0.0f, 0.0f);
+inline const physx::PxVec3 keyMaterial(0.6f, 0.4f, 0.05f);
 
 struct Football_Data : public Particle_Data {
 	Football_Data() {
@@ -289,6 +275,7 @@ struct Player_Data : public Particle_Data {
 		//scale = physx::PxVec3(0.5, 1.2, 0.3);
 		scale = physx::PxVec3(3, 3, 3);
 		damping = 0.5;
+		lifetime = -1;
 	}
 
 	// Dimensiones de la cápsula
@@ -313,18 +300,34 @@ struct Ground_Data :public Particle_Data {
 struct Button_Data : public Particle_Data {
 	Button_Data() {
 		scale = physx::PxVec3(5.0);
+		lifetime = -1;
+		mode = IntegrateMode::NONE;
 	}
 };
-inline const physx::PxVec3 materials[4] = {
+inline const physx::PxVec3 materials[5] = {
 	physx::PxVec3(0.9f, 0.8f, 0.0f), //suelo rigido
 	physx::PxVec3(0.5f, 0.4f, 0.2f), // suelo liso
 	physx::PxVec3(0.05f, 0.02f, 0.05f), // hielo
-	physx::PxVec3(0.4f, 0.3f, 0.7f) // futbol
+	physx::PxVec3(0.4f, 0.3f, 0.7f), // futbol
+	physx::PxVec3(0.6f, 0.4f, 0.05f) //oro
 };
 
 enum CollisionLayer : uint32_t
 {
-	LAYER_PLAYER = 1,  // 0001
-	LAYER_FIRE = 2,  // 0010
-	LAYER_GROUND = 4   // 0100
+	LAYER_PLAYER = 1,  // 00001
+	LAYER_FIRE = 2,  // 00010
+	LAYER_GROUND = 4,   // 00100
+	LAYER_KEY = 8,  // 01000
+	LAYER_DOOR = 16  //10000
+};
+
+struct Key_Data : public Particle_Data {
+	Key_Data() {
+		scale = physx::PxVec3(1.0, 2.4, 0.6);
+		lifetime = -1;
+		mode = IntegrateMode::NONE;
+		mass = 0.1;
+		//oro en el mundo real
+		density = 19320.0;
+	}
 };

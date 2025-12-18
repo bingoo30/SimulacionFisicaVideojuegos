@@ -143,6 +143,8 @@
       <Filter>Proyecto final</Filter>
     </ClCompile>
     <ClCompile Include="FireRBSystem.cpp" />
+    <ClCompile Include="KeyRBSystem.cpp" />
+    <ClCompile Include="DoorSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Render\Camera.h">
@@ -293,6 +295,8 @@
       <Filter>Proyecto final</Filter>
     </ClInclude>
     <ClInclude Include="FireRBSystem.h" />
+    <ClInclude Include="KeyRBSystem.h" />
+    <ClInclude Include="DoorSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">

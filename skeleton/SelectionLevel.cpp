@@ -17,9 +17,16 @@ void SelectionLevel::render_interface()
 {
 	int width = glutGet(GLUT_WINDOW_WIDTH);
 	int height = glutGet(GLUT_WINDOW_HEIGHT);
-
+	subtitle = "Nivel " + std::to_string(selectedLevel-States::LEVEL1 + 1);
 	glColor4f(0.0f, 0.0f, 0.0f, 1.0f);
 	drawText(title, width * 0.5, height * 0.9, 50, true, true);
+	if (selectedLevel == States::LEVEL1) {
+		glColor4f(0.0f, 0.8f, 0.0f, 1.0f);
+	}
+	else {
+		glColor4f(0.0f, 0.0f, 0.8f, 1.0f);
+	}
+	drawText(subtitle, width * 0.2, height * 0.75, 32, true, true);
 }
 
 void SelectionLevel::handle_special_input(int key)

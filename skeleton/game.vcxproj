@@ -259,6 +259,7 @@
     <ClCompile Include="ButtonSystem.cpp" />
     <ClCompile Include="callbacks.cpp" />
     <ClCompile Include="CharacterRBSystem.cpp" />
+    <ClCompile Include="DoorSystem.cpp" />
     <ClCompile Include="DynamicRigidBody.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="ExplosionForceGenerator.cpp" />
@@ -270,6 +271,7 @@
     <ClCompile Include="ForceRegistry.cpp" />
     <ClCompile Include="GravityForceGenerator.cpp" />
     <ClCompile Include="GroundSystem.cpp" />
+    <ClCompile Include="KeyRBSystem.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NormalGenerator.cpp" />
@@ -310,6 +312,7 @@
     <ClInclude Include="callbacks.hpp" />
     <ClInclude Include="CharacterRBSystem.h" />
     <ClInclude Include="core.hpp" />
+    <ClInclude Include="DoorSystem.h" />
     <ClInclude Include="DynamicRigidBody.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="ExplosionForceGenerator.h" />
@@ -322,6 +325,7 @@
     <ClInclude Include="Generator.h" />
     <ClInclude Include="GravityForceGenerator.h" />
     <ClInclude Include="GroundSystem.h" />
+    <ClInclude Include="KeyRBSystem.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="NormalGenerator.h" />
     <ClInclude Include="NormalGeneratorRB.h" />

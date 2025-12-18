@@ -22,7 +22,7 @@ public:
 
 	virtual Particle* create_particle(const Particle_Data& pd);
 	virtual Particle* create_capsule_particle(const Particle_Data& pd);
-	virtual Particle* create_Platform(const Platform_Data& pd);
+	virtual Particle* create_Platform(const const Particle_Data& pd);
 	virtual Projectile* create_projectile(const Projectile_Data& pd, Camera* c);
 	void create_slinky(Particle_Data& pd, const Spring_Data& sd, int N);
 	const std::string& getDisplayText()const { return display; };

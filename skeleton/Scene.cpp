@@ -88,13 +88,13 @@ Particle* Scene::create_capsule_particle(const Particle_Data& pd)
 	gObjs.push_back(part);
 	return part;
 }
-Particle* Scene::create_Platform(const Platform_Data& pd)
+Particle* Scene::create_Platform(const Particle_Data& pd)
 {
 	// Crear la forma del cubo
 	physx::PxShape* shape = CreateShape(physx::PxBoxGeometry(
-		pd.volx,
-		pd.voly,
-		pd.volz));
+		pd.scale.x,
+		pd.scale.y,
+		pd.scale.z));
 
 	// Crear la partícula con esa forma
 	Particle* part = new Particle(
