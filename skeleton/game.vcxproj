@@ -259,7 +259,6 @@
     <ClCompile Include="ButtonSystem.cpp" />
     <ClCompile Include="callbacks.cpp" />
     <ClCompile Include="CharacterRBSystem.cpp" />
-    <ClCompile Include="DoorSystem.cpp" />
     <ClCompile Include="DynamicRigidBody.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="ExplosionForceGenerator.cpp" />
@@ -269,6 +268,7 @@
     <ClCompile Include="FootBallSystem.cpp" />
     <ClCompile Include="ForceGenerator.cpp" />
     <ClCompile Include="ForceRegistry.cpp" />
+    <ClCompile Include="GameOver.cpp" />
     <ClCompile Include="GravityForceGenerator.cpp" />
     <ClCompile Include="GroundSystem.cpp" />
     <ClCompile Include="KeyRBSystem.cpp" />
@@ -302,6 +302,7 @@
     <ClCompile Include="StaticRigidBody.cpp" />
     <ClCompile Include="UniformGenerator.cpp" />
     <ClCompile Include="UniformGeneratorRB.cpp" />
+    <ClCompile Include="Victory.cpp" />
     <ClCompile Include="WhirlwindForceGenerator.cpp" />
     <ClCompile Include="WindForceGenerator.cpp" />
   </ItemGroup>
@@ -312,7 +313,6 @@
     <ClInclude Include="callbacks.hpp" />
     <ClInclude Include="CharacterRBSystem.h" />
     <ClInclude Include="core.hpp" />
-    <ClInclude Include="DoorSystem.h" />
     <ClInclude Include="DynamicRigidBody.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="ExplosionForceGenerator.h" />
@@ -322,6 +322,7 @@
     <ClInclude Include="FootBallSystem.h" />
     <ClInclude Include="ForceGenerator.h" />
     <ClInclude Include="ForceRegistry.h" />
+    <ClInclude Include="GameOver.h" />
     <ClInclude Include="Generator.h" />
     <ClInclude Include="GravityForceGenerator.h" />
     <ClInclude Include="GroundSystem.h" />
@@ -356,6 +357,7 @@
     <ClInclude Include="StructForEntities.h" />
     <ClInclude Include="UniformGenerator.h" />
     <ClInclude Include="UniformGeneratorRB.h" />
+    <ClInclude Include="Victory.h" />
     <ClInclude Include="WhirlwindForceGenerator.h" />
     <ClInclude Include="WindForceGenerator.h" />
   </ItemGroup>

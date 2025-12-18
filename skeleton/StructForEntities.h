@@ -269,7 +269,7 @@ struct Player_Data : public Particle_Data {
 		color_tam = 4; 
 		// Propiedades físicas
 		mode = IntegrateMode::SEMI_IMPLICIT_EULER;
-		mass = 60.0; //60kg
+		mass = 40.0; //40kg
 		lifetime = 0;
 		density = 985.0; // densidad aproximada humano
 		//scale = physx::PxVec3(0.5, 1.2, 0.3);
@@ -314,11 +314,11 @@ inline const physx::PxVec3 materials[5] = {
 
 enum CollisionLayer : uint32_t
 {
-	LAYER_PLAYER = 1,  // 00001
-	LAYER_FIRE = 2,  // 00010
-	LAYER_GROUND = 4,   // 00100
-	LAYER_KEY = 8,  // 01000
-	LAYER_DOOR = 16  //10000
+	LAYER_PLAYER = 0x01,  // 00001
+	LAYER_FIRE = 0x02,  // 00010
+	LAYER_GROUND = 0x04,   // 00100
+	LAYER_KEY = 0x08,  // 01000
+	LAYER_DOOR = 0x10  //10000
 };
 
 struct Key_Data : public Particle_Data {

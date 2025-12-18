@@ -31,6 +31,8 @@
 
 #include "Camera.h"
 #include <ctype.h>
+#include <iostream>
+#include "../Particle.h"
 #include "foundation/PxMat33.h"
 
 using namespace physx;
@@ -122,5 +124,75 @@ namespace Snippets
 		mEye = PxVec3(0.0, 45.0, 65.0);
 		mDir = PxVec3(0.0, -0.25, -1.0);
 	}
-}
 
+	// ============ IMPLEMENTACIÓN DE MÉTODOS DE SEGUIMIENTO ============
+
+	void Camera::setFollowTarget(Particle* target)
+	{
+		mFollowTarget = target;
+		mFollowEnabled = (target != nullptr);
+
+		if (mFollowEnabled) {
+			std::cout << "Cámara: Modo seguimiento ACTIVADO" << std::endl;
+		}
+		else {
+			std::cout << "Cámara: Modo seguimiento DESACTIVADO" << std::endl;
+		}
+	}
+
+	void Camera::setFollowOffset(const PxVec3& offset)
+	{
+		mFollowOffset = offset;
+	}
+
+	void Camera::setFollowDistance(float distance)
+	{
+		mFollowDistance = distance;
+		std::cout << "Cámara: Distancia de seguimiento = " << distance << std::endl;
+	}
+
+	void Camera::setFollowHeight(float height)
+	{
+		mFollowHeight = height;
+		std::cout << "Cámara: Altura de seguimiento = " << height << std::endl;
+	}
+
+	void Camera::setFollowEnabled(bool enabled)
+	{
+		mFollowEnabled = enabled;
+		std::cout << "Cámara: Seguimiento " << (enabled ? "ACTIVADO" : "DESACTIVADO") << std::endl;
+	}
+
+	void Camera::updateFollow(float dt)
+	{
+		if (!mFollowEnabled || !mFollowTarget) {
+			return;
+		}
+
+		PxVec3 targetPos = mFollowTarget->getPosition();
+
+		// Calcular la posición deseada de la cámara
+		// Detrás y arriba del objetivo
+		PxVec3 desiredEye;
+
+		// Si el objetivo está en una posición válida
+		if (!targetPos.isZero()) {
+			// Posición detrás del objetivo (en el eje Z negativo)
+			desiredEye.x = targetPos.x + mFollowOffset.x;
+			desiredEye.y = targetPos.y + mFollowHeight;     // Altura fija
+			desiredEye.z = targetPos.z + mFollowDistance;   // Distancia detrás
+
+			// Suavizar el movimiento (interpolación lineal)
+			float smoothSpeed = 5.0f;  // Velocidad de suavizado
+			mEye = mEye * (1.0f - smoothSpeed * dt) + desiredEye * (smoothSpeed * dt);
+
+			// Calcular dirección de la cámara (mirar al objetivo)
+			PxVec3 desiredLookAt = targetPos;
+			desiredLookAt.y += 2.0f;  // Mirar un poco arriba del suelo
+
+			// Calcular vector dirección
+			mDir = (desiredLookAt - mEye).getNormalized();
+		}
+	}
+
+}

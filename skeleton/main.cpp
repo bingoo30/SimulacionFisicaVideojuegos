@@ -76,6 +76,10 @@ void initPhysics(bool interactive)
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
 
+	// DEBUG: Verifica que se registró
+	std::cout << "DEBUG: Callback registrado"
+		<< gScene->getSimulationEventCallback() << std::endl;
+
 	//parte 2 practica 0
 	//RenderItem* centro = new RenderItem(CreateShape(PxSphereGeometry(2)), new PxTransform(0.0f, 0.0f, 0.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f));
 	//RegisterRenderItem(centro);
@@ -194,11 +198,11 @@ void specialKeyUp(int key)
 {
 	SceneManager::instance().getCurrScene()->handle_special_key_up(key);
 }
-//void onCollision(physx::PxActor* actor1, physx::PxActor* actor2)
-//{
-//	PX_UNUSED(actor1);
-//	PX_UNUSED(actor2);
-//}
+void onCollision(physx::PxActor* actor1, physx::PxActor* actor2)
+{
+	PX_UNUSED(actor1);
+	PX_UNUSED(actor2);
+}
 
 int main(int, const char*const*)
 {

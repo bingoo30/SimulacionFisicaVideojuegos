@@ -4,6 +4,7 @@
 void SelectionLevel::init()
 {
 	title = "Pulsa INTRO para seleccionar nivel";
+	subtitle = "Pulsa q para volver";
 	display = "Seleccion de niveles";
 	selectedLevel = States::LEVEL1;
 	Button_Data bt;
@@ -17,16 +18,20 @@ void SelectionLevel::render_interface()
 {
 	int width = glutGet(GLUT_WINDOW_WIDTH);
 	int height = glutGet(GLUT_WINDOW_HEIGHT);
-	subtitle = "Nivel " + std::to_string(selectedLevel-States::LEVEL1 + 1);
+	level = "Nivel " + std::to_string(selectedLevel-States::LEVEL1 + 1);
 	glColor4f(0.0f, 0.0f, 0.0f, 1.0f);
 	drawText(title, width * 0.5, height * 0.9, 50, true, true);
 	if (selectedLevel == States::LEVEL1) {
 		glColor4f(0.0f, 0.8f, 0.0f, 1.0f);
+		drawText(level, width * 0.25, height * 0.55, 32, true, true);
 	}
 	else {
 		glColor4f(0.0f, 0.0f, 0.8f, 1.0f);
+		drawText(level, width * 0.75, height * 0.55, 32, true, true);
 	}
-	drawText(subtitle, width * 0.2, height * 0.75, 32, true, true);
+
+	glColor4f(0.0f, 0.0f, 0.0f, 1.0f);
+	drawText(subtitle, width * 0.5, height * 0.7, 50, true, true);
 }
 
 void SelectionLevel::handle_special_input(int key)
@@ -49,6 +54,9 @@ void SelectionLevel::handle_input(unsigned char key)
 		break;
 	case '\r': //tecla intro
 		SceneManager::instance().change_scene(selectedLevel);
+		break;
+	case 'q': //tecla q
+		SceneManager::instance().change_scene(INTRO);
 		break;
 	}
 }

@@ -32,6 +32,9 @@ public:
 	virtual void handle_key_up(unsigned char key) {};
 	virtual void handle_special_key_up(int key) {};
 
+	virtual void handle_contact(const physx::PxContactPairHeader& pairHeader, const physx::PxContactPair* pairs, physx::PxU32 nbPairs) {};
+	virtual void handle_trigger() {};
+
 	virtual void add_entity_with_renderItem(Entity* e);
 	virtual void add_particle_system(ParticleSystem* ps);
 	virtual void add_RB_system(RigidBodySystem* rbs);

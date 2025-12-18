@@ -8,6 +8,8 @@
 #include "WindForceGenerator.h"
 #include "SpringForceGenerator.h"
 #include "KeyRBSystem.h"
+#include "RubberBandForceGenerator.h"
+#include "SceneManager.h"
 /*
 * Estructura fichero nivel: <char> <x> <y> <color_index> <scale_x> <scale_y> <scale_z>
 * acaba la textura cuando no queda cosas por leer
@@ -58,6 +60,19 @@ Level::Level(int i): file("txt/level"+std::to_string(i)+".txt")
 
 void Level::init()
 {
+    //// DEBUG: Verificar filtros aplicados
+    //std::cout << "\n=== DEBUG FILTER DATA ===" << std::endl;
+    //std::cout << "Player filter: word0=" << playerFilterData.word0
+    //    << " word1=" << playerFilterData.word1 << std::endl;
+    //std::cout << "Ground filter: word0=" << groundFilterData.word0
+    //    << " word1=" << groundFilterData.word1 << std::endl;
+    //std::cout << "Fire filter: word0=" << trampFilterData.word0
+    //    << " word1=" << trampFilterData.word1 << std::endl;
+    //std::cout << "Key filter: word0=" << keyFilterData.word0
+    //    << " word1=" << keyFilterData.word1 << std::endl;
+    //std::cout << "Door filter: word0=" << doorFilterData.word0
+    //    << " word1=" << doorFilterData.word1 << std::endl;
+
     std::ifstream f(file);
     if (!f.is_open()) {
         cerr << "Error: no se pudo abrir el archivo " << file << "\n";
@@ -69,6 +84,7 @@ void Level::init()
     Fire_Particle_Data fpd; Fire_Deviation_Data fdd;
     Key_Data kd;
     Spring_Data sd;
+    Wind_Data wd;
 
     auto g = new GroundSystem(gd, 1, groundFilterData);
     g->init();
@@ -80,7 +96,7 @@ void Level::init()
     character->init();
     add_RB_system(character);
 
-    auto gDoor = new GroundSystem(dd, 1, doorFilterData, PxVec3(0.0), true);
+    auto gDoor = new GroundSystem(dd, 1, doorFilterData, PxVec3(0.0));
     gDoor->init();
     auto& _dd = gDoor->getModel();
     add_RB_system(gDoor);
@@ -89,11 +105,12 @@ void Level::init()
     k->init();
     auto& _kd = k->getModel();
     add_RB_system(k);
+    key = k;
 
     char c; 
     int index;
     FireRBSystem* fr = nullptr;
-    SpringForceGenerator* muelle = nullptr;
+    WindForceGenerator* wind = nullptr;
     while (f >> c) {
         switch (tolower(c))
         {
@@ -124,6 +141,7 @@ void Level::init()
         case 'p':
             //lee la posicion
             f >> _pd.pos.x >> _pd.pos.y;
+            character->setOriginalPos();
             //lee el color
             index; f >> index; _pd.color = colors[index];
             character->spawn(false, false);
@@ -135,7 +153,7 @@ void Level::init()
             //lee el color
             index; f >> index; _kd.color = colors[index];
             k->spawn(false, false);
-
+            key->setInitPos(_kd.pos);
             //creo la particula para el muelle
             _gd.pos = _kd.pos;
             _gd.pos.y += 20;
@@ -162,6 +180,13 @@ void Level::init()
             break;
         //fuerza
         case 'f':
+            //pos y area del viento
+            f >> wd.center.x >> wd.center.y >> wd.area;
+            f >> wd.vel.x >> wd.vel.y;
+            f >> wd.k1;
+            wind = new WindForceGenerator(wd.center, wd.vel, wd.area, wd.k1, wd.dragCoef, false);
+            //solo a los que quiero aplicarles
+            character->add_force_generator(wind);
             break;
         default:
             break;
@@ -217,12 +242,112 @@ void Level::handle_key_up(unsigned char key)
     if (key == ' ' && character)
     {
         // Salto
-        character->startChargingJump();
+        character->stopChargingJump();
         character->jump();
+    }
+}
+void Level::handle_contact(const physx::PxContactPairHeader& pairHeader,
+    const physx::PxContactPair* pairs,
+    physx::PxU32 nbPairs)
+{
+    // Ignorar si no es par de actores válido o no tenemos jugador
+    if (!pairHeader.actors[0] || !pairHeader.actors[1] || !character)
+        return;
+
+    // Obtener información de los actores
+    PxRigidActor* actor1 = pairHeader.actors[0];
+    PxRigidActor* actor2 = pairHeader.actors[1];
+
+    // Obtener filtros
+    PxFilterData filter1, filter2;
+    PxShape* shape1, * shape2;
+
+    actor1->getShapes(&shape1, 1);
+    actor2->getShapes(&shape2, 1);
+
+    if (shape1) filter1 = shape1->getSimulationFilterData();
+    if (shape2) filter2 = shape2->getSimulationFilterData();
+
+    // Identificar tipos
+    bool isPlayer1 = (filter1.word0 & LAYER_PLAYER) != 0;
+    bool isPlayer2 = (filter2.word0 & LAYER_PLAYER) != 0;
+    bool isGround1 = (filter1.word0 & LAYER_GROUND) != 0;
+    bool isGround2 = (filter2.word0 & LAYER_GROUND) != 0;
+    bool isFire1 = (filter1.word0 & LAYER_FIRE) != 0;
+    bool isFire2 = (filter2.word0 & LAYER_FIRE) != 0;
+    bool isKey1 = (filter1.word0 & LAYER_KEY) != 0;
+    bool isKey2 = (filter2.word0 & LAYER_KEY) != 0;
+    bool isDoor1 = (filter1.word0 & LAYER_DOOR) != 0;
+    bool isDoor2 = (filter2.word0 & LAYER_DOOR) != 0;
+
+    // Procesar cada par de contacto
+    for (PxU32 i = 0; i < nbPairs; i++) {
+        const PxContactPair& cp = pairs[i];
+
+        if (cp.events & PxPairFlag::eNOTIFY_TOUCH_FOUND) {
+            // JUGADOR - FUEGO
+            if ((isPlayer1 && isFire2) || (isPlayer2 && isFire1)) {
+                //std::cout << "¡¡¡JUGADOR TOCA FUEGO!!!" << std::endl;
+                if (character) {
+                    character->onFireContact();
+                }
+                SceneManager::instance().change_scene(VICTORY);
+            }
+
+            // JUGADOR - SUELO
+            else if ((isPlayer1 && isGround2) || (isPlayer2 && isGround1)) {
+                //std::cout << "Jugador toca suelo" << std::endl;
+
+                // Extraer información del contacto para correcciones
+                PxContactPairPoint contactPoints[32];
+                PxU32 numContacts = cp.extractContacts(contactPoints, 32);
+
+                for (PxU32 j = 0; j < numContacts; j++) {
+                    const PxContactPairPoint& point = contactPoints[j];
+
+                    // Notificar al jugador sobre el contacto con suelo
+                    if (character && point.normal.y > 0.7f) {
+                        character->onGroundContact(point.separation, point.normal);
+                    }
+                }
+            }
+
+            // JUGADOR - LLAVE
+            else if ((isPlayer1 && isKey2) || (isPlayer2 && isKey1)) {
+                std::cout << "¡¡¡JUGADOR RECOGE LLAVE!!!" << std::endl;
+
+                muelle->set_alive(false);
+            }
+
+            // LLAVE - PUERTA
+            else if ((isKey1 && isDoor2) || (isKey2 && isDoor1)) {
+                std::cout << "Llave toca puerta" << std::endl;
+                SceneManager::instance().change_scene(DEFEAT);
+            }
+        }
+
+        else if (cp.events & PxPairFlag::eNOTIFY_TOUCH_LOST) {
+            // JUGADOR - SUELO (contacto terminado)
+            if ((isPlayer1 && isGround2) || (isPlayer2 && isGround1)) {
+                //std::cout << "Jugador deja de tocar suelo" << std::endl;
+
+                if (character) {
+                    character->onGroundLost();
+                }
+            }
+        }
     }
 }
 void Level::update(double dt)
 {
     Scene::update(dt);
     character->update(dt);
+}
+
+void Level::exit()
+{
+    Scene::exit();
+    character->reset();
+    key->reset();
+    muelle->set_alive(true);
 }

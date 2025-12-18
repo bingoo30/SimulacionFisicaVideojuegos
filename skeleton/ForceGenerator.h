@@ -5,7 +5,7 @@ class ForceGenerator
 {
 public:
 	ForceGenerator();
-	virtual ~ForceGenerator() = default;
+	virtual ~ForceGenerator() {};
 	virtual void register_aux_renders() {};
 	virtual void derregister_aux_renders() {};
 	virtual void update_force(Particle* particle, double dt);

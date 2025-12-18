@@ -32,7 +32,7 @@
 #define PHYSX_SNIPPET_CAMERA_H
 
 #include "foundation/PxTransform.h"
-
+class Particle;
 namespace Snippets
 {
 class Camera
@@ -49,11 +49,29 @@ public:
 	physx::PxVec3		getDir()	const;
 	void resetCamera(); //creado por mi
 	physx::PxTransform	getTransform() const;
+
+	// ============ NUEVOS MÉTODOS PARA SEGUIR PERSONAJE ============
+	void                setFollowTarget(Particle* target);
+	void                updateFollow(float dt);
+	void                setFollowOffset(const physx::PxVec3& offset);
+	void                setFollowDistance(float distance);
+	void                setFollowHeight(float height);
+	void                setFollowEnabled(bool enabled);
+	// ==============================================================
+
 private:
 	physx::PxVec3	mEye;
 	physx::PxVec3	mDir;
 	int				mMouseX;
 	int				mMouseY;
+
+	// ============ NUEVAS VARIABLES PARA SEGUIR PERSONAJE ============
+	Particle* mFollowTarget;
+	physx::PxVec3        mFollowOffset;
+	float               mFollowDistance;
+	float               mFollowHeight;
+	bool                mFollowEnabled;
+	// ================================================================
 };
 
 

@@ -20,6 +20,28 @@ Particle* KeyRBSystem::getKey()
 	else return particles_list.front().get();
 }
 
+void KeyRBSystem::reset()
+{
+    if (particles_list.empty()) return;
+
+    auto* playerRB = static_cast<DynamicRigidBody*>(particles_list.front().get());
+    PxRigidDynamic* actor = static_cast<PxRigidDynamic*>(playerRB->getActor());
+
+    if (!actor) return;
+
+    // Resetear a posición original
+    PxTransform originalTransform(initPos);
+    actor->setGlobalPose(originalTransform);
+
+    // Resetear velocidad
+    actor->setLinearVelocity(PxVec3(0, 0, 0));
+    actor->setAngularVelocity(PxVec3(0, 0, 0));
+}
+
+void KeyRBSystem::setInitPos(const physx::PxVec3& p)
+{
+    initPos = p;
+}
 bool KeyRBSystem::check_out_of_limit(Particle* p) const
 {
 	return false;

@@ -142,9 +142,16 @@
     <ClCompile Include="Level.cpp">
       <Filter>Proyecto final</Filter>
     </ClCompile>
-    <ClCompile Include="FireRBSystem.cpp" />
-    <ClCompile Include="KeyRBSystem.cpp" />
-    <ClCompile Include="DoorSystem.cpp" />
+    <ClCompile Include="FireRBSystem.cpp">
+      <Filter>Proyecto final</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOver.cpp">
+      <Filter>Proyecto final</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyRBSystem.cpp">
+      <Filter>Proyecto final</Filter>
+    </ClCompile>
+    <ClCompile Include="Victory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Render\Camera.h">
@@ -294,9 +301,16 @@
     <ClInclude Include="Level.h">
       <Filter>Proyecto final</Filter>
     </ClInclude>
-    <ClInclude Include="FireRBSystem.h" />
-    <ClInclude Include="KeyRBSystem.h" />
-    <ClInclude Include="DoorSystem.h" />
+    <ClInclude Include="FireRBSystem.h">
+      <Filter>Proyecto final</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOver.h">
+      <Filter>Proyecto final</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyRBSystem.h">
+      <Filter>Proyecto final</Filter>
+    </ClInclude>
+    <ClInclude Include="Victory.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">

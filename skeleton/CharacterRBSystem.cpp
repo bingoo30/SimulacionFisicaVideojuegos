@@ -16,12 +16,13 @@ CharacterRBSystem::CharacterRBSystem(const Player_Data& pd, const PxVec3& materi
     isChargingJump(false), isGrounded(false),
     lastJumpTime(0.0f), jumpCooldown(0.3f), currentMoveForce(0.0f),
     needsGroundCorrection(false), groundCorrectionY(0.0f),
-    needsVelocityResetY(false), wasGroundedLastFrame(false)
+    needsVelocityResetY(false), wasGroundedLastFrame(false), originalPos(pd.pos)
 {
-    // Registrar este sistema como callback de colisión
-    if (gScene) {
-        gScene->setSimulationEventCallback(this);
-    }
+}
+
+CharacterRBSystem::~CharacterRBSystem()
+{
+    std::cout << force_generators.size() << "\n";
 }
 
 void CharacterRBSystem::init()
@@ -64,110 +65,51 @@ void CharacterRBSystem::spawn(bool withRender, bool isStatic)
     }
 }
 
-// Callback de contacto de PhysX - SOLO LECTURA
-void CharacterRBSystem::onContact(const PxContactPairHeader& pairHeader,
-    const PxContactPair* pairs, PxU32 nbPairs)
+// ============ MÉTODOS PARA MANEJAR CONTACTOS ESPECÍFICOS ============
+
+void CharacterRBSystem::onFireContact()
 {
-    // Verificar si nuestro personaje está involucrado en esta colisión
-    if (particles_list.empty()) return;
+    //std::cout << "CharacterRBSystem: ¡Me estoy quemando!" << std::endl;
+    reset();
+    SceneManager::instance().change_scene(INTRO);
+}
 
-    auto* playerRB = static_cast<DynamicRigidBody*>(particles_list.front().get());
-    PxRigidDynamic* ourPlayer = static_cast<PxRigidDynamic*>(playerRB->getActor());
+void CharacterRBSystem::onGroundContact(float separation, const PxVec3& normal)
+{
+    // std::cout << "CharacterRBSystem: Contacto con suelo - separación: " 
+    //           << separation << std::endl;
 
-    if (!ourPlayer) return;
+    // Solo procesar si es suelo (normal apunta hacia arriba)
+    if (normal.y > 0.7f) {
+        // Marcar como en suelo
+        isGrounded = true;
 
-    // Identificar cuál actor es nuestro personaje
-    PxRigidDynamic* playerActor = nullptr;
-    PxRigidActor* otherActor = nullptr;
+        // Registrar para corrección posterior (fuera del callback)
+        if (separation < -0.05f) {
+            needsGroundCorrection = true;
 
-    if (pairHeader.actors[0] == ourPlayer) {
-        playerActor = static_cast<PxRigidDynamic*>(pairHeader.actors[0]);
-        otherActor = pairHeader.actors[1];
-    }
-    else if (pairHeader.actors[1] == ourPlayer) {
-        playerActor = static_cast<PxRigidDynamic*>(pairHeader.actors[1]);
-        otherActor = pairHeader.actors[0];
-    }
-    else {
-        return; // No es nuestro personaje
-    }
+            // Calcular la corrección
+            if (!particles_list.empty()) {
+                auto* playerRB = static_cast<DynamicRigidBody*>(particles_list.front().get());
+                PxRigidDynamic* actor = static_cast<PxRigidDynamic*>(playerRB->getActor());
 
-    // Solo lectura - obtener posición actual
-    PxTransform currentPose = playerActor->getGlobalPose();  // ✅ Permitido: solo lectura
-    PxVec3 currentVelocity = playerActor->getLinearVelocity();  // ✅ Permitido: solo lectura
-
-    // Procesar cada par de contacto
-    for (PxU32 i = 0; i < nbPairs; i++) {
-        const PxContactPair& contactPair = pairs[i];
-
-        // Contacto comienza o persiste
-        if (contactPair.events & (PxPairFlag::eNOTIFY_TOUCH_FOUND | PxPairFlag::eNOTIFY_TOUCH_PERSISTS)) {
-
-            // Extraer puntos de contacto
-            PxContactPairPoint contactPoints[32];
-            PxU32 numContacts = contactPair.extractContacts(contactPoints, 32);
-
-            for (PxU32 j = 0; j < numContacts; j++) {
-                const PxContactPairPoint& point = contactPoints[j];
-
-                // Solo verificar si es contacto con suelo
-                if (point.normal.y > 0.7f && currentVelocity.y <= 0.5f) {
-                    // Registrar contacto (solo almacenar puntero - permitido)
-                    groundContacts.insert(otherActor);
-
-                    // Verificar si necesita corrección (solo cálculo, sin modificar)
-                    if (point.separation < -0.05f) {
-                        needsGroundCorrection = true;
-                        groundCorrectionY = currentPose.p.y - point.separation;
-
-                        if (currentVelocity.y < 0) {
-                            needsVelocityResetY = true;
-                        }
-                    }
+                if (actor) {
+                    PxTransform pose = actor->getGlobalPose();
+                    groundCorrectionY = pose.p.y - separation;
                 }
             }
         }
-
-        // Contacto termina
-        if (contactPair.events & PxPairFlag::eNOTIFY_TOUCH_LOST) {
-            groundContacts.erase(otherActor);
-        }
     }
 }
 
-void CharacterRBSystem::checkGroundFromContacts()
+void CharacterRBSystem::onGroundLost()
 {
-    wasGroundedLastFrame = isGrounded;
-    isGrounded = !groundContacts.empty();
+    // std::cout << "CharacterRBSystem: Perdí contacto con el suelo" << std::endl;
+    isGrounded = false;
 }
 
-void CharacterRBSystem::processGroundCorrections()
-{
-    if (particles_list.empty()) return;
+// ============ MÉTODOS DE CONTROL ============
 
-    auto* playerRB = static_cast<DynamicRigidBody*>(particles_list.front().get());
-    PxRigidDynamic* actor = static_cast<PxRigidDynamic*>(playerRB->getActor());
-
-    if (!actor) return;
-
-    // Aplicar corrección de posición si es necesario
-    if (needsGroundCorrection) {
-        PxTransform pose = actor->getGlobalPose();
-        pose.p.y = groundCorrectionY;
-        actor->setGlobalPose(pose);  // ✅ Ahora sí permitido (fuera del callback)
-        needsGroundCorrection = false;
-    }
-
-    // Aplicar reset de velocidad vertical si es necesario
-    if (needsVelocityResetY) {
-        PxVec3 vel = actor->getLinearVelocity();
-        vel.y = 0.0f;
-        actor->setLinearVelocity(vel);  // ✅ Ahora sí permitido (fuera del callback)
-        needsVelocityResetY = false;
-    }
-}
-
-// Métodos de control
 void CharacterRBSystem::moveLeft() {
     moveDirection = -1;
 }
@@ -209,40 +151,115 @@ void CharacterRBSystem::jump()
 
     float finalJumpForce = jumpForce + currentJumpCharge;
 
-    // Limpiar contactos de suelo al saltar
-    groundContacts.clear();
+    // Limpiar contacto con suelo al saltar
+    isGrounded = false;
+    wasGroundedLastFrame = true;
 
     // Aplicar impulso de salto
     actor->addForce(PxVec3(0.0f, finalJumpForce, 0.0f), PxForceMode::eIMPULSE);
 
     currentJumpCharge = 0.0f;
     isChargingJump = false;
-    isGrounded = false;
     lastJumpTime = currentTime;
 
     std::cout << "SALTO! Fuerza: " << finalJumpForce << " N" << std::endl;
+}
+
+// ============ MÉTODOS DE ACTUALIZACIÓN ============
+
+Particle* CharacterRBSystem::getCharacter()
+{
+    if (particles_list.empty()) return nullptr;
+    else return particles_list.front().get(); 
+}
+
+void CharacterRBSystem::checkGroundFromContacts()
+{
+    wasGroundedLastFrame = isGrounded;
+    // La variable isGrounded ahora se actualiza desde onGroundContact/onGroundLost
+}
+
+void CharacterRBSystem::processGroundCorrections()
+{
+    if (particles_list.empty()) return;
+
+    auto* playerRB = static_cast<DynamicRigidBody*>(particles_list.front().get());
+    PxRigidDynamic* actor = static_cast<PxRigidDynamic*>(playerRB->getActor());
+
+    if (!actor) return;
+
+    // Aplicar corrección de posición si es necesario
+    if (needsGroundCorrection) {
+        PxTransform pose = actor->getGlobalPose();
+        pose.p.y = groundCorrectionY;
+        actor->setGlobalPose(pose);
+        needsGroundCorrection = false;
+
+        // También resetear velocidad vertical si está cayendo
+        PxVec3 vel = actor->getLinearVelocity();
+        if (vel.y < 0) {
+            vel.y = 0.0f;
+            actor->setLinearVelocity(vel);
+        }
+    }
 }
 
 void CharacterRBSystem::update(float dt)
 {
     static float currentTime = 0.0f;
     currentTime += dt;
+    lastJumpTime = (lastJumpTime > 0) ? lastJumpTime - dt : 0.0f;
 
     if (particles_list.empty()) return;
 
     // Actualizar carga de salto
     updateJumpCharge(dt);
 
-    // Verificar suelo desde contactos
-    checkGroundFromContacts();
-
-    // Procesar correcciones de suelo (FUERA del callback)
+    // Procesar correcciones de suelo
     processGroundCorrections();
 
     // Aplicar movimiento
     applyMovement(dt);
     applyLateralDamping(dt);
     applyBounds();
+}
+
+void CharacterRBSystem::setOriginalPos()
+{
+    originalPos = model.pos;
+}
+
+void CharacterRBSystem::reset()
+{
+    if (particles_list.empty()) return;
+
+    auto* playerRB = static_cast<DynamicRigidBody*>(particles_list.front().get());
+    PxRigidDynamic* actor = static_cast<PxRigidDynamic*>(playerRB->getActor());
+
+    if (!actor) return;
+
+    // Resetear a posición original
+    PxTransform originalTransform(originalPos);
+    actor->setGlobalPose(originalTransform);
+
+    // Resetear velocidad
+    actor->setLinearVelocity(PxVec3(0, 0, 0));
+    actor->setAngularVelocity(PxVec3(0, 0, 0));
+
+    // Resetear variables de estado
+    moveDirection = 0;
+    currentMoveForce = 0.0f;
+    currentJumpCharge = 0.0f;
+    isChargingJump = false;
+    isGrounded = false;
+    wasGroundedLastFrame = false;
+
+    // Limpiar correcciones
+    needsGroundCorrection = false;
+    needsVelocityResetY = false;
+    groundCorrectionY = 0.0f;
+
+    std::cout << "Jugador reseteado a posición original" << std::endl;
 }
 
 void CharacterRBSystem::updateJumpCharge(float dt)
@@ -296,17 +313,17 @@ void CharacterRBSystem::applyMovement(float dt)
             currentMoveForce = 0.0f;
         }
 
-        //// Frenado natural (solo en suelo)
-        //if (isGrounded && std::abs(currentVelocity.x) > 0.1f) {
-        //    float frictionForce = -currentVelocity.x * mass * 5.0f;
-        //    actor->addForce(PxVec3(frictionForce, 0.0f, 0.0f), PxForceMode::eFORCE);
+        // Frenado natural (solo en suelo)
+        if (isGrounded && std::abs(currentVelocity.x) > 0.1f) {
+            float frictionForce = -currentVelocity.x * mass * 5.0f;
+            actor->addForce(PxVec3(frictionForce, 0.0f, 0.0f), PxForceMode::eFORCE);
 
-        //    // Detener completamente si la velocidad es muy baja
-        //    if (std::abs(currentVelocity.x) < 0.2f) {
-        //        currentVelocity.x = 0.0f;
-        //        actor->setLinearVelocity(currentVelocity);
-        //    }
-        //}
+            // Detener completamente si la velocidad es muy baja
+            if (std::abs(currentVelocity.x) < 0.2f) {
+                currentVelocity.x = 0.0f;
+                actor->setLinearVelocity(currentVelocity);
+            }
+        }
     }
 }
 
@@ -363,5 +380,13 @@ void CharacterRBSystem::applyBounds()
 bool CharacterRBSystem::check_out_of_limit(Particle* p) const
 {
     auto rb = static_cast<DynamicRigidBody*>(p);
-    return rb->getPosition().y < -10.0f;
+    bool isOut = rb->getPosition().y < -10.0f;
+
+    if (isOut) {
+        // Nota: este método es const, no podemos resetear desde aquí
+        // El reset debe manejarse desde otro lugar (Level::update por ejemplo)
+        std::cout << "Jugador cayó fuera del mapa!" << std::endl;
+    }
+
+    return isOut;
 }
