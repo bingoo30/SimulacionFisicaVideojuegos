@@ -194,11 +194,11 @@ void specialKeyUp(int key)
 {
 	SceneManager::instance().getCurrScene()->handle_special_key_up(key);
 }
-void onCollision(physx::PxActor* actor1, physx::PxActor* actor2)
-{
-	PX_UNUSED(actor1);
-	PX_UNUSED(actor2);
-}
+//void onCollision(physx::PxActor* actor1, physx::PxActor* actor2)
+//{
+//	PX_UNUSED(actor1);
+//	PX_UNUSED(actor2);
+//}
 
 int main(int, const char*const*)
 {

@@ -45,8 +45,12 @@ Particle_List NormalGeneratorRB::generate_particles(const Particle_Data& model, 
         PxShape* sh = CreateShape(*g, _mat);
 
         if (_isTrigger) {
-            sh->setFlag(PxShapeFlag::eSIMULATION_SHAPE, false);
-            sh->setFlag(PxShapeFlag::eTRIGGER_SHAPE, true);
+            sh->setFlag(PxShapeFlag::eSIMULATION_SHAPE, false); // desactivar simulación
+            sh->setFlag(PxShapeFlag::eTRIGGER_SHAPE, true);     // activar trigger
+        }
+        else {
+            sh->setFlag(PxShapeFlag::eSIMULATION_SHAPE, true);  // activar simulación
+            sh->setFlag(PxShapeFlag::eTRIGGER_SHAPE, false);    // asegurar que no sea trigger
         }
 
         RigidBody* rb = nullptr;

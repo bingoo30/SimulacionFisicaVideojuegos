@@ -1,9 +1,10 @@
 ﻿#include "callbacks.hpp"
 #include "StructForEntities.h"
 #include <iostream>
-using namespace physx;
-extern void onCollision(physx::PxActor* actor1, physx::PxActor* actor2);
 
+using namespace physx;
+
+// FilterShader (tu versión sin el 'extern')
 physx::PxFilterFlags contactReportFilterShader(
     physx::PxFilterObjectAttributes attributes0, physx::PxFilterData filterData0,
     physx::PxFilterObjectAttributes attributes1, physx::PxFilterData filterData1,
@@ -12,26 +13,11 @@ physx::PxFilterFlags contactReportFilterShader(
     PX_UNUSED(constantBlock);
     PX_UNUSED(constantBlockSize);
 
-    static int callCount = 0;
-    callCount++;
-
-    //// DEBUG EXTENDIDO
-    //std::cout << "\n=== FILTER CALL " << callCount << " ===" << std::endl;
-    //std::cout << "Actor1 - word0: " << filterData0.word0
-    //    << " word1: " << filterData0.word1
-    //    << " Type: " << (physx::PxFilterObjectIsTrigger(attributes0) ? "TRIGGER" :
-    //        (physx::PxGetFilterObjectType(attributes0) == PxFilterObjectType::eRIGID_DYNAMIC ? "DYNAMIC" : "STATIC")) << std::endl;
-    //std::cout << "Actor2 - word0: " << filterData1.word0
-    //    << " word1: " << filterData1.word1
-    //    << " Type: " << (physx::PxFilterObjectIsTrigger(attributes1) ? "TRIGGER" :
-    //        (physx::PxGetFilterObjectType(attributes1) == PxFilterObjectType::eRIGID_DYNAMIC ? "DYNAMIC" : "STATIC")) << std::endl;
-
     // 1. Triggers primero
     bool isTrigger0 = physx::PxFilterObjectIsTrigger(attributes0);
     bool isTrigger1 = physx::PxFilterObjectIsTrigger(attributes1);
 
     if (isTrigger0 || isTrigger1) {
-        //std::cout << "-> ES TRIGGER, permitiendo (solo notificaciones)" << std::endl;
         pairFlags = physx::PxPairFlag::eTRIGGER_DEFAULT
             | physx::PxPairFlag::eNOTIFY_TOUCH_FOUND
             | physx::PxPairFlag::eNOTIFY_TOUCH_LOST;
@@ -39,35 +25,32 @@ physx::PxFilterFlags contactReportFilterShader(
     }
 
     // 2. Filtro por layers
-    bool check1 = !(filterData0.word0 & filterData1.word1);
-    bool check2 = !(filterData1.word0 & filterData0.word1);
+    bool canCollide1 = (filterData0.word0 & filterData1.word1) != 0;
+    bool canCollide2 = (filterData1.word0 & filterData0.word1) != 0;
 
-    /*std::cout << "Check1 (A0 & B1): " << filterData0.word0 << " & " << filterData1.word1
-        << " = " << (filterData0.word0 & filterData1.word1)
-        << " -> " << (check1 ? "FALLA" : "PASA") << std::endl;
-    std::cout << "Check2 (B0 & A1): " << filterData1.word0 << " & " << filterData0.word1
-        << " = " << (filterData1.word0 & filterData0.word1)
-        << " -> " << (check2 ? "FALLA" : "PASA") << std::endl;*/
-
-    if (check1 || check2) {
-        //std::cout << "-> SUPRIMIENDO colisión" << std::endl;
+    // Si AMBOS quieren colisionar, permitimos
+    if (canCollide1 && canCollide2) {
+        pairFlags = physx::PxPairFlag::eSOLVE_CONTACT
+            | physx::PxPairFlag::eDETECT_DISCRETE_CONTACT
+            | physx::PxPairFlag::eNOTIFY_TOUCH_FOUND
+            | physx::PxPairFlag::eNOTIFY_TOUCH_LOST
+            | physx::PxPairFlag::eNOTIFY_TOUCH_PERSISTS
+            | physx::PxPairFlag::eNOTIFY_CONTACT_POINTS;
+        return physx::PxFilterFlag::eDEFAULT;
+    }
+    else {
         return physx::PxFilterFlag::eSUPPRESS;
     }
-
-    //std::cout << "-> PERMITIENDO colisión física" << std::endl;
-    pairFlags = physx::PxPairFlag::eSOLVE_CONTACT
-        | physx::PxPairFlag::eDETECT_DISCRETE_CONTACT
-        | physx::PxPairFlag::eNOTIFY_TOUCH_FOUND
-        | physx::PxPairFlag::eNOTIFY_TOUCH_PERSISTS
-        | physx::PxPairFlag::eNOTIFY_CONTACT_POINTS;
-
-    return physx::PxFilterFlag::eDEFAULT;
 }
 
+// Implementación CORRECTA de onContact
 void ContactReportCallback::onContact(const physx::PxContactPairHeader& pairHeader,
     const physx::PxContactPair* pairs,
     physx::PxU32 nbPairs)
 {
+    std::cout << "\n=== ONCONTENT LLAMADO ===" << std::endl;
+    std::cout << "nbPairs: " << nbPairs << std::endl;
+
     // Ignorar si no es par de actores válido
     if (!pairHeader.actors[0] || !pairHeader.actors[1])
         return;
@@ -76,7 +59,7 @@ void ContactReportCallback::onContact(const physx::PxContactPairHeader& pairHead
     PxRigidActor* actor1 = pairHeader.actors[0];
     PxRigidActor* actor2 = pairHeader.actors[1];
 
-    // Obtener filtros para identificar tipos
+    // Obtener filtros
     PxFilterData filter1, filter2;
     PxShape* shape1, * shape2;
 
@@ -86,49 +69,35 @@ void ContactReportCallback::onContact(const physx::PxContactPairHeader& pairHead
     if (shape1) filter1 = shape1->getSimulationFilterData();
     if (shape2) filter2 = shape2->getSimulationFilterData();
 
-    // Identificar tipos por filtros
+    // Identificar tipos
     std::string type1 = "UNKNOWN";
     std::string type2 = "UNKNOWN";
 
-    if (filter1.word0 == LAYER_GROUND) type1 = "SUELO";
-    else if (filter1.word0 == LAYER_PLAYER) type1 = "JUGADOR";
-    else if (filter1.word0 == LAYER_FIRE) type1 = "FUEGO";
+    if ((filter1.word0 & LAYER_GROUND) != 0) type1 = "SUELO";
+    else if ((filter1.word0 & LAYER_PLAYER) != 0) type1 = "JUGADOR";
+    else if ((filter1.word0 & LAYER_FIRE) != 0) type1 = "FUEGO";
 
-    if (filter2.word0 == LAYER_GROUND) type2 = "SUELO";
-    else if (filter2.word0 == LAYER_PLAYER) type2 = "JUGADOR";
-    else if (filter2.word0 == LAYER_FIRE) type2 = "FUEGO";
+    if ((filter2.word0 & LAYER_GROUND) != 0) type2 = "SUELO";
+    else if ((filter2.word0 & LAYER_PLAYER) != 0) type2 = "JUGADOR";
+    else if ((filter2.word0 & LAYER_FIRE) != 0) type2 = "FUEGO";
+
+    std::cout << "Tipo Actor1: " << type1 << std::endl;
+    std::cout << "Tipo Actor2: " << type2 << std::endl;
 
     // Procesar cada par de contacto
     for (PxU32 i = 0; i < nbPairs; i++) {
         const PxContactPair& cp = pairs[i];
 
-        // Verificar tipo de evento
         if (cp.events & PxPairFlag::eNOTIFY_TOUCH_FOUND) {
-            //std::cout << "CONTACTO INICIADO: " << type1 << " - " << type2 << std::endl;
+            std::cout << "CONTACTO INICIADO entre " << type1 << " y " << type2 << std::endl;
 
-            // Caso específico: jugador con fuego
             if ((type1 == "JUGADOR" && type2 == "FUEGO") ||
                 (type1 == "FUEGO" && type2 == "JUGADOR")) {
-                //std::cout << "¡¡¡JUGADOR TOCA FUEGO!!!" << std::endl;
-
-                // Aquí puedes:
-                // 1. Reducir vida del jugador
-                // 2. Reproducir sonido
-                // 3. Activar efectos visuales
-            }
-
-            // Caso: jugador con suelo
-            if ((type1 == "JUGADOR" && type2 == "SUELO") ||
-                (type1 == "SUELO" && type2 == "JUGADOR")) {
-                //std::cout << "Jugador en suelo" << std::endl;
+                std::cout << "¡¡¡JUGADOR TOCA FUEGO!!!" << std::endl;
             }
         }
         else if (cp.events & PxPairFlag::eNOTIFY_TOUCH_LOST) {
-           // std::cout << "CONTACTO TERMINADO: " << type1 << " - " << type2 << std::endl;
-        }
-        else if (cp.events & PxPairFlag::eNOTIFY_TOUCH_PERSISTS) {
-            // Contacto persistente (cada frame)
-            // std::cout << "CONTACTO PERSISTENTE: " << type1 << " - " << type2 << std::endl;
+            std::cout << "CONTACTO TERMINADO entre " << type1 << " y " << type2 << std::endl;
         }
     }
 }

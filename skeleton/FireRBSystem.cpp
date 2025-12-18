@@ -13,6 +13,11 @@ void FireRBSystem::init()
 	add_generator(n);
 }
 
+void FireRBSystem::spawn(bool _render, bool _isStatic)
+{
+	RigidBodySystem::spawn(_render, _isStatic);
+}
+
 bool FireRBSystem::check_out_of_limit(Particle* p) const
 {
 	if (!p) return true;
