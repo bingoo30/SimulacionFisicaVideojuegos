@@ -55,7 +55,7 @@ void SelectionLevel::handle_input(unsigned char key)
 	case '\r': //tecla intro
 		SceneManager::instance().change_scene(selectedLevel);
 		break;
-	case 'q': //tecla q
+	case 'Q': //tecla q
 		SceneManager::instance().change_scene(INTRO);
 		break;
 	}
